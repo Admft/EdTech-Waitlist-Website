@@ -4,7 +4,7 @@ const CARDS = [
     category: "STEM",
     deadline: "Oct 12",
     eligibility: "Grades 9–12",
-    stackClass: "animate-card-1 left-0 top-2 z-10",
+    stackClass: "animate-card-1 left-[12%] top-2 z-10",
     depth: "back" as const,
   },
   {
@@ -12,7 +12,7 @@ const CARDS = [
     category: "Speech & Debate",
     deadline: "Sep 28",
     eligibility: "All high school",
-    stackClass: "animate-card-2 left-[22%] top-[7.5rem] z-20",
+    stackClass: "animate-card-2 left-[32%] top-[8.25rem] z-20",
     depth: "mid" as const,
   },
   {
@@ -20,7 +20,7 @@ const CARDS = [
     category: "Arts & Writing",
     deadline: "Nov 3",
     eligibility: "Ages 14–18",
-    stackClass: "animate-card-3 left-[6%] top-[15rem] z-30",
+    stackClass: "animate-card-3 left-[18%] top-[16.5rem] z-30",
     depth: "front" as const,
   },
 ] as const;
@@ -39,15 +39,15 @@ function CardBody({
   return (
     <>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-muted-strong">
+        <span className="text-[12px] font-medium uppercase tracking-[0.08em] text-muted-strong">
           {category}
         </span>
-        <span className="shrink-0 text-[11px] text-muted">Due {deadline}</span>
+        <span className="shrink-0 text-[12px] text-muted">Due {deadline}</span>
       </div>
-      <h3 className="mt-2 truncate font-display text-[16px] font-semibold leading-snug tracking-tight text-foreground sm:text-[17px]">
+      <h3 className="mt-2.5 truncate font-display text-[18px] font-semibold leading-snug tracking-tight text-foreground sm:text-[19px]">
         {name}
       </h3>
-      <p className="mt-3 border-t border-white/10 pt-3 text-[12px] text-muted">
+      <p className="mt-3.5 border-t border-white/10 pt-3.5 text-[13px] text-muted">
         {eligibility}
       </p>
     </>
@@ -78,7 +78,7 @@ export default function CompetitionCards() {
           {CARDS.map((card) => (
             <article
               key={card.name}
-              className="w-[78%] max-w-[260px] shrink-0 snap-center rounded-xl border border-white/10 bg-surface-raised/95 p-4 shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+              className="w-[82%] max-w-[300px] shrink-0 snap-center rounded-xl border border-white/10 bg-surface-raised/95 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
             >
               <CardBody {...card} />
             </article>
@@ -86,11 +86,11 @@ export default function CompetitionCards() {
         </div>
       </div>
 
-      <div className="relative mx-auto hidden h-[24rem] w-full max-w-md pt-4 lg:block">
+      <div className="relative ml-auto hidden h-[27rem] w-full max-w-lg pt-2 lg:block">
         {CARDS.map((card) => (
           <article
             key={card.name}
-            className={`absolute w-[82%] max-w-[270px] rounded-xl border border-white/10 bg-surface-raised p-4 shadow-[0_16px_40px_rgba(0,0,0,0.45)] ${card.stackClass} ${DEPTH_OPACITY[card.depth]}`}
+            className={`absolute w-[88%] max-w-[320px] rounded-xl border border-white/10 bg-surface-raised p-5 shadow-[0_16px_40px_rgba(0,0,0,0.45)] ${card.stackClass} ${DEPTH_OPACITY[card.depth]}`}
             style={{
               transform: `rotate(var(--card-rot))`,
               ...(DEPTH_FILTER[card.depth]
