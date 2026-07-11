@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { appendFile, mkdir, readFile } from "fs/promises";
 import { createHash, randomBytes } from "crypto";
-import path from "path";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ALLOWED_ROLES = new Set([
@@ -16,16 +15,6 @@ function referralCodeFor(email: string) {
   const hash = createHash("sha256").update(email).digest("hex").slice(0, 8);
   const salt = randomBytes(2).toString("hex");
   return `${hash}${salt}`.slice(0, 10);
-}
-
-async function nextPosition(filePath: string) {
-  try {
-    const raw = await readFile(filePath, "utf8");
-    const lines = raw.split("\n").filter((line) => line.trim().length > 0);
-    return lines.length + 1;
-  } catch {
-    return 1;
-  }
 }
 
 export async function POST(request: Request) {
@@ -47,27 +36,62 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Select who you are." }, { status: 400 });
     }
 
-    const dir = path.join(process.cwd(), "data");
-    await mkdir(dir, { recursive: true });
-    const filePath = path.join(dir, "waitlist.jsonl");
-    const position = await nextPosition(filePath);
+    const supabase = getSupabaseAdmin();
     const referralCode = referralCodeFor(email);
 
-    const entry = {
-      email,
-      name: name || null,
-      role,
-      source,
-      position,
+    const { data, error } = await supabase
+      .from("waitlist")
+      .insert({
+        email,
+        name: name || null,
+        role,
+        source,
+        referral_code: referralCode,
+        referred_by: referredBy || null,
+      })
+      .select("id")
+      .single();
+
+    if (error) {
+      if (error.code === "23505") {
+        const { data: existing } = await supabase
+          .from("waitlist")
+          .select("id, referral_code")
+          .eq("email", email)
+          .single();
+
+        if (existing) {
+          return NextResponse.json({
+            ok: true,
+            referralCode: existing.referral_code,
+            position: existing.id,
+            alreadyJoined: true,
+          });
+        }
+      }
+
+      console.error("Supabase waitlist insert failed:", error.message);
+      return NextResponse.json(
+        { error: "Something went wrong. Please try again." },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json({
+      ok: true,
       referralCode,
-      referredBy: referredBy || null,
-      createdAt: new Date().toISOString(),
-    };
+      position: data.id,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "";
+    if (message.includes("Missing Supabase env")) {
+      return NextResponse.json(
+        { error: "Waitlist isn’t configured yet. Add your Supabase keys to .env.local." },
+        { status: 503 },
+      );
+    }
 
-    await appendFile(filePath, `${JSON.stringify(entry)}\n`, "utf8");
-
-    return NextResponse.json({ ok: true, referralCode, position });
-  } catch {
+    console.error("Waitlist error:", err);
     return NextResponse.json(
       { error: "Something went wrong. Please try again." },
       { status: 500 },
