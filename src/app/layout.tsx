@@ -15,13 +15,13 @@ const space = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Causey — Join the waitlist",
+  title: "Causey — Your talent shouldn't depend on your zip code",
   description:
-    "Connecting talent to opportunity. Discover competitions that match your skills, no matter where you live.",
+    "Causey is the central place students, parents, and coaches find competitions worth entering — no insider network required.",
   openGraph: {
-    title: "Causey — Join the waitlist",
+    title: "Causey — Your talent shouldn't depend on your zip code",
     description:
-      "Stop searching scattered websites. Join the centralized platform built for students, parents, and coaches.",
+      "Causey is the central place students, parents, and coaches find competitions worth entering — no insider network required.",
     type: "website",
   },
 };

@@ -1,116 +1,127 @@
-import Image from "next/image";
+import CompetitionCards from "@/components/CompetitionCards";
 import WaitlistForm from "@/components/WaitlistForm";
 
 const CALENDAR_URL = "https://calendar.app.google/AX1fCWGdukco55z47";
 
-const AUDIENCES = [
+const STEPS = [
   {
-    title: "Students, parents & coaches",
-    body: "Discover competitions that match your skills — and help shape Causey in a short discovery chat.",
+    title: "Discover",
+    body: "Browse competitions in one place instead of scattered sites and word of mouth.",
   },
   {
-    title: "Competition organizers",
-    body: "Reach a broader, more diverse pool of talented participants.",
+    title: "Match",
+    body: "Find opportunities that fit your skills, interests, and eligibility — not your zip code.",
   },
   {
-    title: "Founding builders & advisors",
-    body: "Join the team, share advice, or learn more about the idea.",
+    title: "Compete",
+    body: "Enter with confidence. Organizers reach a broader, more diverse talent pool.",
   },
 ] as const;
 
+function LogoMark() {
+  return (
+    <span className="flex items-center gap-2.5" aria-label="Causey">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
+        <rect x="1" y="1" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="1.5" />
+        <path
+          d="M7.2 11c0-2.1 1.5-3.5 3.8-3.5 1.5 0 2.6.6 3.2 1.6l-1.5.9c-.3-.5-.9-.9-1.7-.9-1.2 0-2 .8-2 1.9s.8 1.9 2 1.9c.8 0 1.4-.3 1.7-.9l1.5.9c-.6 1-1.7 1.6-3.2 1.6-2.3 0-3.8-1.4-3.8-3.5Z"
+          fill="currentColor"
+        />
+      </svg>
+      <span className="font-display text-[15px] font-semibold tracking-tight">Causey</span>
+    </span>
+  );
+}
+
 export default function Home() {
   return (
-    <div className="flex min-h-full flex-col">
-      <header className="relative isolate min-h-[100svh] overflow-hidden text-white">
-        <Image
-          src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2400&q=80"
-          alt="Students collaborating around a table"
-          fill
-          priority
-          className="animate-hero-image object-cover object-center"
-          sizes="100vw"
-        />
-        <div
-          className="absolute inset-0 animate-fade"
-          style={{
-            background:
-              "linear-gradient(120deg, rgba(10,22,38,0.92) 0%, rgba(10,22,38,0.78) 45%, rgba(10,22,38,0.45) 100%)",
-          }}
-          aria-hidden
-        />
+    <div className="flex min-h-full flex-col bg-background text-foreground">
+      <div className="hero-canvas relative isolate min-h-[100svh]">
+        <div className="noise-overlay" aria-hidden />
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-5xl flex-col px-6 py-7 sm:px-10">
-          <nav className="animate-rise flex items-center justify-between gap-4">
-            <p className="font-display text-[15px] font-semibold tracking-wide text-white/90">
-              Causey
-            </p>
-            <a
-              href={CALENDAR_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[13px] font-medium text-white/70 transition hover:text-white"
-            >
-              Book a meeting
+        <header className="sticky top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur-md">
+          <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-5 sm:px-8">
+            <a href="/" className="text-foreground transition hover:text-white">
+              <LogoMark />
             </a>
-          </nav>
-
-          <main className="flex flex-1 flex-col justify-center pb-12 pt-16">
-            <div className="max-w-2xl">
-              <h1 className="animate-rise-delay-1 font-display text-[clamp(2.6rem,8vw,4.5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white">
-                Causey
-              </h1>
-              <p className="animate-rise-delay-2 mt-5 max-w-xl text-[1.2rem] font-medium leading-snug text-white sm:text-[1.4rem]">
-                Connecting talent to opportunity. Discover competitions that
-                match your skills, no matter where you live.
-              </p>
-              <p className="animate-rise-delay-2 mt-4 max-w-lg text-[15px] leading-relaxed text-white/70 sm:text-base">
-                Stop searching scattered websites. Join the centralized platform
-                built for students, parents, and coaches.
-              </p>
-
-              <div className="animate-rise-delay-3 mt-9">
-                <WaitlistForm variant="hero" />
-                <p className="mt-3 text-[13px] text-white/50">
-                  Prefer to talk?{" "}
-                  <a
-                    href={CALENDAR_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-white/60"
-                  >
-                    Schedule a meeting
-                  </a>
-                </p>
-              </div>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <a
+                href="#how-it-works"
+                className="hidden px-3 py-2 text-[13px] font-medium text-muted-strong transition hover:text-white sm:inline"
+              >
+                How it works
+              </a>
+              <a
+                href={CALENDAR_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-md border border-white/20 px-3 py-1.5 text-[13px] font-medium text-foreground transition hover:bg-white/5"
+              >
+                Book a meeting
+              </a>
             </div>
-          </main>
-        </div>
-      </header>
+          </div>
+        </header>
 
-      <section className="bg-surface-solid px-6 py-16 sm:px-10 sm:py-20">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-brand sm:text-[1.75rem]">
-            Who this is for
+        <main className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-5 pb-20 pt-14 sm:px-8 lg:grid-cols-2 lg:gap-10 lg:pb-24 lg:pt-20">
+          <div className="max-w-xl">
+            <h1 className="animate-rise font-display text-[clamp(2.35rem,6vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
+              Your talent shouldn&apos;t depend on your zip code.
+            </h1>
+            <p className="animate-rise-delay-1 mt-5 max-w-md text-[16px] leading-relaxed text-muted-strong sm:text-[17px]">
+              Causey is the central place students, parents, and coaches find
+              competitions worth entering — no insider network required.
+            </p>
+
+            <div className="animate-rise-delay-2 mt-8 max-w-lg">
+              <WaitlistForm />
+            </div>
+          </div>
+
+          <div className="animate-rise-delay-3 hidden lg:block">
+            <CompetitionCards />
+          </div>
+        </main>
+      </div>
+
+      <section
+        id="how-it-works"
+        className="border-t border-line bg-surface px-5 py-20 sm:px-8"
+      >
+        <div className="mx-auto max-w-6xl">
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-[1.75rem]">
+            How it works
           </h2>
-          <p className="mt-2 max-w-md text-[15px] leading-relaxed text-muted">
-            Pick your role when you join — we use it for customer discovery.
+          <p className="mt-2 max-w-md text-[15px] text-muted">
+            One platform. From discovery to the starting line.
           </p>
 
-          <ul className="mt-10 grid gap-8 border-t border-line pt-10 sm:grid-cols-3 sm:gap-10">
-            {AUDIENCES.map((item) => (
-              <li key={item.title}>
-                <h3 className="text-[15px] font-semibold text-brand">{item.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">{item.body}</p>
+          <ol className="mt-12 grid gap-10 border-t border-line pt-10 sm:grid-cols-3 sm:gap-8">
+            {STEPS.map((step, index) => (
+              <li key={step.title}>
+                <p className="text-[12px] font-medium uppercase tracking-[0.12em] text-muted">
+                  0{index + 1}
+                </p>
+                <h3 className="mt-3 font-display text-xl font-semibold text-white">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-muted">{step.body}</p>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       </section>
 
-      <footer className="border-t border-line bg-background px-6 py-7 sm:px-10">
-        <div className="mx-auto flex max-w-5xl flex-col gap-2 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-line px-5 py-10 sm:px-8 lg:hidden">
+        <div className="mx-auto max-w-md">
+          <CompetitionCards />
+        </div>
+      </div>
+
+      <footer className="border-t border-line px-5 py-7 sm:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
-            <span className="font-medium text-brand">Causey</span>
+            <span className="font-medium text-muted-strong">Causey</span>
             {" · "}
             Myshay Causey, Cornell &apos;29
           </p>
@@ -118,7 +129,7 @@ export default function Home() {
             href={CALENDAR_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-brand transition hover:text-accent"
+            className="font-medium text-muted-strong transition hover:text-white"
           >
             Book a meeting
           </a>
