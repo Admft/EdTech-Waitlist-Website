@@ -95,7 +95,7 @@ export default function Home() {
 
         <main className="relative z-10 mx-auto grid max-w-6xl items-center gap-8 px-5 pb-8 pt-10 sm:px-8 sm:pb-10 lg:grid-cols-2 lg:gap-10 lg:pb-12 lg:pt-16">
           <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
-            <p className="animate-rise mb-4 inline-flex items-center gap-2 rounded-md border border-accent/30 bg-accent/10 px-3 py-1 text-[12px] font-medium tracking-wide text-accent">
+            <p className="animate-rise mb-4 inline-flex items-center gap-2 rounded-md border border-accent/50 bg-accent/15 px-3 py-1 text-[12px] font-semibold tracking-wide text-accent">
               Pre-launch · Fall 2026
             </p>
             <h1 className="animate-rise-delay-1 font-display text-[clamp(2.35rem,6vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
@@ -109,7 +109,7 @@ export default function Home() {
 
             <div
               id="waitlist"
-              className="animate-rise-delay-2 mx-auto mt-8 max-w-lg scroll-mt-24 border-l-2 border-accent pl-4 lg:mx-0"
+              className="animate-rise-delay-2 mx-auto mt-8 max-w-lg scroll-mt-24 rounded-xl border border-white/[0.08] border-l-2 border-l-accent bg-white/[0.02] p-4 sm:p-5 lg:mx-0"
             >
               <WaitlistForm idPrefix="hero" source="hero" />
             </div>
@@ -152,15 +152,13 @@ export default function Home() {
             {STEPS.map((step, index) => (
               <li
                 key={step.title}
-                className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5"
+                className="relative rounded-xl border border-white/[0.08] bg-white/[0.02] p-5"
               >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-muted-strong">
-                    {step.icon}
-                  </span>
-                  <span className="text-[11px] font-medium tracking-[0.14em] text-muted">
-                    0{index + 1}
-                  </span>
+                <span className="absolute right-4 top-4 text-[11px] font-medium tracking-[0.14em] text-muted">
+                  0{index + 1}
+                </span>
+                <div className="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-muted-strong">
+                  {step.icon}
                 </div>
                 <h3 className="mt-4 font-display text-xl font-semibold text-white">
                   {step.title}
@@ -170,14 +168,14 @@ export default function Home() {
             ))}
           </ol>
 
-          <div className="mt-10 rounded-xl border border-white/[0.08] border-l-accent bg-background/60 p-6 sm:border-l-2">
+          <div className="mt-10 max-w-lg rounded-xl border border-white/[0.08] border-l-2 border-l-accent bg-background/60 p-6">
             <h3 className="font-display text-xl font-semibold text-white">
               Ready to get in early?
             </h3>
-            <p className="mt-2 max-w-xl text-[14px] text-muted">
+            <p className="mt-2 text-[14px] text-muted">
               Join the waitlist — we&apos;ll reach out when Causey launches.
             </p>
-            <div className="mt-5 max-w-lg">
+            <div className="mt-5">
               <WaitlistForm idPrefix="bottom" source="footer" />
             </div>
           </div>

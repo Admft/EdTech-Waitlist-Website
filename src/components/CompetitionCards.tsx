@@ -54,12 +54,18 @@ function CardBody({
   );
 }
 
-/** One sharp focal card; the other two are soft background. */
-const DEPTH_STYLE = {
-  back: "opacity-50 blur-[3px]",
-  mid: "opacity-50 blur-[2px]",
-  front: "opacity-100 blur-none",
+const DEPTH_OPACITY = {
+  back: "opacity-50",
+  mid: "opacity-70",
+  front: "opacity-100",
 } as const;
+
+/** Front sharp; mid/back lightly softened so they still read. */
+const DEPTH_FILTER: Record<"back" | "mid" | "front", string | undefined> = {
+  back: "blur(2px)",
+  mid: "blur(1px)",
+  front: undefined,
+};
 
 export default function CompetitionCards() {
   return (
@@ -84,8 +90,13 @@ export default function CompetitionCards() {
         {CARDS.map((card) => (
           <article
             key={card.name}
-            className={`absolute w-[82%] max-w-[270px] rounded-xl border border-white/10 bg-surface-raised p-4 shadow-[0_16px_40px_rgba(0,0,0,0.45)] ${card.stackClass} ${DEPTH_STYLE[card.depth]}`}
-            style={{ transform: `rotate(var(--card-rot))` }}
+            className={`absolute w-[82%] max-w-[270px] rounded-xl border border-white/10 bg-surface-raised p-4 shadow-[0_16px_40px_rgba(0,0,0,0.45)] ${card.stackClass} ${DEPTH_OPACITY[card.depth]}`}
+            style={{
+              transform: `rotate(var(--card-rot))`,
+              ...(DEPTH_FILTER[card.depth]
+                ? { filter: DEPTH_FILTER[card.depth] }
+                : {}),
+            }}
           >
             <CardBody {...card} />
           </article>
