@@ -39,15 +39,15 @@ function CardBody({
   return (
     <>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-[12px] font-medium uppercase tracking-[0.08em] text-muted-strong">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.06em] text-accent">
           {category}
         </span>
         <span className="shrink-0 text-[12px] text-muted">Due {deadline}</span>
       </div>
-      <h3 className="mt-2.5 truncate font-display text-[18px] font-semibold leading-snug tracking-tight text-foreground sm:text-[19px]">
+      <h3 className="mt-2.5 truncate text-[18px] font-semibold leading-snug tracking-tight text-foreground sm:text-[19px]">
         {name}
       </h3>
-      <p className="mt-3.5 border-t border-white/10 pt-3.5 text-[13px] text-muted">
+      <p className="mt-3.5 border-t border-line pt-3.5 text-[13px] text-muted">
         {eligibility}
       </p>
     </>
@@ -55,12 +55,11 @@ function CardBody({
 }
 
 const DEPTH_OPACITY = {
-  back: "opacity-50",
-  mid: "opacity-70",
+  back: "opacity-55",
+  mid: "opacity-75",
   front: "opacity-100",
 } as const;
 
-/** Front sharp; mid/back lightly softened so they still read. */
 const DEPTH_FILTER: Record<"back" | "mid" | "front", string | undefined> = {
   back: "blur(2px)",
   mid: "blur(1px)",
@@ -71,14 +70,14 @@ export default function CompetitionCards() {
   return (
     <div aria-hidden>
       <div className="lg:hidden">
-        <p className="mb-3 text-center text-[12px] font-medium uppercase tracking-[0.1em] text-muted">
+        <p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.1em] text-muted">
           Coming to Causey
         </p>
         <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {CARDS.map((card) => (
             <article
               key={card.name}
-              className="w-[82%] max-w-[300px] shrink-0 snap-center rounded-xl border border-white/10 bg-surface-raised/95 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)]"
+              className="w-[82%] max-w-[300px] shrink-0 snap-center rounded-2xl border border-line bg-white p-5 shadow-[0_10px_30px_rgba(27,33,32,0.08)]"
             >
               <CardBody {...card} />
             </article>
@@ -90,7 +89,7 @@ export default function CompetitionCards() {
         {CARDS.map((card) => (
           <article
             key={card.name}
-            className={`absolute w-[88%] max-w-[320px] rounded-xl border border-white/10 bg-surface-raised p-5 shadow-[0_16px_40px_rgba(0,0,0,0.45)] ${card.stackClass} ${DEPTH_OPACITY[card.depth]}`}
+            className={`absolute w-[88%] max-w-[320px] rounded-2xl border border-line bg-white p-5 shadow-[0_14px_40px_rgba(27,33,32,0.1)] ${card.stackClass} ${DEPTH_OPACITY[card.depth]}`}
             style={{
               transform: `rotate(var(--card-rot))`,
               ...(DEPTH_FILTER[card.depth]

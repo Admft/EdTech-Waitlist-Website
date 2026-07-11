@@ -110,12 +110,12 @@ export default function WaitlistForm({
   }
 
   const field =
-    "h-11 w-full rounded-md border border-field-border bg-field px-3.5 text-[14px] text-foreground outline-none transition placeholder:text-muted focus:border-white/30";
+    "h-11 w-full rounded-lg border border-field-border bg-field px-3.5 text-[15px] text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
   if (status === "success") {
     return (
       <div
-        className="w-full rounded-lg border border-accent/40 bg-accent/10 p-5 text-center lg:text-left"
+        className="w-full rounded-xl border border-accent/25 bg-accent-soft p-5 text-center lg:text-left"
         role="status"
       >
         <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white lg:mx-0">
@@ -129,22 +129,22 @@ export default function WaitlistForm({
             />
           </svg>
         </div>
-        <p className="mt-3 font-display text-xl font-semibold tracking-tight text-foreground">
+        <p className="mt-3 text-xl font-semibold tracking-tight text-foreground">
           You&apos;re #{position ?? "—"} on the list.
         </p>
         <p className="mt-2 text-[14px] leading-relaxed text-muted-strong">
-          Refer 3 classmates to guarantee priority access to the beta.
+          Refer 3 classmates to move up and unlock priority access.
         </p>
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <input
             readOnly
             value={shareUrl}
-            className={`${field} flex-1 border-white/20 bg-background/40 text-[12px] sm:text-[13px]`}
+            className={`${field} flex-1 bg-white text-[12px] sm:text-[13px]`}
           />
           <button
             type="button"
             onClick={copyLink}
-            className="cta-enabled h-11 shrink-0 rounded-md px-4 text-[14px] font-semibold"
+            className="cta-enabled h-11 shrink-0 rounded-lg px-4 text-[14px] font-semibold"
           >
             {copied ? "Copied" : "Copy link"}
           </button>
@@ -170,20 +170,16 @@ export default function WaitlistForm({
               onBlur={() => setTouched((t) => ({ ...t, role: true }))}
               className={`${field} appearance-none pr-10 ${
                 !role ? "text-muted" : ""
-              } ${roleError ? "border-red-400/60" : ""}`}
+              } ${roleError ? "border-red-500/70" : ""}`}
             >
               {ROLES.map((option) => (
-                <option
-                  key={option.value || "empty"}
-                  value={option.value}
-                  className="bg-[#141c28] text-foreground"
-                >
+                <option key={option.value || "empty"} value={option.value} className="bg-white text-foreground">
                   {option.label}
                 </option>
               ))}
             </select>
             <svg
-              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-strong"
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
               viewBox="0 0 16 16"
               fill="none"
               aria-hidden
@@ -198,7 +194,7 @@ export default function WaitlistForm({
             </svg>
           </div>
           {roleError ? (
-            <p className="mt-1 text-[12px] text-red-300" role="alert">
+            <p className="mt-1 text-[12px] text-red-600" role="alert">
               {roleError}
             </p>
           ) : null}
@@ -234,10 +230,10 @@ export default function WaitlistForm({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           onBlur={() => setTouched((t) => ({ ...t, email: true }))}
-          className={`${field} ${emailError ? "border-red-400/60" : ""}`}
+          className={`${field} ${emailError ? "border-red-500/70" : ""}`}
         />
         {emailError ? (
-          <p className="mt-1 text-[12px] text-red-300" role="alert">
+          <p className="mt-1 text-[12px] text-red-600" role="alert">
             {emailError}
           </p>
         ) : null}
@@ -246,25 +242,25 @@ export default function WaitlistForm({
       <button
         type="submit"
         disabled={!canSubmit}
-        className={`mx-auto h-11 w-full rounded-md text-[14px] font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 ${
+        className={`mx-auto h-11 w-full rounded-lg text-[15px] font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 ${
           canSubmit ? "cta-enabled" : "cta-disabled"
         }`}
       >
-        {status === "loading" ? "Joining…" : "Join the waitlist →"}
+        {status === "loading" ? "Joining…" : "Join the waitlist"}
       </button>
 
       {!formReady ? (
-        <p className="text-center text-[12px] leading-relaxed text-muted lg:text-left">
+        <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
           Select a role and enter your email to join.
         </p>
       ) : (
-        <p className="text-center text-[12px] leading-relaxed text-muted lg:text-left">
-          Be first in line when we launch. No spam, ever.
+        <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
+          Free to join. We&apos;ll only email you about Causey.
         </p>
       )}
 
       {status === "error" && (
-        <p className="text-center text-[13px] text-red-300 lg:text-left" role="alert">
+        <p className="text-center text-[13px] text-red-600 lg:text-left" role="alert">
           {message}
         </p>
       )}

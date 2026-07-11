@@ -41,16 +41,18 @@ const TEAM = [
 
 export default function TeamSection() {
   return (
-    <section id="team" className="section-rule bg-background px-5 py-14 sm:px-8 sm:py-16">
+    <section id="team" className="section-rule bg-surface-soft px-5 py-16 sm:px-8 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <h2 className="font-display text-[26px] font-semibold tracking-tight text-white sm:text-[30px]">
-          Meet the team
-        </h2>
-        <p className="mt-2 max-w-md text-[15px] text-muted">
-          Building Causey from the ground up.
-        </p>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-[clamp(1.75rem,3.5vw,2.4rem)] font-bold tracking-tight text-foreground">
+            Meet the team
+          </h2>
+          <p className="mt-3 text-[16px] text-muted">
+            Students and builders working to make opportunity easier to find.
+          </p>
+        </div>
 
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+        <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {TEAM.map((person) => {
             const image = (
               <Image
@@ -74,20 +76,20 @@ export default function TeamSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${person.name} on LinkedIn`}
-                    className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.02] transition hover:border-white/20"
+                    className="relative aspect-square w-full overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.06)] transition hover:border-accent/30"
                   >
                     {image}
                   </a>
                 ) : (
-                  <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.02]">
+                  <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.06)]">
                     {image}
                   </div>
                 )}
                 <div className="mt-4 flex flex-1 flex-col">
-                  <h3 className="font-display text-lg font-semibold tracking-tight text-white">
+                  <h3 className="text-lg font-bold tracking-tight text-foreground">
                     {person.name}
                   </h3>
-                  <p className="mt-0.5 text-[13px] font-medium text-accent">{person.role}</p>
+                  <p className="mt-0.5 text-[13px] font-semibold text-accent">{person.role}</p>
                   <p className="mt-3 text-[14px] leading-relaxed text-muted">{person.statement}</p>
                 </div>
               </li>
