@@ -95,20 +95,27 @@ export default function Home() {
 
         <main className="relative z-10 mx-auto grid max-w-6xl items-center gap-8 px-5 pb-8 pt-10 sm:px-8 sm:pb-10 lg:grid-cols-2 lg:gap-10 lg:pb-12 lg:pt-16">
           <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
-            <h1 className="animate-rise font-display text-[clamp(2.35rem,6vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
-              Your talent shouldn&apos;t depend on your zip code.
+            <p className="animate-rise mb-4 inline-flex items-center gap-2 rounded-md border border-accent/30 bg-accent/10 px-3 py-1 text-[12px] font-medium tracking-wide text-accent">
+              Pre-launch · Fall 2026
+            </p>
+            <h1 className="animate-rise-delay-1 font-display text-[clamp(2.35rem,6vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
+              Your talent shouldn&apos;t depend on your zip{" "}
+              <span className="text-accent">code.</span>
             </h1>
             <p className="animate-rise-delay-1 mx-auto mt-5 max-w-md text-[16px] leading-relaxed text-muted-strong sm:text-[17px] lg:mx-0">
               Causey is the central place students, parents, and coaches find
               competitions worth entering — no insider network required.
             </p>
 
-            <div id="waitlist" className="animate-rise-delay-2 mx-auto mt-8 max-w-lg scroll-mt-24 lg:mx-0">
+            <div
+              id="waitlist"
+              className="animate-rise-delay-2 mx-auto mt-8 max-w-lg scroll-mt-24 border-l-2 border-accent pl-4 lg:mx-0"
+            >
               <WaitlistForm idPrefix="hero" source="hero" />
             </div>
           </div>
 
-          <div className="animate-rise-delay-3 min-w-0 self-end lg:pb-2">
+          <div className="animate-rise-delay-3 min-w-0 self-center">
             <CompetitionCards />
           </div>
         </main>
@@ -116,7 +123,7 @@ export default function Home() {
         <div className="relative z-10 flex justify-center pb-6 pt-1">
           <a
             href="#how-it-works"
-            className="animate-bob inline-flex flex-col items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-muted transition hover:text-muted-strong"
+            className="animate-bob inline-flex flex-col items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-accent transition hover:text-accent-hover"
           >
             How it works
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -148,10 +155,10 @@ export default function Home() {
                 className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5"
               >
                 <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-md border border-white/10 text-muted-strong">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-muted-strong">
                     {step.icon}
                   </span>
-                  <span className="flex h-9 min-w-9 items-center justify-center rounded-md border border-white/10 px-2 text-[12px] font-medium tracking-[0.08em] text-muted-strong">
+                  <span className="text-[11px] font-medium tracking-[0.14em] text-muted">
                     0{index + 1}
                   </span>
                 </div>

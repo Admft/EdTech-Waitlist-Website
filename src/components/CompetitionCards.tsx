@@ -5,7 +5,7 @@ const CARDS = [
     deadline: "Oct 12",
     eligibility: "Grades 9–12",
     stackClass: "animate-card-1 left-0 top-2 z-10",
-    depth: "back",
+    depth: "back" as const,
   },
   {
     name: "Congressional Debate",
@@ -13,7 +13,7 @@ const CARDS = [
     deadline: "Sep 28",
     eligibility: "All high school",
     stackClass: "animate-card-2 left-[22%] top-[7.5rem] z-20",
-    depth: "mid",
+    depth: "mid" as const,
   },
   {
     name: "Young Writers Prize",
@@ -21,7 +21,7 @@ const CARDS = [
     deadline: "Nov 3",
     eligibility: "Ages 14–18",
     stackClass: "animate-card-3 left-[6%] top-[15rem] z-30",
-    depth: "front",
+    depth: "front" as const,
   },
 ] as const;
 
@@ -54,10 +54,11 @@ function CardBody({
   );
 }
 
+/** One sharp focal card; the other two are soft background. */
 const DEPTH_STYLE = {
-  back: "opacity-55 blur-[1.5px] scale-[0.98]",
-  mid: "opacity-80 blur-[0.5px]",
-  front: "opacity-100",
+  back: "opacity-50 blur-[3px]",
+  mid: "opacity-50 blur-[2px]",
+  front: "opacity-100 blur-none",
 } as const;
 
 export default function CompetitionCards() {
@@ -79,8 +80,7 @@ export default function CompetitionCards() {
         </div>
       </div>
 
-      {/* Desktop: cascade with depth-of-field — back cards soft, front sharp */}
-      <div className="relative mx-auto hidden h-[26rem] w-full max-w-md pt-6 lg:block">
+      <div className="relative mx-auto hidden h-[24rem] w-full max-w-md pt-4 lg:block">
         {CARDS.map((card) => (
           <article
             key={card.name}
@@ -90,9 +90,6 @@ export default function CompetitionCards() {
             <CardBody {...card} />
           </article>
         ))}
-        <p className="absolute bottom-0 left-0 text-[12px] font-medium tracking-wide text-muted">
-          Launching Fall 2026
-        </p>
       </div>
     </div>
   );
