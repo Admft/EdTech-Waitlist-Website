@@ -6,15 +6,15 @@ const CALENDAR_URL = "https://calendar.app.google/AX1fCWGdukco55z47";
 const AUDIENCES = [
   {
     title: "Students, parents & coaches",
-    body: "Find competitions in your niche, and help shape what we build.",
+    body: "Discover competitions that match your skills — and help shape Causey in a short discovery chat.",
   },
   {
-    title: "Founding software developers",
-    body: "Join the founding engineering team from day one.",
+    title: "Competition organizers",
+    body: "Reach a broader, more diverse pool of talented participants.",
   },
   {
-    title: "Advisors",
-    body: "Share advice, or just learn more about the idea.",
+    title: "Founding builders & advisors",
+    body: "Join the team, share advice, or learn more about the idea.",
   },
 ] as const;
 
@@ -32,14 +32,17 @@ export default function Home() {
         />
         <div
           className="absolute inset-0 animate-fade"
-          style={{ background: "var(--hero-overlay)" }}
+          style={{
+            background:
+              "linear-gradient(120deg, rgba(10,22,38,0.92) 0%, rgba(10,22,38,0.78) 45%, rgba(10,22,38,0.45) 100%)",
+          }}
           aria-hidden
         />
 
         <div className="relative z-10 mx-auto flex min-h-[100svh] w-full max-w-5xl flex-col px-6 py-7 sm:px-10">
           <nav className="animate-rise flex items-center justify-between gap-4">
             <p className="font-display text-[15px] font-semibold tracking-wide text-white/90">
-              EdTech Startup
+              Causey
             </p>
             <a
               href={CALENDAR_URL}
@@ -53,12 +56,16 @@ export default function Home() {
 
           <main className="flex flex-1 flex-col justify-center pb-12 pt-16">
             <div className="max-w-2xl">
-              <h1 className="animate-rise-delay-1 font-display text-[clamp(2.4rem,7vw,4.25rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-white">
-                EdTech Startup
+              <h1 className="animate-rise-delay-1 font-display text-[clamp(2.6rem,8vw,4.5rem)] font-semibold leading-[1.02] tracking-[-0.03em] text-white">
+                Causey
               </h1>
-              <p className="animate-rise-delay-2 mt-5 max-w-lg text-[1.15rem] leading-relaxed text-white/80 sm:text-[1.25rem]">
-                Connecting talent to opportunity through competitions —
-                regardless of where a student lives or who they know.
+              <p className="animate-rise-delay-2 mt-5 max-w-xl text-[1.2rem] font-medium leading-snug text-white sm:text-[1.4rem]">
+                Connecting talent to opportunity. Discover competitions that
+                match your skills, no matter where you live.
+              </p>
+              <p className="animate-rise-delay-2 mt-4 max-w-lg text-[15px] leading-relaxed text-white/70 sm:text-base">
+                Stop searching scattered websites. Join the centralized platform
+                built for students, parents, and coaches.
               </p>
 
               <div className="animate-rise-delay-3 mt-9">
@@ -86,7 +93,7 @@ export default function Home() {
             Who this is for
           </h2>
           <p className="mt-2 max-w-md text-[15px] leading-relaxed text-muted">
-            If one of these fits, join the waitlist.
+            Pick your role when you join — we use it for customer discovery.
           </p>
 
           <ul className="mt-10 grid gap-8 border-t border-line pt-10 sm:grid-cols-3 sm:gap-10">
@@ -103,7 +110,7 @@ export default function Home() {
       <footer className="border-t border-line bg-background px-6 py-7 sm:px-10">
         <div className="mx-auto flex max-w-5xl flex-col gap-2 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
-            <span className="font-medium text-brand">EdTech Startup</span>
+            <span className="font-medium text-brand">Causey</span>
             {" · "}
             Myshay Causey, Cornell &apos;29
           </p>

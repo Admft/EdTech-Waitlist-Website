@@ -15,13 +15,13 @@ const space = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "EdTech Startup — Join the waitlist",
+  title: "Causey — Join the waitlist",
   description:
-    "Connecting talent to opportunity through competitions. A central platform for students to discover competitions that match their skills. Join the waitlist.",
+    "Connecting talent to opportunity. Discover competitions that match your skills, no matter where you live.",
   openGraph: {
-    title: "EdTech Startup — Join the waitlist",
+    title: "Causey — Join the waitlist",
     description:
-      "Connecting talent to opportunity through competitions — regardless of where a student lives or who they know.",
+      "Stop searching scattered websites. Join the centralized platform built for students, parents, and coaches.",
     type: "website",
   },
 };
