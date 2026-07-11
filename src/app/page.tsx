@@ -1,4 +1,5 @@
 import CompetitionCards from "@/components/CompetitionCards";
+import TeamSection from "@/components/TeamSection";
 import WaitlistForm from "@/components/WaitlistForm";
 
 const CALENDAR_URL = "https://calendar.app.google/AX1fCWGdukco55z47";
@@ -80,6 +81,12 @@ export default function Home() {
                 className="hidden px-3 py-2 text-[13px] font-medium text-muted-strong transition hover:text-white sm:inline"
               >
                 How it works
+              </a>
+              <a
+                href="#team"
+                className="hidden px-3 py-2 text-[13px] font-medium text-muted-strong transition hover:text-white sm:inline"
+              >
+                Team
               </a>
               <a
                 href={CALENDAR_URL}
@@ -167,16 +174,45 @@ export default function Home() {
               </li>
             ))}
           </ol>
+        </div>
+      </section>
 
-          <div className="mt-10 max-w-lg rounded-xl border border-white/[0.08] border-l-2 border-l-accent bg-background/60 p-6">
-            <h3 className="font-display text-xl font-semibold text-white">
-              Ready to get in early?
-            </h3>
-            <p className="mt-2 text-[14px] text-muted">
-              Join the waitlist — we&apos;ll reach out when Causey launches.
-            </p>
-            <div className="mt-5">
-              <WaitlistForm idPrefix="bottom" source="footer" />
+      <TeamSection />
+
+      <section className="section-rule bg-surface px-5 py-14 sm:px-8 sm:py-16">
+        <div className="mx-auto max-w-6xl">
+          <div className="relative overflow-hidden rounded-xl border border-white/[0.08] border-l-2 border-l-accent bg-background/60">
+            <svg
+              className="pointer-events-none absolute -right-8 top-1/2 hidden h-[140%] w-auto -translate-y-1/2 text-white opacity-[0.04] sm:block"
+              viewBox="0 0 22 22"
+              fill="none"
+              aria-hidden
+            >
+              <rect
+                x="1"
+                y="1"
+                width="20"
+                height="20"
+                rx="5"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              />
+              <path
+                d="M7.2 11c0-2.1 1.5-3.5 3.8-3.5 1.5 0 2.6.6 3.2 1.6l-1.5.9c-.3-.5-.9-.9-1.7-.9-1.2 0-2 .8-2 1.9s.8 1.9 2 1.9c.8 0 1.4-.3 1.7-.9l1.5.9c-.6 1-1.7 1.6-3.2 1.6-2.3 0-3.8-1.4-3.8-3.5Z"
+                fill="currentColor"
+              />
+            </svg>
+
+            <div className="relative z-10 max-w-lg p-6 sm:p-7">
+              <h2 className="font-display text-xl font-semibold text-white">
+                Ready to get in early?
+              </h2>
+              <p className="mt-2 text-[14px] text-muted">
+                Join the waitlist — we&apos;ll reach out when Causey launches.
+              </p>
+              <div className="mt-5">
+                <WaitlistForm idPrefix="bottom" source="footer" />
+              </div>
             </div>
           </div>
         </div>
