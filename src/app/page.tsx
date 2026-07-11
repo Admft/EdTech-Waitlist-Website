@@ -1,53 +1,9 @@
 import CompetitionCards from "@/components/CompetitionCards";
+import HowItWorks from "@/components/HowItWorks";
 import TeamSection from "@/components/TeamSection";
 import WaitlistForm from "@/components/WaitlistForm";
 
 const CALENDAR_URL = "https://calendar.app.google/AX1fCWGdukco55z47";
-
-const STEPS = [
-  {
-    title: "Discover",
-    body: "Browse competitions in one place instead of scattered sites and word of mouth.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-        <circle cx="9" cy="9" r="5.5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    title: "Match",
-    body: "Find opportunities that fit your skills, interests, and eligibility — not your zip code.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-        <path
-          d="M4 10h4l2-5 2 10 2-5h2"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Compete",
-    body: "Enter with confidence. Organizers reach a broader, more diverse talent pool.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-        <path
-          d="M6 14V8.5a4 4 0 0 1 8 0V14"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-        <path d="M4 14h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M10 14v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M7.5 17h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-] as const;
 
 function LogoMark() {
   return (
@@ -146,36 +102,7 @@ export default function Home() {
         </div>
       </div>
 
-      <section id="how-it-works" className="section-rule bg-surface px-5 py-14 sm:px-8 sm:py-16">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-[1.75rem]">
-            How it works
-          </h2>
-          <p className="mt-2 max-w-md text-[15px] text-muted">
-            One platform. From discovery to the starting line.
-          </p>
-
-          <ol className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-5">
-            {STEPS.map((step, index) => (
-              <li
-                key={step.title}
-                className="relative rounded-xl border border-white/[0.08] bg-white/[0.02] p-5"
-              >
-                <span className="absolute right-4 top-4 text-[11px] font-medium tracking-[0.14em] text-muted">
-                  0{index + 1}
-                </span>
-                <div className="flex h-9 w-9 items-center justify-center rounded-md bg-white/10 text-muted-strong">
-                  {step.icon}
-                </div>
-                <h3 className="mt-4 font-display text-xl font-semibold text-white">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">{step.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <HowItWorks />
 
       <TeamSection />
 
