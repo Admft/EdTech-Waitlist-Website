@@ -14,8 +14,15 @@ const ROLES = [
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Status = "idle" | "loading" | "success" | "error";
+type Source = "hero" | "footer";
 
-export default function WaitlistForm() {
+export default function WaitlistForm({
+  idPrefix = "hero",
+  source = "hero",
+}: {
+  idPrefix?: string;
+  source?: Source;
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
@@ -35,7 +42,8 @@ export default function WaitlistForm() {
 
   const emailValid = EMAIL_RE.test(email.trim());
   const roleValid = role.length > 0;
-  const canSubmit = emailValid && roleValid && status !== "loading";
+  const formReady = emailValid && roleValid;
+  const canSubmit = formReady && status !== "loading";
 
   const emailError = useMemo(() => {
     if (!touched.email) return "";
@@ -53,7 +61,7 @@ export default function WaitlistForm() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched({ email: true, role: true });
-    if (!canSubmit) return;
+    if (!formReady || status === "loading") return;
 
     setStatus("loading");
     setMessage("");
@@ -68,6 +76,7 @@ export default function WaitlistForm() {
           email: email.trim(),
           role,
           referredBy,
+          source,
         }),
       });
       const data = await res.json();
@@ -106,10 +115,21 @@ export default function WaitlistForm() {
   if (status === "success") {
     return (
       <div
-        className="w-full rounded-lg border border-white/10 bg-white/[0.04] p-5"
+        className="w-full rounded-lg border border-accent/40 bg-accent/10 p-5 text-center lg:text-left"
         role="status"
       >
-        <p className="font-display text-xl font-semibold tracking-tight text-foreground">
+        <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white lg:mx-0">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden>
+            <path
+              d="M4 9.5l3.2 3.2L14 5.5"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <p className="mt-3 font-display text-xl font-semibold tracking-tight text-foreground">
           You&apos;re #{position ?? "—"} on the list.
         </p>
         <p className="mt-2 text-[14px] leading-relaxed text-muted-strong">
@@ -119,12 +139,12 @@ export default function WaitlistForm() {
           <input
             readOnly
             value={shareUrl}
-            className={`${field} flex-1 text-[12px] sm:text-[13px]`}
+            className={`${field} flex-1 border-white/20 bg-background/40 text-[12px] sm:text-[13px]`}
           />
           <button
             type="button"
             onClick={copyLink}
-            className="h-11 shrink-0 rounded-md border border-white/20 px-4 text-[14px] font-medium text-foreground transition hover:bg-white/5"
+            className="cta-enabled h-11 shrink-0 rounded-md px-4 text-[14px] font-semibold"
           >
             {copied ? "Copied" : "Copy link"}
           </button>
@@ -137,24 +157,46 @@ export default function WaitlistForm() {
     <form onSubmit={onSubmit} className="flex w-full flex-col gap-2.5" noValidate>
       <div className="grid gap-2.5 sm:grid-cols-2">
         <div>
-          <label className="sr-only" htmlFor="waitlist-role">
+          <label className="sr-only" htmlFor={`${idPrefix}-role`}>
             I am a
           </label>
-          <select
-            id="waitlist-role"
-            name="role"
-            required
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            onBlur={() => setTouched((t) => ({ ...t, role: true }))}
-            className={`${field} appearance-none ${roleError ? "border-red-400/60" : ""}`}
-          >
-            {ROLES.map((option) => (
-              <option key={option.value || "empty"} value={option.value} className="bg-[#141c28]">
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              id={`${idPrefix}-role`}
+              name="role"
+              required
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              onBlur={() => setTouched((t) => ({ ...t, role: true }))}
+              className={`${field} appearance-none pr-10 ${
+                !role ? "text-muted" : ""
+              } ${roleError ? "border-red-400/60" : ""}`}
+            >
+              {ROLES.map((option) => (
+                <option
+                  key={option.value || "empty"}
+                  value={option.value}
+                  className="bg-[#141c28] text-foreground"
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <svg
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-strong"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                d="M4 6l4 4 4-4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
           {roleError ? (
             <p className="mt-1 text-[12px] text-red-300" role="alert">
               {roleError}
@@ -162,11 +204,11 @@ export default function WaitlistForm() {
           ) : null}
         </div>
         <div>
-          <label className="sr-only" htmlFor="waitlist-name">
+          <label className="sr-only" htmlFor={`${idPrefix}-name`}>
             Name
           </label>
           <input
-            id="waitlist-name"
+            id={`${idPrefix}-name`}
             type="text"
             name="name"
             autoComplete="name"
@@ -179,11 +221,11 @@ export default function WaitlistForm() {
       </div>
 
       <div>
-        <label className="sr-only" htmlFor="waitlist-email">
+        <label className="sr-only" htmlFor={`${idPrefix}-email`}>
           Email
         </label>
         <input
-          id="waitlist-email"
+          id={`${idPrefix}-email`}
           type="email"
           name="email"
           required
@@ -204,17 +246,25 @@ export default function WaitlistForm() {
       <button
         type="submit"
         disabled={!canSubmit}
-        className="h-11 w-full rounded-md bg-accent text-[14px] font-semibold text-white transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:self-start sm:px-6"
+        className={`mx-auto h-11 w-full rounded-md text-[14px] font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 ${
+          canSubmit ? "cta-enabled" : "cta-disabled"
+        }`}
       >
         {status === "loading" ? "Joining…" : "Join the waitlist →"}
       </button>
 
-      <p className="text-[12px] leading-relaxed text-muted">
-        Be first in line when we launch. No spam, ever.
-      </p>
+      {!formReady ? (
+        <p className="text-center text-[12px] leading-relaxed text-muted lg:text-left">
+          Select a role and enter your email to join.
+        </p>
+      ) : (
+        <p className="text-center text-[12px] leading-relaxed text-muted lg:text-left">
+          Be first in line when we launch. No spam, ever.
+        </p>
+      )}
 
       {status === "error" && (
-        <p className="text-[13px] text-red-300" role="alert">
+        <p className="text-center text-[13px] text-red-300 lg:text-left" role="alert">
           {message}
         </p>
       )}

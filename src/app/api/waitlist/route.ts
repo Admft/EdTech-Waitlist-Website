@@ -36,6 +36,8 @@ export async function POST(request: Request) {
     const role = typeof body.role === "string" ? body.role.trim() : "";
     const referredBy =
       typeof body.referredBy === "string" ? body.referredBy.trim().slice(0, 32) : "";
+    const source =
+      body.source === "footer" || body.source === "hero" ? body.source : "hero";
 
     if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json({ error: "Enter a valid email." }, { status: 400 });
@@ -55,6 +57,7 @@ export async function POST(request: Request) {
       email,
       name: name || null,
       role,
+      source,
       position,
       referralCode,
       referredBy: referredBy || null,

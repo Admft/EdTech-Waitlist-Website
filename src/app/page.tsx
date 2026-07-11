@@ -7,14 +7,44 @@ const STEPS = [
   {
     title: "Discover",
     body: "Browse competitions in one place instead of scattered sites and word of mouth.",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
+        <circle cx="9" cy="9" r="5.5" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M13.5 13.5L17 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
   },
   {
     title: "Match",
     body: "Find opportunities that fit your skills, interests, and eligibility — not your zip code.",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
+        <path
+          d="M4 10h4l2-5 2 10 2-5h2"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
   },
   {
     title: "Compete",
     body: "Enter with confidence. Organizers reach a broader, more diverse talent pool.",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
+        <path
+          d="M6 14V8.5a4 4 0 0 1 8 0V14"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path d="M4 14h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M10 14v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M7.5 17h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    ),
   },
 ] as const;
 
@@ -36,7 +66,7 @@ function LogoMark() {
 export default function Home() {
   return (
     <div className="flex min-h-full flex-col bg-background text-foreground">
-      <div className="hero-canvas relative isolate min-h-[100svh]">
+      <div className="hero-canvas relative isolate">
         <div className="noise-overlay" aria-hidden />
 
         <header className="sticky top-0 z-50 border-b border-white/10 bg-black/30 backdrop-blur-md">
@@ -55,7 +85,7 @@ export default function Home() {
                 href={CALENDAR_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md border border-white/20 px-3 py-1.5 text-[13px] font-medium text-foreground transition hover:bg-white/5"
+                className="rounded-md border border-white/15 px-3 py-1.5 text-[13px] font-medium text-muted-strong transition hover:border-white/25 hover:text-white"
               >
                 Book a meeting
               </a>
@@ -63,31 +93,46 @@ export default function Home() {
           </div>
         </header>
 
-        <main className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-5 pb-20 pt-14 sm:px-8 lg:grid-cols-2 lg:gap-10 lg:pb-24 lg:pt-20">
-          <div className="max-w-xl">
+        <main className="relative z-10 mx-auto grid max-w-6xl items-center gap-8 px-5 pb-8 pt-10 sm:px-8 sm:pb-10 lg:grid-cols-2 lg:gap-10 lg:pb-12 lg:pt-16">
+          <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
             <h1 className="animate-rise font-display text-[clamp(2.35rem,6vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
               Your talent shouldn&apos;t depend on your zip code.
             </h1>
-            <p className="animate-rise-delay-1 mt-5 max-w-md text-[16px] leading-relaxed text-muted-strong sm:text-[17px]">
+            <p className="animate-rise-delay-1 mx-auto mt-5 max-w-md text-[16px] leading-relaxed text-muted-strong sm:text-[17px] lg:mx-0">
               Causey is the central place students, parents, and coaches find
               competitions worth entering — no insider network required.
             </p>
 
-            <div className="animate-rise-delay-2 mt-8 max-w-lg">
-              <WaitlistForm />
+            <div id="waitlist" className="animate-rise-delay-2 mx-auto mt-8 max-w-lg scroll-mt-24 lg:mx-0">
+              <WaitlistForm idPrefix="hero" source="hero" />
             </div>
           </div>
 
-          <div className="animate-rise-delay-3 hidden lg:block">
+          <div className="animate-rise-delay-3 min-w-0 self-end lg:pb-2">
             <CompetitionCards />
           </div>
         </main>
+
+        <div className="relative z-10 flex justify-center pb-6 pt-1">
+          <a
+            href="#how-it-works"
+            className="animate-bob inline-flex flex-col items-center gap-1 text-[11px] font-medium uppercase tracking-[0.14em] text-muted transition hover:text-muted-strong"
+          >
+            How it works
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+              <path
+                d="M4 6l4 4 4-4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
       </div>
 
-      <section
-        id="how-it-works"
-        className="border-t border-line bg-surface px-5 py-20 sm:px-8"
-      >
+      <section id="how-it-works" className="section-rule bg-surface px-5 py-14 sm:px-8 sm:py-16">
         <div className="mx-auto max-w-6xl">
           <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-[1.75rem]">
             How it works
@@ -96,43 +141,68 @@ export default function Home() {
             One platform. From discovery to the starting line.
           </p>
 
-          <ol className="mt-12 grid gap-10 border-t border-line pt-10 sm:grid-cols-3 sm:gap-8">
+          <ol className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-5">
             {STEPS.map((step, index) => (
-              <li key={step.title}>
-                <p className="text-[12px] font-medium uppercase tracking-[0.12em] text-muted">
-                  0{index + 1}
-                </p>
-                <h3 className="mt-3 font-display text-xl font-semibold text-white">
+              <li
+                key={step.title}
+                className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-5"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-md border border-white/10 text-muted-strong">
+                    {step.icon}
+                  </span>
+                  <span className="flex h-9 min-w-9 items-center justify-center rounded-md border border-white/10 px-2 text-[12px] font-medium tracking-[0.08em] text-muted-strong">
+                    0{index + 1}
+                  </span>
+                </div>
+                <h3 className="mt-4 font-display text-xl font-semibold text-white">
                   {step.title}
                 </h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-muted">{step.body}</p>
               </li>
             ))}
           </ol>
+
+          <div className="mt-10 rounded-xl border border-white/[0.08] border-l-accent bg-background/60 p-6 sm:border-l-2">
+            <h3 className="font-display text-xl font-semibold text-white">
+              Ready to get in early?
+            </h3>
+            <p className="mt-2 max-w-xl text-[14px] text-muted">
+              Join the waitlist — we&apos;ll reach out when Causey launches.
+            </p>
+            <div className="mt-5 max-w-lg">
+              <WaitlistForm idPrefix="bottom" source="footer" />
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="border-t border-line px-5 py-10 sm:px-8 lg:hidden">
-        <div className="mx-auto max-w-md">
-          <CompetitionCards />
-        </div>
-      </div>
-
-      <footer className="border-t border-line px-5 py-7 sm:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 text-[13px] text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            <span className="font-medium text-muted-strong">Causey</span>
-            {" · "}
-            Myshay Causey, Cornell &apos;29
-          </p>
-          <a
-            href={CALENDAR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-muted-strong transition hover:text-white"
-          >
-            Book a meeting
-          </a>
+      <footer className="section-rule px-5 py-8 sm:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="space-y-2 text-[13px] text-muted">
+            <p>
+              <span className="font-medium text-muted-strong">Causey</span>
+              {" · "}
+              Myshay Causey, Cornell &apos;29
+            </p>
+            <p>© 2026 Causey. All rights reserved.</p>
+          </div>
+          <div className="flex flex-col gap-2 text-[13px] sm:items-end">
+            <a
+              href={CALENDAR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-muted-strong transition hover:text-white"
+            >
+              Book a meeting
+            </a>
+            <a
+              href="#waitlist"
+              className="font-medium text-muted-strong transition hover:text-white"
+            >
+              Join the waitlist
+            </a>
+          </div>
         </div>
       </footer>
     </div>
