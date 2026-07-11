@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f0f4f8;
+  --foreground: #102033;
+  --brand: #102033;
+  --accent: #0f766e;
+  --accent-hover: #0d5f59;
+  --muted: #5a6b7d;
+  --surface-solid: #ffffff;
+  --line: rgba(16, 32, 51, 0.1);
+  --hero-overlay: linear-gradient(
+    120deg,
+    rgba(10, 22, 38, 0.92) 0%,
+    rgba(10, 22, 38, 0.78) 45%,
+    rgba(10, 22, 38, 0.4) 100%
+  );
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-muted: var(--muted);
+  --color-surface-solid: var(--surface-solid);
+  --color-line: var(--line);
+  --font-sans: var(--font-jakarta);
+  --font-display: var(--font-space);
+}
+
+@utility font-display {
+  font-family: var(--font-space), system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, white);
+  color: var(--brand);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes soft-zoom {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-rise-delay-1 {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.animate-rise-delay-2 {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.animate-rise-delay-3 {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.animate-fade {
+  animation: fade-in 1s ease both;
+}
+
+.animate-hero-image {
+  animation: soft-zoom 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
