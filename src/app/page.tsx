@@ -181,29 +181,8 @@ export default function Home() {
 
       <section className="section-rule bg-surface px-5 py-14 sm:px-8 sm:py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="relative overflow-hidden rounded-xl border border-white/[0.08] border-l-2 border-l-accent bg-background/60">
-            <svg
-              className="pointer-events-none absolute -right-8 top-1/2 hidden h-[140%] w-auto -translate-y-1/2 text-white opacity-[0.04] sm:block"
-              viewBox="0 0 22 22"
-              fill="none"
-              aria-hidden
-            >
-              <rect
-                x="1"
-                y="1"
-                width="20"
-                height="20"
-                rx="5"
-                stroke="currentColor"
-                strokeWidth="1.2"
-              />
-              <path
-                d="M7.2 11c0-2.1 1.5-3.5 3.8-3.5 1.5 0 2.6.6 3.2 1.6l-1.5.9c-.3-.5-.9-.9-1.7-.9-1.2 0-2 .8-2 1.9s.8 1.9 2 1.9c.8 0 1.4-.3 1.7-.9l1.5.9c-.6 1-1.7 1.6-3.2 1.6-2.3 0-3.8-1.4-3.8-3.5Z"
-                fill="currentColor"
-              />
-            </svg>
-
-            <div className="relative z-10 max-w-lg p-6 sm:p-7">
+          <div className="grid overflow-hidden rounded-xl border border-white/[0.08] border-l-2 border-l-accent bg-background/60 lg:grid-cols-2">
+            <div className="border-b border-white/[0.08] p-6 sm:p-7 lg:border-b-0 lg:border-r lg:border-white/[0.08]">
               <h2 className="font-display text-xl font-semibold text-white">
                 Ready to get in early?
               </h2>
@@ -213,6 +192,25 @@ export default function Home() {
               <div className="mt-5">
                 <WaitlistForm idPrefix="bottom" source="footer" />
               </div>
+            </div>
+
+            <div className="flex flex-col justify-center p-6 sm:p-7">
+              <h2 className="font-display text-xl font-semibold text-white">
+                Want to meet instead?
+              </h2>
+              <p className="mt-2 max-w-sm text-[14px] leading-relaxed text-muted">
+                Prefer a conversation? Book a short call and we&apos;ll walk you
+                through what Causey is building.
+              </p>
+              <a
+                href={CALENDAR_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta-enabled mt-6 inline-flex w-fit items-center gap-2 rounded-md px-4 py-2.5 text-[14px] font-semibold"
+              >
+                Book a meeting
+                <span aria-hidden>→</span>
+              </a>
             </div>
           </div>
         </div>
