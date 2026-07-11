@@ -16,6 +16,7 @@ const TEAM = [
       "I like problem-solving and engineering solutions — from AI and IoT to cloud systems. I'm here to build the infrastructure that makes discovery fair.",
     image: "/adam-headshot.jpg",
     imageAlt: "Headshot of Adam Moffat",
+    imageScale: 1.35,
   },
   {
     name: "Divine Bamgboye",
@@ -39,7 +40,7 @@ export default function TeamSection() {
   return (
     <section id="team" className="section-rule bg-background px-5 py-14 sm:px-8 sm:py-16">
       <div className="mx-auto max-w-6xl">
-        <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-[1.75rem]">
+        <h2 className="font-display text-[26px] font-semibold tracking-tight text-white sm:text-[30px]">
           Meet the team
         </h2>
         <p className="mt-2 max-w-md text-[15px] text-muted">
@@ -55,7 +56,11 @@ export default function TeamSection() {
                   alt={person.imageAlt}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover object-top transition duration-300 group-hover:scale-[1.03]"
+                  className={
+                    "imageScale" in person && person.imageScale
+                      ? "object-cover object-top scale-[1.35] transition duration-300 group-hover:scale-[1.4]"
+                      : "object-cover object-top transition duration-300 group-hover:scale-[1.03]"
+                  }
                 />
               </div>
               <div className="mt-4 flex flex-1 flex-col">
