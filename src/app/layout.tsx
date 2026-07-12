@@ -15,6 +15,7 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://causey-waitlist.vercel.app"),
   title: "Causey — Connecting talent to opportunity",
   description:
     "A central platform for competitions so any student with passion can build a clear path to the next level — no matter their zip code or school.",
@@ -23,6 +24,14 @@ export const metadata: Metadata = {
     description:
       "A central platform for competitions so any student with passion can build a clear path to the next level.",
     type: "website",
+    url: "https://causey-waitlist.vercel.app",
+    siteName: "Causey",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Causey — Connecting talent to opportunity",
+    description:
+      "A central platform for competitions so any student with passion can build a clear path to the next level.",
   },
 };
 

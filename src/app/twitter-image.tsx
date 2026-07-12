@@ -1,0 +1,92 @@
+import { ImageResponse } from "next/og";
+
+export const runtime = "edge";
+export const alt = "Causey — Connecting talent to opportunity";
+export const size = { width: 1200, height: 630 };
+export const contentType = "image/png";
+
+export default function TwitterImage() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "#f5f9fc",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: -80,
+            right: -60,
+            width: 520,
+            height: 420,
+            borderRadius: 999,
+            background: "rgba(74, 142, 184, 0.28)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: -100,
+            left: -80,
+            width: 460,
+            height: 380,
+            borderRadius: 999,
+            background: "rgba(194, 59, 50, 0.12)",
+          }}
+        />
+
+        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+          <div
+            style={{
+              width: 120,
+              height: 120,
+              borderRadius: 28,
+              background: "#c23b32",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="72" height="72" viewBox="0 0 32 32" fill="none">
+              <path
+                d="M21.2 11.1c-.85-1.15-2.2-1.85-3.85-1.85-2.95 0-5.05 2.15-5.05 5.25s2.1 5.25 5.05 5.25c1.65 0 3-.7 3.85-1.85l2.05 1.35C22 21.1 20 22.35 17.35 22.35 12.9 22.35 9.7 19.1 9.7 14.5S12.9 6.65 17.35 6.65c2.65 0 4.65 1.2 5.9 3.1l-2.05 1.35Z"
+                fill="#ffffff"
+              />
+            </svg>
+          </div>
+          <div
+            style={{
+              fontSize: 96,
+              fontWeight: 700,
+              letterSpacing: "-0.04em",
+              color: "#14181c",
+              lineHeight: 1,
+            }}
+          >
+            Causey
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: 36,
+            fontSize: 32,
+            fontWeight: 500,
+            color: "#5a6570",
+          }}
+        >
+          Connecting talent to opportunity
+        </div>
+      </div>
+    ),
+    { ...size },
+  );
+}
