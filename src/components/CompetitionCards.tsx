@@ -4,7 +4,7 @@ const CARDS = [
     category: "STEM",
     deadline: "Oct 12",
     eligibility: "Grades 9–12",
-    stackClass: "animate-card-1 left-[12%] top-2 z-10",
+    stackClass: "animate-card-1 left-[8%] top-2 z-10",
     depth: "back" as const,
   },
   {
@@ -12,15 +12,23 @@ const CARDS = [
     category: "Speech & Debate",
     deadline: "Sep 28",
     eligibility: "All high school",
-    stackClass: "animate-card-2 left-[32%] top-[8.25rem] z-20",
-    depth: "mid" as const,
+    stackClass: "animate-card-2 left-[36%] top-[7.75rem] z-[15]",
+    depth: "back" as const,
   },
   {
     name: "Young Writers Prize",
     category: "Arts & Writing",
     deadline: "Nov 3",
     eligibility: "Ages 14–18",
-    stackClass: "animate-card-3 left-[18%] top-[16.5rem] z-30",
+    stackClass: "animate-card-3 left-[14%] top-[15.5rem] z-20",
+    depth: "mid" as const,
+  },
+  {
+    name: "Scholastic Chess Open",
+    category: "Chess",
+    deadline: "Sep 20",
+    eligibility: "All high school",
+    stackClass: "animate-card-4 left-[30%] top-[23.25rem] z-30",
     depth: "front" as const,
   },
 ] as const;
@@ -44,7 +52,7 @@ function CardBody({
         </span>
         <span className="shrink-0 text-[12px] text-muted">Due {deadline}</span>
       </div>
-      <h3 className="mt-2.5 truncate text-[18px] font-semibold leading-snug tracking-tight text-foreground sm:text-[19px]">
+      <h3 className="mt-2.5 text-[18px] font-semibold leading-snug tracking-tight text-foreground sm:text-[19px]">
         {name}
       </h3>
       <p className="mt-3.5 border-t border-line pt-3.5 text-[13px] text-muted">
@@ -62,7 +70,7 @@ const DEPTH_OPACITY = {
 
 const DEPTH_FILTER: Record<"back" | "mid" | "front", string | undefined> = {
   back: "blur(1px)",
-  mid: "blur(0.7px)",
+  mid: "blur(0.5px)",
   front: undefined,
 };
 
@@ -85,7 +93,7 @@ export default function CompetitionCards() {
         </div>
       </div>
 
-      <div className="relative ml-auto hidden h-[27rem] w-full max-w-lg pt-2 lg:block">
+      <div className="relative ml-auto hidden h-[36rem] w-full max-w-lg pt-2 lg:block">
         {CARDS.map((card) => (
           <article
             key={card.name}

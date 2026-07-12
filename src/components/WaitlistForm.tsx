@@ -27,18 +27,13 @@ export default function WaitlistForm({
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [competitionInterest, setCompetitionInterest] = useState("");
-  const [location, setLocation] = useState("");
   const [referredBy, setReferredBy] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const [shareUrl, setShareUrl] = useState("");
   const [position, setPosition] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
-  const [touched, setTouched] = useState({
-    email: false,
-    role: false,
-    interest: false,
-  });
+  const [touched, setTouched] = useState({ email: false, role: false });
   const [company, setCompany] = useState("");
   const [startedAt] = useState(() => Date.now());
 
@@ -50,8 +45,7 @@ export default function WaitlistForm({
 
   const emailValid = EMAIL_RE.test(email.trim());
   const roleValid = role.length > 0;
-  const interestValid = competitionInterest.trim().length > 0;
-  const formReady = emailValid && roleValid && interestValid;
+  const formReady = emailValid && roleValid;
   const canSubmit = formReady && status !== "loading";
 
   const emailError = useMemo(() => {
@@ -67,15 +61,9 @@ export default function WaitlistForm({
     return "";
   }, [touched.role, roleValid]);
 
-  const interestError = useMemo(() => {
-    if (!touched.interest) return "";
-    if (!interestValid) return "Tell us which competitions you want to see.";
-    return "";
-  }, [touched.interest, interestValid]);
-
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setTouched({ email: true, role: true, interest: true });
+    setTouched({ email: true, role: true });
     if (!formReady || status === "loading") return;
 
     setStatus("loading");
@@ -91,7 +79,6 @@ export default function WaitlistForm({
           email: email.trim(),
           role,
           competitionInterest: competitionInterest.trim(),
-          location: location.trim(),
           referredBy,
           source,
           company,
@@ -113,8 +100,7 @@ export default function WaitlistForm({
       setEmail("");
       setRole("");
       setCompetitionInterest("");
-      setLocation("");
-      setTouched({ email: false, role: false, interest: false });
+      setTouched({ email: false, role: false });
     } catch {
       setStatus("error");
       setMessage("Something went wrong. Please try again.");
@@ -132,25 +118,6 @@ export default function WaitlistForm({
 
   const field =
     "h-11 w-full rounded-lg border border-field-border bg-field px-3.5 text-[15px] text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
-
-  function SelectChevron() {
-    return (
-      <svg
-        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
-        viewBox="0 0 16 16"
-        fill="none"
-        aria-hidden
-      >
-        <path
-          d="M4 6l4 4 4-4"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-  }
 
   if (status === "success") {
     return (
@@ -208,7 +175,7 @@ export default function WaitlistForm({
         />
       </div>
 
-      <div className="grid gap-2.5 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         <div>
           <label className="sr-only" htmlFor={`${idPrefix}-role`}>
             I am a
@@ -235,7 +202,20 @@ export default function WaitlistForm({
                 </option>
               ))}
             </select>
-            <SelectChevron />
+            <svg
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden
+            >
+              <path
+                d="M4 6l4 4 4-4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
           {roleError ? (
             <p className="mt-1 text-[12px] text-red-600" role="alert">
@@ -243,47 +223,7 @@ export default function WaitlistForm({
             </p>
           ) : null}
         </div>
-        <div>
-          <label className="sr-only" htmlFor={`${idPrefix}-name`}>
-            Name
-          </label>
-          <input
-            id={`${idPrefix}-name`}
-            type="text"
-            name="name"
-            autoComplete="name"
-            placeholder="Name (optional)"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className={field}
-          />
-        </div>
-      </div>
 
-      <div>
-        <label className="sr-only" htmlFor={`${idPrefix}-interest`}>
-          Competitions I want to see
-        </label>
-        <input
-          id={`${idPrefix}-interest`}
-          type="text"
-          name="competitionInterest"
-          required
-          maxLength={160}
-          placeholder="Competitions I want to see (e.g. Science Olympiad)"
-          value={competitionInterest}
-          onChange={(e) => setCompetitionInterest(e.target.value)}
-          onBlur={() => setTouched((t) => ({ ...t, interest: true }))}
-          className={`${field} ${interestError ? "border-red-500/70" : ""}`}
-        />
-        {interestError ? (
-          <p className="mt-1 text-[12px] text-red-600" role="alert">
-            {interestError}
-          </p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-2.5 sm:grid-cols-2">
         <div>
           <label className="sr-only" htmlFor={`${idPrefix}-email`}>
             Email
@@ -306,18 +246,35 @@ export default function WaitlistForm({
             </p>
           ) : null}
         </div>
+
         <div>
-          <label className="sr-only" htmlFor={`${idPrefix}-location`}>
-            Location
+          <label className="sr-only" htmlFor={`${idPrefix}-interest`}>
+            Competitions you want to see
           </label>
           <input
-            id={`${idPrefix}-location`}
+            id={`${idPrefix}-interest`}
             type="text"
-            name="location"
-            autoComplete="address-level2"
-            placeholder="City or zip (optional)"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            name="competitionInterest"
+            maxLength={200}
+            placeholder="Competitions you want to see"
+            value={competitionInterest}
+            onChange={(e) => setCompetitionInterest(e.target.value)}
+            className={field}
+          />
+        </div>
+
+        <div>
+          <label className="sr-only" htmlFor={`${idPrefix}-name`}>
+            Name
+          </label>
+          <input
+            id={`${idPrefix}-name`}
+            type="text"
+            name="name"
+            autoComplete="name"
+            placeholder="Name (optional)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className={field}
           />
         </div>
@@ -335,7 +292,7 @@ export default function WaitlistForm({
 
       {!formReady ? (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
-          Select a role, name a competition, and enter your email to join.
+          Select a role and enter your email to join.
         </p>
       ) : (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">

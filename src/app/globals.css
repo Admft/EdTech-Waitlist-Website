@@ -184,6 +184,11 @@ body {
   animation: float-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.44s both;
 }
 
+.animate-card-4 {
+  --card-rot: 1.25deg;
+  animation: float-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
+}
+
 .cta-enabled {
   background: var(--brand-red);
   color: #fff;
@@ -200,7 +205,9 @@ body {
 }
 
 .cta-disabled {
-  background: #e2e6ea;
-  color: rgba(20, 24, 28, 0.4);
+  background: var(--accent-soft);
+  color: var(--brand-red);
+  border: 1px solid color-mix(in srgb, var(--brand-red) 28%, transparent);
   cursor: not-allowed;
+  opacity: 0.72;
 }

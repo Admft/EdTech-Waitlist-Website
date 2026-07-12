@@ -6,7 +6,6 @@ create table if not exists public.waitlist (
   name text,
   role text not null,
   competition_interest text,
-  location text,
   source text not null default 'hero',
   referral_code text not null,
   referred_by text,
@@ -16,8 +15,6 @@ create table if not exists public.waitlist (
 
 create index if not exists waitlist_created_at_idx on public.waitlist (created_at);
 create index if not exists waitlist_ip_hash_idx on public.waitlist (ip_hash);
-create index if not exists waitlist_competition_interest_idx
-  on public.waitlist (competition_interest);
 
 alter table public.waitlist enable row level security;
 
@@ -33,9 +30,6 @@ create index if not exists api_rate_limits_bucket_created_idx
 
 alter table public.api_rate_limits enable row level security;
 
--- If waitlist already exists, run these instead of recreating:
+-- If waitlist already exists, run these:
 -- alter table public.waitlist add column if not exists ip_hash text;
 -- alter table public.waitlist add column if not exists competition_interest text;
--- alter table public.waitlist add column if not exists location text;
--- create index if not exists waitlist_competition_interest_idx
---   on public.waitlist (competition_interest);

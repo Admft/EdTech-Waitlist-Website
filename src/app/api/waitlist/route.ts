@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import { createHash, randomBytes } from "crypto";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { checkRateLimit } from "@/lib/rateLimit";
-import {
-  ALLOWED_ROLES,
-} from "@/lib/waitlistOptions";
+import { ALLOWED_ROLES } from "@/lib/waitlistOptions";
 import {
   getClientIp,
   hashIp,
@@ -28,7 +26,6 @@ function jsonError(message: string, status: number, extraHeaders?: HeadersInit) 
   return NextResponse.json({ error: message }, { status, headers: extraHeaders });
 }
 
-/** Quiet success used for honeypot / bot bait — don't tip them off. */
 function fakeSuccess() {
   return NextResponse.json({
     ok: true,
@@ -42,7 +39,6 @@ type WaitlistRow = {
   name: string | null;
   role: string;
   competition_interest: string | null;
-  location: string | null;
   source: string;
   referral_code: string;
   referred_by: string | null;
@@ -82,8 +78,7 @@ export async function POST(request: Request) {
     const email = sanitizeText(body.email, 254).toLowerCase();
     const name = sanitizeText(body.name, 80);
     const role = sanitizeText(body.role, 32);
-    const competitionInterest = sanitizeText(body.competitionInterest, 160);
-    const location = sanitizeText(body.location, 80);
+    const competitionInterest = sanitizeText(body.competitionInterest, 200);
     const referredBy = sanitizeText(body.referredBy, 32);
     const source =
       body.source === "footer" || body.source === "hero" ? body.source : "hero";
@@ -94,10 +89,6 @@ export async function POST(request: Request) {
 
     if (!role || !ROLE_SET.has(role)) {
       return jsonError("Select who you are.", 400);
-    }
-
-    if (!competitionInterest) {
-      return jsonError("Tell us which competitions you want to see.", 400);
     }
 
     if (/(.)\1{6,}/.test(email) || email.split("@")[0].length > 64) {
@@ -111,8 +102,7 @@ export async function POST(request: Request) {
       email,
       name: name || null,
       role,
-      competition_interest: competitionInterest,
-      location: location || null,
+      competition_interest: competitionInterest || null,
       source,
       referral_code: referralCode,
       referred_by: referredBy || null,
@@ -142,24 +132,21 @@ export async function POST(request: Request) {
         }
       }
 
-      // Older schema may be missing newer columns — retry without them once
       if (
         error.message?.includes("ip_hash") ||
-        error.message?.includes("competition_interest") ||
-        error.message?.includes("location")
+        error.message?.includes("competition_interest")
       ) {
-        const { ip_hash: _ip, competition_interest: _ci, location: _loc, ...legacy } =
-          row;
-        void _ip;
-        void _ci;
-        void _loc;
+        const retryPayload: Record<string, unknown> = {
+          email,
+          name: name || null,
+          role,
+          source,
+          referral_code: referralCode,
+          referred_by: referredBy || null,
+        };
 
-        const retryPayload: Record<string, unknown> = { ...legacy };
         if (!error.message?.includes("competition_interest")) {
-          retryPayload.competition_interest = competitionInterest;
-        }
-        if (!error.message?.includes("location")) {
-          retryPayload.location = location || null;
+          retryPayload.competition_interest = competitionInterest || null;
         }
         if (!error.message?.includes("ip_hash")) {
           retryPayload.ip_hash = ipHash;

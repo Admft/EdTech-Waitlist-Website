@@ -43,6 +43,19 @@ function getAllowedOrigins(): string[] {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   if (siteUrl) hosts.add(siteUrl);
 
+  // Vercel system vars — production alias + this deployment URL
+  const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL?.replace(
+    /\/$/,
+    "",
+  );
+  if (productionUrl) {
+    hosts.add(
+      productionUrl.startsWith("http")
+        ? productionUrl
+        : `https://${productionUrl}`,
+    );
+  }
+
   const vercelUrl = process.env.VERCEL_URL?.replace(/\/$/, "");
   if (vercelUrl) {
     hosts.add(`https://${vercelUrl}`);

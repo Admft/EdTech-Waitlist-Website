@@ -34,7 +34,7 @@ export default function Home() {
                 href={CALENDAR_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-line bg-white px-3.5 py-2 text-[14px] font-semibold text-foreground transition hover:border-brand-blue/40 hover:text-brand-blue"
+                className="rounded-lg border border-line bg-white px-3.5 py-2 text-[14px] font-semibold text-foreground transition hover:border-brand-red/40 hover:text-brand-red"
               >
                 Book a meeting
               </a>
@@ -45,11 +45,11 @@ export default function Home() {
         <div className="hero-scroll-content relative z-10 flex flex-1 flex-col">
           <main className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-5 pb-10 pt-12 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:pb-14 lg:pt-16">
             <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
-              <p className="animate-rise mb-4 inline-flex items-center rounded-full bg-brand-blue-soft px-3.5 py-1.5 text-[13px] font-semibold text-brand-blue">
+              <p className="animate-rise mb-4 inline-flex items-center rounded-full bg-accent-soft px-3.5 py-1.5 text-[13px] font-semibold text-brand-red">
                 Pre-launch · Fall 2026
               </p>
               <h1 className="animate-rise-delay-1 text-[clamp(2.1rem,5vw,3.25rem)] font-bold leading-[1.12] tracking-tight text-foreground">
-                Every student deserves a fair shot at opportunity.
+                Your talent shouldn&apos;t depend on your zip code.
               </h1>
               <p className="animate-rise-delay-1 mx-auto mt-5 max-w-md text-[16px] leading-relaxed text-muted sm:text-[17px] lg:mx-0">
                 Causey helps students discover competitions that match their
@@ -112,7 +112,8 @@ export default function Home() {
               <h2 className="text-xl font-bold text-foreground">Want to talk?</h2>
               <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-muted">
                 Students, parents, coaches, organizers, and builders — book a
-                short conversation with the founding team.
+                short conversation with the founding team. We&apos;d love to hear
+                what you&apos;re working on and where Causey could help.
               </p>
               <a
                 href={CALENDAR_URL}
