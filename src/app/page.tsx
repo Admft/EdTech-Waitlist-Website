@@ -112,8 +112,7 @@ export default function Home() {
               <h2 className="text-xl font-bold text-foreground">Want to talk?</h2>
               <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-muted">
                 Students, parents, coaches, organizers, and builders — book a
-                short conversation with the founding team. We&apos;d love to hear
-                what you&apos;re working on and where Causey could help.
+                short conversation with the founding team.
               </p>
               <a
                 href={CALENDAR_URL}
