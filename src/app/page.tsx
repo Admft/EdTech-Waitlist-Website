@@ -2,6 +2,7 @@ import CauseyLogo from "@/components/CauseyLogo";
 import CompetitionCards from "@/components/CompetitionCards";
 import HeroScrollStage from "@/components/HeroScrollStage";
 import HowItWorks from "@/components/HowItWorks";
+import Reveal from "@/components/Reveal";
 import SmoothScrollLink from "@/components/SmoothScrollLink";
 import TeamSection from "@/components/TeamSection";
 import WaitlistForm from "@/components/WaitlistForm";
@@ -97,14 +98,32 @@ export default function Home() {
 
       <TeamSection />
 
-      <section className="section-rule bg-surface px-5 py-16 sm:px-8 sm:py-20">
+      <section id="join" className="section-rule scroll-mt-14 bg-surface px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-6xl">
-          <div className="grid overflow-hidden rounded-2xl border border-line bg-surface-soft lg:grid-cols-2">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-accent">
+              Get started
+            </p>
+            <h2 className="mt-3 text-[clamp(1.9rem,3.8vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-foreground">
+              Be first in line when Causey opens.
+            </h2>
+            <p className="mx-auto mt-4 max-w-lg text-[17px] leading-relaxed text-muted">
+              Join the waitlist to help shape what we build — or book a short
+              call with the founding team.
+            </p>
+          </Reveal>
+
+          <Reveal
+            variant="scale"
+            delay={100}
+            className="mt-10 grid overflow-hidden rounded-2xl border border-line bg-surface-soft shadow-[0_20px_60px_rgba(20,24,28,0.08)] lg:grid-cols-2"
+          >
             <div className="border-b border-line bg-white p-6 sm:p-8 lg:border-b-0 lg:border-r">
-              <h2 className="text-xl font-bold text-foreground">Join the waitlist</h2>
+              <h3 className="text-xl font-bold tracking-tight text-foreground">
+                Join the waitlist
+              </h3>
               <p className="mt-2 text-[15px] text-muted">
-                Be first to know when Causey launches — and help shape what we
-                build.
+                Free to join. We&apos;ll only email you about Causey.
               </p>
               <div className="mt-5">
                 <WaitlistForm idPrefix="bottom" source="footer" />
@@ -112,7 +131,9 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col justify-center bg-brand-blue-soft/50 p-6 sm:p-8">
-              <h2 className="text-xl font-bold text-foreground">Want to talk?</h2>
+              <h3 className="text-xl font-bold tracking-tight text-foreground">
+                Want to talk?
+              </h3>
               <p className="mt-2 max-w-sm text-[15px] leading-relaxed text-muted">
                 Students, parents, coaches, organizers, and builders — book a
                 short conversation with the founding team.
@@ -121,23 +142,37 @@ export default function Home() {
                 href={CALENDAR_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-brand-blue px-5 py-2.5 text-[15px] font-semibold text-white transition hover:brightness-95"
+                className="group mt-6 inline-flex w-fit items-center gap-2 rounded-lg bg-brand-blue px-5 py-2.5 text-[15px] font-semibold text-white transition hover:brightness-95"
               >
                 Book a meeting
-                <span aria-hidden>→</span>
+                <span className="nudge-x" aria-hidden>→</span>
               </a>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      <footer className="section-rule bg-surface px-5 py-8 sm:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 text-[14px] text-muted sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-            <span className="font-semibold text-foreground">Causey</span>
-            <span>Myshay Causey, Cornell &apos;29</span>
+      <footer className="section-rule bg-surface px-5 py-10 sm:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-1">
+            <CauseyLogo size="sm" />
+            <span className="text-[13px] text-muted">
+              Myshay Causey, Cornell &apos;29
+            </span>
           </div>
-          <div className="flex flex-wrap gap-4 sm:justify-end">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-[14px] sm:justify-end">
+            <SmoothScrollLink
+              href="#how-it-works"
+              className="font-medium text-muted-strong transition hover:text-brand-red"
+            >
+              How it works
+            </SmoothScrollLink>
+            <SmoothScrollLink
+              href="#team"
+              className="font-medium text-muted-strong transition hover:text-brand-red"
+            >
+              Team
+            </SmoothScrollLink>
             <a
               href={CALENDAR_URL}
               target="_blank"
@@ -146,15 +181,15 @@ export default function Home() {
             >
               Book a meeting
             </a>
-            <a
+            <SmoothScrollLink
               href="#waitlist"
               className="font-medium text-muted-strong transition hover:text-brand-red"
             >
               Join the waitlist
-            </a>
+            </SmoothScrollLink>
           </div>
         </div>
-        <p className="mx-auto mt-4 max-w-6xl text-[13px] text-muted">
+        <p className="mx-auto mt-6 max-w-6xl border-t border-line pt-6 text-[13px] text-muted">
           © 2026 Causey. Connecting talent to opportunity.
         </p>
       </footer>

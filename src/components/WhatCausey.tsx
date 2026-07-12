@@ -143,43 +143,47 @@ export default function WhatCausey() {
 
         <div className="mt-14 grid grid-cols-6 gap-4">
           {FEATURES.map((feature, index) => (
-            <article
+            <div
               key={feature.title}
-              className={`scroll-reveal group flex flex-col rounded-2xl border border-line bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/25 hover:shadow-[0_16px_40px_rgba(27,33,32,0.08)] ${feature.span}`}
+              className={`scroll-reveal ${feature.span}`}
               style={{
                 transitionDelay: visible ? `${120 + index * 80}ms` : "0ms",
               }}
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-soft text-brand-red transition group-hover:scale-105">
-                {feature.icon}
-              </span>
-              <h3 className="mt-5 text-[1.2rem] font-bold tracking-tight text-foreground">
-                {feature.title}
-              </h3>
-              <p className="mt-2.5 text-[15px] leading-relaxed text-muted-strong">
-                {feature.body}
-              </p>
-            </article>
+              <article className="card-lift group flex h-full flex-col rounded-2xl border border-line bg-white p-7">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent-soft text-brand-red transition duration-300 group-hover:scale-110">
+                  {feature.icon}
+                </span>
+                <h3 className="mt-5 text-[1.2rem] font-bold tracking-tight text-foreground">
+                  {feature.title}
+                </h3>
+                <p className="mt-2.5 text-[15px] leading-relaxed text-muted-strong">
+                  {feature.body}
+                </p>
+              </article>
+            </div>
           ))}
 
-          <article
-            className="scroll-reveal group relative col-span-6 flex items-center gap-6 overflow-hidden rounded-2xl border border-brand-blue/20 bg-brand-blue-soft/45 p-8"
+          <div
+            className="scroll-reveal col-span-6"
             style={{
               transitionDelay: visible ? `${120 + FEATURES.length * 80}ms` : "0ms",
             }}
           >
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white text-brand-blue-strong shadow-[0_6px_18px_rgba(58,122,163,0.18)]">
-              {MISSION.icon}
-            </span>
-            <div className="min-w-0">
-              <h3 className="text-[1.35rem] font-bold tracking-tight text-foreground">
-                {MISSION.title}
-              </h3>
-              <p className="mt-2 max-w-3xl text-[16px] leading-relaxed text-muted-strong">
-                {MISSION.body}
-              </p>
-            </div>
-          </article>
+            <article className="relative flex items-center gap-6 overflow-hidden rounded-2xl border border-brand-blue/20 bg-brand-blue-soft/45 p-8">
+              <span className="anim-float flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white text-brand-blue-strong shadow-[0_6px_18px_rgba(58,122,163,0.18)]">
+                {MISSION.icon}
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-[1.35rem] font-bold tracking-tight text-foreground">
+                  {MISSION.title}
+                </h3>
+                <p className="mt-2 max-w-3xl text-[16px] leading-relaxed text-muted-strong">
+                  {MISSION.body}
+                </p>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
