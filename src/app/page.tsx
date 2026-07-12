@@ -51,7 +51,9 @@ export default function Home() {
                 Pre-launch · Fall 2026
               </p>
               <h1 className="animate-rise-delay-1 text-[clamp(2.1rem,5vw,3.25rem)] font-bold leading-[1.12] tracking-tight text-foreground">
-                Every student <br></br>deserves a fair shot at opportunity.
+                Every student
+                <br />
+                deserves a fair shot at opportunity.
               </h1>
               <p className="animate-rise-delay-1 mx-auto mt-5 max-w-md text-[16px] leading-relaxed text-muted sm:text-[17px] lg:mx-0">
                 Causey helps students discover competitions that match their
