@@ -32,6 +32,7 @@
   --color-surface-soft: var(--surface-soft);
   --color-line: var(--line);
   --color-brand-red: var(--brand-red);
+  --color-brand-red-hover: var(--brand-red-hover);
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-soft: var(--brand-blue-soft);
   --color-brand-blue-strong: var(--brand-blue-strong);
