@@ -3,7 +3,7 @@ import Image from "next/image";
 const TEAM = [
   {
     name: "Adam Moffat",
-    role: "Head of Software Engineering",
+    role: "Founding Software Engineer",
     statement:
       "Cornell masters of engineering student. I lead Causey's software architecture and core product engineering — building systems that make discovery fair.",
     image: "/adam-headshot.jpg",
