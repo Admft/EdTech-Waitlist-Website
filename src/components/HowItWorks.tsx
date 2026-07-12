@@ -134,16 +134,16 @@ export default function HowItWorks() {
     >
       <div className="mx-auto max-w-6xl">
         <div className="scroll-reveal max-w-xl text-left">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-accent">
+          <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-accent">
             How Causey works
           </p>
-          <h2 className="mt-3 text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold leading-[1.15] tracking-tight text-foreground">
-            Your talent shouldn&apos;t depend on your zip code.
+          <h2 className="mt-3 text-[clamp(1.9rem,3.8vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-foreground">
+            One path, not a scavenger hunt.
           </h2>
           <p className="mt-4 max-w-[36rem] text-[17px] leading-relaxed text-muted">
-            One path from curiosity to competition — built so every student can
-            find opportunities that fit, not just the ones their school already
-            knows about.
+            From curiosity to competition in one place — built so every student
+            can find opportunities that fit, not just the ones their school
+            already knows about.
           </p>
         </div>
 

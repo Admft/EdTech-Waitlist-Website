@@ -5,6 +5,7 @@ import HowItWorks from "@/components/HowItWorks";
 import SmoothScrollLink from "@/components/SmoothScrollLink";
 import TeamSection from "@/components/TeamSection";
 import WaitlistForm from "@/components/WaitlistForm";
+import WhatCausey from "@/components/WhatCausey";
 
 const CALENDAR_URL = "https://calendar.app.google/AX1fCWGdukco55z47";
 
@@ -91,6 +92,8 @@ export default function Home() {
       </HeroScrollStage>
 
       <HowItWorks />
+
+      <WhatCausey />
 
       <TeamSection />
 

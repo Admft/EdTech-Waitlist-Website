@@ -1,11 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import Reveal from "@/components/Reveal";
 
 const TEAM = [
   {
     name: "Adam Moffat",
-    role: "Founding Software Engineer",
+    role: "Head of Software Engineering",
     statement:
-      "Cornell masters of engineering student. I lead Causey's software architecture and core product engineering — building systems that make discovery fair.",
+      "Cornell M.Eng. student. I lead Causey's software architecture and core product engineering — building systems that make discovery fair.",
     image: "/adam-headshot.jpg",
     imageAlt: "Headshot of Adam Moffat",
     imageScale: 1.35,
@@ -30,87 +34,113 @@ const TEAM = [
   },
 ] as const;
 
+const FOUNDER_REST = [
+  "Growing up in Los Angeles, she won local chess competitions but found it nearly impossible to access state and national tournaments, despite actively seeking opportunities and having the ability to compete. It wasn't until she moved across the country that she was finally able to compete—and win—on a larger stage.",
+  "That experience revealed a problem extending far beyond chess: countless talented students overlooked simply because they lack access to the right opportunities.",
+  "Causey was founded to change that. By making competitive opportunities more accessible, the company is working to ensure that talent—not chance or financial circumstances—determines how far students can go, giving every young person the chance to develop their skills, compete at the highest levels, and reach their full potential.",
+];
+
 export default function TeamSection() {
+  const [expanded, setExpanded] = useState(false);
+
   return (
-    <section id="team" className="section-rule bg-surface-soft px-5 py-12 sm:px-8 sm:py-14">
+    <section
+      id="team"
+      className="section-rule bg-surface-soft px-5 py-16 sm:px-8 sm:py-20"
+    >
       <div className="mx-auto max-w-6xl">
-        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,220px)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(0,240px)_minmax(0,1fr)]">
-          <div className="mx-auto w-full max-w-[220px] lg:mx-0 lg:max-w-none">
-            <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_16px_48px_rgba(20,24,28,0.08)]">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:gap-14">
+          <Reveal variant="left" className="mx-auto w-full max-w-[220px] lg:mx-0 lg:max-w-none">
+            <div className="group relative aspect-[3/4] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_16px_48px_rgba(20,24,28,0.1)]">
               <Image
                 src="/myshay-headshot.jpeg"
                 alt="Myshay Causey, Founder & CEO of Causey"
                 fill
                 sizes="240px"
-                className="object-cover object-top"
+                className="object-cover object-top transition duration-500 group-hover:scale-[1.04]"
               />
             </div>
-          </div>
+          </Reveal>
 
-          <div className="min-w-0">
-            <h2 className="font-display text-[clamp(1.65rem,3.4vw,2.35rem)] font-semibold tracking-tight text-foreground">
-              Meet Our Founder
+          <Reveal variant="right" delay={80} className="min-w-0">
+            <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-accent">
+              Our story
+            </p>
+            <h2 className="mt-3 font-display text-[clamp(1.75rem,3.6vw,2.5rem)] font-semibold leading-[1.1] tracking-tight text-foreground">
+              Meet our founder
             </h2>
-            <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <p className="text-[15px] font-bold tracking-tight text-foreground">
                 Myshay Causey
               </p>
               <p className="text-[13px] font-semibold text-brand-red">
-                Founder & CEO
+                Founder &amp; CEO
               </p>
               <a
                 href="https://www.linkedin.com/in/myshay-causey-a29684285/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[13px] font-medium text-muted-strong transition hover:text-brand-red"
+                className="group inline-flex items-center gap-1 text-[13px] font-medium text-muted-strong transition hover:text-brand-red"
               >
-                LinkedIn →
+                LinkedIn <span className="nudge-x" aria-hidden>→</span>
               </a>
             </div>
 
-            <div className="mt-4 space-y-3 text-[15px] leading-[1.6] text-muted sm:text-[16px]">
+            <div className="mt-4 space-y-3 text-[15px] leading-[1.65] text-muted sm:text-[16px]">
               <p>
                 Causey was first envisioned while its founder was still in high
                 school and officially launched at age 19 while attending Cornell
                 University.
               </p>
-              <p>
-                Growing up in Los Angeles, she won local chess competitions but
-                found it nearly impossible to access state and national
-                tournaments, despite actively seeking opportunities and having
-                the ability to compete. It wasn&apos;t until she moved across
-                the country that she was finally able to compete—and win—on a
-                larger stage.
-              </p>
-              <p>
-                That experience revealed a problem extending far beyond chess:
-                countless talented students overlooked simply because they lack
-                access to the right opportunities.
-              </p>
-              <p>
-                Causey was founded to change that. By making competitive
-                opportunities more accessible, the company is working to ensure
-                that talent—not chance or financial circumstances—determines how
-                far students can go, giving every young person the chance to
-                develop their skills, compete at the highest levels, and reach
-                their full potential.
-              </p>
+              <div className={`space-y-3 ${expanded ? "block" : "hidden"} lg:block`}>
+                {FOUNDER_REST.map((para) => (
+                  <p key={para.slice(0, 24)}>{para}</p>
+                ))}
+              </div>
             </div>
-          </div>
+
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              className="mt-3 inline-flex items-center gap-1 text-[14px] font-semibold text-brand-red transition hover:text-brand-red-hover lg:hidden"
+              aria-expanded={expanded}
+            >
+              {expanded ? "Read less" : "Read more"}
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 16 16"
+                fill="none"
+                className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+                aria-hidden
+              >
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </Reveal>
         </div>
 
-        <div className="mt-8 border-t border-line pt-7 sm:mt-10 sm:pt-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h3 className="text-[clamp(1.45rem,3vw,1.85rem)] font-bold tracking-tight text-foreground">
-              Meet the team
-            </h3>
-            <p className="mt-2 text-[15px] text-muted">
-              Students and builders working to make opportunity easier to find.
+        <div className="mt-12 border-t border-line pt-10 sm:mt-14 sm:pt-12">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-accent">
+              The team
             </p>
-          </div>
+            <h3 className="mt-3 text-[clamp(1.5rem,3vw,2rem)] font-bold tracking-tight text-foreground">
+              Builders behind Causey
+            </h3>
+            <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
+              Students and engineers working to make opportunity easier to find.
+            </p>
+          </Reveal>
 
-          <ul className="mx-auto mt-7 grid max-w-[56rem] gap-x-12 gap-y-8 sm:grid-cols-3 lg:gap-x-16">
-            {TEAM.map((person) => {
+          <ul className="mx-auto mt-9 grid max-w-[56rem] grid-cols-3 gap-x-6 gap-y-9 sm:gap-x-12 lg:gap-x-16">
+            {TEAM.map((person, index) => {
               const image = (
                 <Image
                   src={person.image}
@@ -119,26 +149,32 @@ export default function TeamSection() {
                   sizes="168px"
                   className={
                     "imageScale" in person && person.imageScale
-                      ? "object-cover object-top scale-[1.35] transition duration-300 group-hover:scale-[1.4]"
-                      : "object-cover object-top transition duration-300 group-hover:scale-[1.03]"
+                      ? "object-cover object-top scale-[1.35] transition duration-500 group-hover:scale-[1.42]"
+                      : "object-cover object-top transition duration-500 group-hover:scale-[1.05]"
                   }
                 />
               );
 
               return (
-                <li key={person.name} className="group flex flex-col items-center text-center">
+                <Reveal
+                  as="li"
+                  key={person.name}
+                  variant="scale"
+                  delay={index * 90}
+                  className="group flex flex-col items-center text-center"
+                >
                   {"linkedin" in person && person.linkedin ? (
                     <a
                       href={person.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${person.name} on LinkedIn`}
-                      className="relative h-[168px] w-[168px] shrink-0 overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.06)] transition hover:border-accent/30"
+                      className="card-lift relative aspect-square w-full max-w-[168px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.07)]"
                     >
                       {image}
                     </a>
                   ) : (
-                    <div className="relative h-[168px] w-[168px] shrink-0 overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.06)]">
+                    <div className="relative aspect-square w-full max-w-[168px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.07)]">
                       {image}
                     </div>
                   )}
@@ -149,11 +185,11 @@ export default function TeamSection() {
                     <p className="mt-0.5 text-[12px] font-semibold text-brand-red">
                       {person.role}
                     </p>
-                    <p className="mt-2 text-[13px] leading-relaxed text-muted">
+                    <p className="mt-2 hidden text-[13px] leading-relaxed text-muted sm:block">
                       {person.statement}
                     </p>
                   </div>
-                </li>
+                </Reveal>
               );
             })}
           </ul>
