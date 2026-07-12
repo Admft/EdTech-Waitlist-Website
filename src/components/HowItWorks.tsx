@@ -38,38 +38,45 @@ const STEPS = [
   },
 ] as const;
 
+// Line X: one source of truth for the track, the nodes, and the terminus.
+const LINE_X = "left-4 lg:left-1/2";
+
 export default function HowItWorks() {
-  const pathRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const fillRef = useRef<HTMLDivElement>(null);
   const stepRefs = useRef<Array<HTMLLIElement | null>>([]);
   const endRef = useRef<HTMLDivElement>(null);
 
-  const [progress, setProgress] = useState(0);
-  const [fractions, setFractions] = useState<number[]>([]);
-  const [endFraction, setEndFraction] = useState(1);
+  const fractionsRef = useRef<number[]>([1, 1, 1, 1]);
+  const [reached, setReached] = useState<boolean[]>([false, false, false, false]);
 
   useEffect(() => {
-    const path = pathRef.current;
-    if (!path) return;
+    const container = containerRef.current;
+    const fill = fillRef.current;
+    if (!container || !fill) return;
 
     const measure = () => {
-      const h = path.offsetHeight || 1;
-      setFractions(
-        stepRefs.current.map((el) =>
-          el ? (el.offsetTop + el.offsetHeight / 2) / h : 1,
-        ),
+      const h = container.offsetHeight || 1;
+      const stepFractions = stepRefs.current.map((el) =>
+        el ? (el.offsetTop + el.offsetHeight / 2) / h : 1,
       );
-      setEndFraction(
-        endRef.current
-          ? (endRef.current.offsetTop + endRef.current.offsetHeight / 2) / h
-          : 0.97,
-      );
+      const end = endRef.current;
+      fractionsRef.current = [
+        ...stepFractions,
+        end ? (end.offsetTop + 8) / h : 1,
+      ];
+    };
+
+    const apply = (p: number) => {
+      fill.style.transform = `scaleY(${p})`;
+      const next = fractionsRef.current.map((f) => p >= f - 0.02);
+      setReached((prev) => (prev.every((v, i) => v === next[i]) ? prev : next));
     };
 
     measure();
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setProgress(1);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      apply(1);
       return;
     }
 
@@ -77,15 +84,18 @@ export default function HowItWorks() {
     const update = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        const rect = path.getBoundingClientRect();
+        const rect = container.getBoundingClientRect();
         const anchor = window.innerHeight * 0.72;
-        const p = (anchor - rect.top) / rect.height;
-        setProgress(Math.min(1, Math.max(0, p)));
+        const p = Math.min(1, Math.max(0, (anchor - rect.top) / rect.height));
+        apply(p);
       });
     };
 
-    const ro = new ResizeObserver(measure);
-    ro.observe(path);
+    const ro = new ResizeObserver(() => {
+      measure();
+      update();
+    });
+    ro.observe(container);
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     update();
@@ -103,7 +113,7 @@ export default function HowItWorks() {
       id="how-it-works"
       className="section-rule scroll-mt-14 bg-surface px-5 py-20 sm:px-8 sm:py-24"
     >
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-5xl">
         <div className="max-w-xl">
           <h2 className="max-w-[15ch] text-display-lg font-bold tracking-tight text-foreground">
             One path, not a scavenger hunt.
@@ -115,36 +125,23 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div ref={pathRef} className="relative mt-14">
-          {/* The path: one continuous line, offset left, drawn on scroll. */}
-          <svg
+        <div ref={containerRef} className="relative mt-12">
+          {/* The path: a 2px track with a scaleY fill. */}
+          <div
             aria-hidden
-            preserveAspectRatio="none"
-            viewBox="0 0 16 100"
-            className="pointer-events-none absolute inset-y-0 left-2 w-4 lg:left-[38%] lg:-translate-x-1/2"
+            className={`absolute inset-y-0 w-0.5 -translate-x-1/2 bg-line ${LINE_X}`}
           >
-            <line x1="8" y1="0" x2="8" y2="100" stroke="var(--line)" strokeWidth="2" />
-            <line
-              x1="8"
-              y1="0"
-              x2="8"
-              y2="100"
-              stroke="var(--brand-red)"
-              strokeWidth="2"
-              pathLength={1}
-              strokeDasharray="1"
-              strokeDashoffset={1 - progress}
-              style={{ transition: `stroke-dashoffset 120ms ${EASE}` }}
+            <div
+              ref={fillRef}
+              className="absolute inset-0 origin-top bg-accent"
+              style={{ transform: "scaleY(0)" }}
             />
-          </svg>
+          </div>
 
           <ol>
             {STEPS.map((item, i) => {
-              const filled = progress >= (fractions[i] ?? 1) - 0.02;
-              const numberClass =
-                item.side === "left"
-                  ? "absolute top-1/2 left-full ml-3 -translate-y-1/2 text-sm font-semibold tabular-nums tracking-[0.1em] text-accent lg:left-auto lg:right-full lg:ml-0 lg:mr-3"
-                  : "absolute top-1/2 left-full ml-3 -translate-y-1/2 text-sm font-semibold tabular-nums tracking-[0.1em] text-accent";
+              const filled = reached[i];
+              const isLeft = item.side === "left";
 
               return (
                 <li
@@ -152,40 +149,63 @@ export default function HowItWorks() {
                   ref={(el) => {
                     stepRefs.current[i] = el;
                   }}
-                  className="relative py-12 sm:py-16 lg:grid lg:grid-cols-[38%_1fr] lg:py-20"
+                  className="relative py-4 first:pt-0 last:pb-0 lg:grid lg:grid-cols-2 lg:py-5"
                 >
+                  {/* Node on the line */}
                   <span
                     aria-hidden
-                    className="absolute left-4 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 lg:left-[38%]"
-                  >
-                    <span
-                      className={`block h-3.5 w-3.5 rounded-full border-2 border-accent ${
-                        filled ? "bg-accent" : "bg-surface"
-                      }`}
-                      style={{ transition: `background-color 300ms ${EASE}` }}
-                    />
-                    <span className={numberClass}>{item.step}</span>
-                  </span>
+                    className={`absolute top-1/2 z-20 block h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-accent ${LINE_X} ${
+                      filled ? "bg-accent" : "bg-surface"
+                    }`}
+                    style={{ transition: `background-color 300ms ${EASE}` }}
+                  />
+
+                  {/* Connector: hairline from the node out to the panel edge */}
+                  <span
+                    aria-hidden
+                    className={`absolute top-1/2 z-0 hidden h-px w-8 -translate-y-1/2 lg:block ${
+                      isLeft ? "right-1/2" : "left-1/2"
+                    } ${filled ? "bg-accent" : "bg-line"}`}
+                    style={{ transition: `background-color 300ms ${EASE}` }}
+                  />
 
                   <div
                     className={
-                      item.side === "left"
-                        ? "pl-12 lg:col-start-1 lg:pl-0 lg:pr-10 lg:text-right"
-                        : "pl-12 lg:col-start-2 lg:pl-10"
+                      isLeft
+                        ? "pl-10 lg:col-start-1 lg:pl-0 lg:pr-8"
+                        : "pl-10 lg:col-start-2 lg:pl-8"
                     }
                   >
+                    {/* The panel: flat, square, one hard accent edge facing the
+                        path. No shadow, no radius, no hover lift. */}
                     <div
-                      className={`max-w-[55ch] ${
-                        item.side === "left" ? "lg:ml-auto" : ""
-                      }`}
+                      className={`bg-canvas px-5 py-4 ring-1 ring-line ${
+                        isLeft
+                          ? "lg:border-r-2 lg:text-right"
+                          : "lg:border-l-2"
+                      } ${filled ? "border-accent" : "border-line"}`}
+                      style={{ transition: `border-color 300ms ${EASE}` }}
                     >
-                      <h3 className="text-xl font-bold tracking-tight text-foreground">
-                        {item.title}
-                      </h3>
-                      <p className="mt-2 text-md text-muted-strong">
+                      <div
+                        className={`flex items-baseline gap-2.5 ${
+                          isLeft ? "lg:justify-end" : ""
+                        }`}
+                      >
+                        <span className="text-sm font-semibold tabular-nums tracking-[0.1em] text-accent">
+                          {item.step}
+                        </span>
+                        <h3 className="text-xl font-bold tracking-tight text-foreground">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <p className="mt-1.5 text-base leading-snug text-muted-strong">
                         {item.body}
                       </p>
-                      <div className="mt-4 flex flex-col gap-1 text-sm text-muted">
+                      <div
+                        className={`mt-3 flex flex-col gap-0.5 border-t border-line pt-3 text-sm text-muted ${
+                          isLeft ? "lg:items-end" : ""
+                        }`}
+                      >
                         {item.details.map((detail) => (
                           <p key={detail}>{detail}</p>
                         ))}
@@ -197,18 +217,18 @@ export default function HowItWorks() {
             })}
           </ol>
 
-          {/* Terminus: the path leads onward to the waitlist. */}
+          {/* Terminus */}
           <div
             ref={endRef}
-            className="relative pl-12 pt-6 lg:grid lg:grid-cols-[38%_1fr] lg:pl-0"
+            className="relative pl-10 pt-5 lg:grid lg:grid-cols-2 lg:pl-0"
           >
             <span
               aria-hidden
-              className="absolute left-4 top-1 z-10 flex flex-col items-center -translate-x-1/2 lg:left-[38%]"
+              className={`absolute top-0 z-10 flex -translate-x-1/2 flex-col items-center gap-0.5 ${LINE_X}`}
             >
               <span
-                className={`block h-3.5 w-3.5 rounded-full ${
-                  progress >= endFraction - 0.02 ? "bg-accent" : "bg-line"
+                className={`block h-3 w-3 rounded-full ${
+                  reached[3] ? "bg-accent" : "bg-line"
                 }`}
                 style={{ transition: `background-color 300ms ${EASE}` }}
               />
@@ -217,7 +237,7 @@ export default function HowItWorks() {
                 height="14"
                 viewBox="0 0 16 16"
                 fill="none"
-                className={progress >= endFraction - 0.02 ? "text-accent" : "text-line"}
+                className={reached[3] ? "text-accent" : "text-line"}
                 style={{ transition: `color 300ms ${EASE}` }}
               >
                 <path
@@ -230,7 +250,7 @@ export default function HowItWorks() {
               </svg>
             </span>
 
-            <div className="lg:col-start-2 lg:pl-10">
+            <div className="lg:col-start-2 lg:pl-8">
               <SmoothScrollLink
                 href="#join"
                 className="group inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-hover"

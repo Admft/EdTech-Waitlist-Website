@@ -24,10 +24,14 @@ const TEAM = [
     imageAlt: "Headshot of Divine Bamgboye",
     linkedin: "https://www.linkedin.com/in/divine-bamgboye-859149317/",
   },
-  // Sasha Hobbs' card was removed: her role and a truthful one-line bio aren't
-  // confirmed yet, and shipping a placeholder ("more coming soon") reads as
-  // filler. Re-add here with a real role + statement once confirmed. Headshot
-  // is still in /public/sasha-headshot.avif.
+  {
+    name: "Sasha Hobbs",
+    role: "Task Hand",
+    statement:
+      "I keep the founding work moving day to day, so the team can stay focused on building Causey for students who need it.",
+    image: "/sasha-headshot.avif",
+    imageAlt: "Headshot of Sasha Hobbs",
+  },
 ] as const;
 
 const FOUNDER_REST = [

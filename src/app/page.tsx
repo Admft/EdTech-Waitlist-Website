@@ -72,7 +72,7 @@ export default function Home() {
           <div className="relative z-10 flex justify-center pb-8 pt-1">
             <SmoothScrollLink
               href="#how-it-works"
-              className="animate-bob inline-flex flex-col items-center gap-1 text-2xs font-semibold uppercase tracking-[0.12em] text-brand-red transition hover:text-accent-hover"
+              className="animate-bob inline-flex flex-col items-center gap-1 text-sm font-bold uppercase tracking-[0.1em] text-brand-red transition hover:text-accent-hover"
             >
               See how it works
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
