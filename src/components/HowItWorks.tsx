@@ -62,19 +62,19 @@ export default function HowItWorks() {
         visible ? "is-inview" : ""
       }`}
     >
-      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-16">
-        <div className="scroll-reveal lg:sticky lg:top-24 lg:self-start">
+      <div className="mx-auto max-w-4xl">
+        <div className="scroll-reveal max-w-2xl">
           <h2 className="text-display-lg font-bold tracking-tight text-foreground">
             One path, not a scavenger hunt.
           </h2>
-          <p className="mt-4 max-w-[32rem] text-lg text-muted">
+          <p className="mt-4 text-lg text-muted">
             From curiosity to competition in one place, built so every student
             can find opportunities that fit, not just the ones their school
             already knows about.
           </p>
         </div>
 
-        <ol className="scroll-reveal border-t border-line">
+        <ol className="scroll-reveal mt-12 border-t border-line">
           {STEPS.map((item) => (
             <li
               key={item.title}
@@ -83,14 +83,14 @@ export default function HowItWorks() {
               <span className="shrink-0 text-base font-bold tracking-[0.12em] text-accent">
                 {item.step}
               </span>
-              <div className="min-w-0">
+              <div className="min-w-0 max-w-prose">
                 <h3 className="text-xl font-bold tracking-tight text-foreground">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-md text-muted-strong">
                   {item.body}
                 </p>
-                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                <ul className="mt-4 flex flex-col gap-2">
                   {item.details.map((detail) => (
                     <li
                       key={detail}
