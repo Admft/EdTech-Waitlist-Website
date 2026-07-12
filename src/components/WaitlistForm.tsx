@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { COMPETITION_INTERESTS } from "@/lib/waitlistOptions";
 
 const ROLES = [
   { value: "", label: "I am a…" },
@@ -10,11 +9,6 @@ const ROLES = [
   { value: "coach", label: "Coach or Educator" },
   { value: "organizer", label: "Competition Organizer" },
   { value: "other", label: "Other" },
-] as const;
-
-const INTEREST_OPTIONS = [
-  { value: "", label: "Competitions I want to see…" },
-  ...COMPETITION_INTERESTS,
 ] as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +50,7 @@ export default function WaitlistForm({
 
   const emailValid = EMAIL_RE.test(email.trim());
   const roleValid = role.length > 0;
-  const interestValid = competitionInterest.length > 0;
+  const interestValid = competitionInterest.trim().length > 0;
   const formReady = emailValid && roleValid && interestValid;
   const canSubmit = formReady && status !== "loading";
 
@@ -75,7 +69,7 @@ export default function WaitlistForm({
 
   const interestError = useMemo(() => {
     if (!touched.interest) return "";
-    if (!interestValid) return "Select a competition type.";
+    if (!interestValid) return "Tell us which competitions you want to see.";
     return "";
   }, [touched.interest, interestValid]);
 
@@ -96,7 +90,7 @@ export default function WaitlistForm({
           name: name.trim(),
           email: email.trim(),
           role,
-          competitionInterest,
+          competitionInterest: competitionInterest.trim(),
           location: location.trim(),
           referredBy,
           source,
@@ -270,30 +264,18 @@ export default function WaitlistForm({
         <label className="sr-only" htmlFor={`${idPrefix}-interest`}>
           Competitions I want to see
         </label>
-        <div className="relative">
-          <select
-            id={`${idPrefix}-interest`}
-            name="competitionInterest"
-            required
-            value={competitionInterest}
-            onChange={(e) => setCompetitionInterest(e.target.value)}
-            onBlur={() => setTouched((t) => ({ ...t, interest: true }))}
-            className={`${field} appearance-none pr-10 ${
-              !competitionInterest ? "text-muted" : ""
-            } ${interestError ? "border-red-500/70" : ""}`}
-          >
-            {INTEREST_OPTIONS.map((option) => (
-              <option
-                key={option.value || "empty"}
-                value={option.value}
-                className="bg-white text-foreground"
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <SelectChevron />
-        </div>
+        <input
+          id={`${idPrefix}-interest`}
+          type="text"
+          name="competitionInterest"
+          required
+          maxLength={160}
+          placeholder="Competitions I want to see (e.g. Science Olympiad)"
+          value={competitionInterest}
+          onChange={(e) => setCompetitionInterest(e.target.value)}
+          onBlur={() => setTouched((t) => ({ ...t, interest: true }))}
+          className={`${field} ${interestError ? "border-red-500/70" : ""}`}
+        />
         {interestError ? (
           <p className="mt-1 text-[12px] text-red-600" role="alert">
             {interestError}
@@ -353,7 +335,7 @@ export default function WaitlistForm({
 
       {!formReady ? (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
-          Select a role, competition interest, and email to join.
+          Select a role, name a competition, and enter your email to join.
         </p>
       ) : (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">

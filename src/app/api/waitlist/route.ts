@@ -3,7 +3,6 @@ import { createHash, randomBytes } from "crypto";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { checkRateLimit } from "@/lib/rateLimit";
 import {
-  ALLOWED_COMPETITION_INTERESTS,
   ALLOWED_ROLES,
 } from "@/lib/waitlistOptions";
 import {
@@ -18,9 +17,6 @@ import {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ROLE_SET = new Set<string>(ALLOWED_ROLES);
-const INTEREST_SET = new Set<string>([
-  ...ALLOWED_COMPETITION_INTERESTS,
-]);
 
 function referralCodeFor(email: string) {
   const hash = createHash("sha256").update(email).digest("hex").slice(0, 8);
@@ -86,7 +82,7 @@ export async function POST(request: Request) {
     const email = sanitizeText(body.email, 254).toLowerCase();
     const name = sanitizeText(body.name, 80);
     const role = sanitizeText(body.role, 32);
-    const competitionInterest = sanitizeText(body.competitionInterest, 40);
+    const competitionInterest = sanitizeText(body.competitionInterest, 160);
     const location = sanitizeText(body.location, 80);
     const referredBy = sanitizeText(body.referredBy, 32);
     const source =
@@ -100,8 +96,8 @@ export async function POST(request: Request) {
       return jsonError("Select who you are.", 400);
     }
 
-    if (!competitionInterest || !INTEREST_SET.has(competitionInterest)) {
-      return jsonError("Select a competition interest.", 400);
+    if (!competitionInterest) {
+      return jsonError("Tell us which competitions you want to see.", 400);
     }
 
     if (/(.)\1{6,}/.test(email) || email.split("@")[0].length > 64) {
