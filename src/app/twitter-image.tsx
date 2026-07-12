@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Causey — Connecting talent to opportunity";
+export const alt = "Causey";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -20,29 +20,6 @@ export default function TwitterImage() {
           position: "relative",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: -80,
-            right: -60,
-            width: 520,
-            height: 420,
-            borderRadius: 999,
-            background: "rgba(74, 142, 184, 0.28)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: -100,
-            left: -80,
-            width: 460,
-            height: 380,
-            borderRadius: 999,
-            background: "rgba(194, 59, 50, 0.12)",
-          }}
-        />
-
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
           <div
             style={{
@@ -73,17 +50,6 @@ export default function TwitterImage() {
           >
             Causey
           </div>
-        </div>
-
-        <div
-          style={{
-            marginTop: 36,
-            fontSize: 32,
-            fontWeight: 500,
-            color: "#5a6570",
-          }}
-        >
-          Connecting talent to opportunity
         </div>
       </div>
     ),

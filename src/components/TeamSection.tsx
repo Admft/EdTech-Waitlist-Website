@@ -9,7 +9,7 @@ const TEAM = [
     name: "Adam Moffat",
     role: "Head of Software Engineering",
     statement:
-      "Cornell M.Eng. student. I lead Causey's software architecture and core product engineering — building systems that make discovery fair.",
+      "Cornell M.Eng. student. I lead Causey's software architecture and core product engineering, building systems that make discovery fair.",
     image: "/adam-headshot.jpg",
     imageAlt: "Headshot of Adam Moffat",
     imageScale: 1.35,
@@ -19,19 +19,15 @@ const TEAM = [
     name: "Divine Bamgboye",
     role: "Founding Software Engineer",
     statement:
-      "I'm building the product alongside the team — shipping features that open doors for students who don't already have them.",
+      "I'm building the product alongside the team, shipping features that open doors for students who don't already have them.",
     image: "/divine-headshot.jpg",
     imageAlt: "Headshot of Divine Bamgboye",
     linkedin: "https://www.linkedin.com/in/divine-bamgboye-859149317/",
   },
-  {
-    name: "Sasha Hobbs",
-    role: "Founding Team",
-    statement:
-      "Part of the Causey founding team — more about what I do here coming soon.",
-    image: "/sasha-headshot.avif",
-    imageAlt: "Headshot of Sasha",
-  },
+  // Sasha Hobbs' card was removed: her role and a truthful one-line bio aren't
+  // confirmed yet, and shipping a placeholder ("more coming soon") reads as
+  // filler. Re-add here with a real role + statement once confirmed. Headshot
+  // is still in /public/sasha-headshot.avif.
 ] as const;
 
 const FOUNDER_REST = [
@@ -62,25 +58,25 @@ export default function TeamSection() {
             </div>
           </Reveal>
 
-          <Reveal variant="right" delay={80} className="min-w-0">
-            <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-accent">
+          <Reveal variant="right" className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
               Our story
             </p>
-            <h2 className="mt-3 font-display text-[clamp(1.75rem,3.6vw,2.5rem)] font-semibold leading-[1.1] tracking-tight text-foreground">
+            <h2 className="mt-3 font-display text-display font-semibold tracking-tight text-foreground">
               Meet our founder
             </h2>
             <div className="mt-2.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <p className="text-[15px] font-bold tracking-tight text-foreground">
+              <p className="text-base font-bold tracking-tight text-foreground">
                 Myshay Causey
               </p>
-              <p className="text-[13px] font-semibold text-brand-red">
+              <p className="text-xs font-semibold text-brand-red">
                 Founder &amp; CEO
               </p>
               <a
                 href="https://www.linkedin.com/in/myshay-causey-a29684285/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1 text-[13px] font-medium text-muted-strong transition hover:text-brand-red"
+                className="group inline-flex items-center gap-1 text-xs font-medium text-muted-strong transition hover:text-brand-red"
               >
                 LinkedIn <span className="nudge-x" aria-hidden>→</span>
               </a>
@@ -102,7 +98,7 @@ export default function TeamSection() {
             <button
               type="button"
               onClick={() => setExpanded((v) => !v)}
-              className="mt-3 inline-flex items-center gap-1 text-[14px] font-semibold text-brand-red transition hover:text-brand-red-hover lg:hidden"
+              className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-red transition hover:text-brand-red-hover lg:hidden"
               aria-expanded={expanded}
             >
               {expanded ? "Read less" : "Read more"}
@@ -127,20 +123,20 @@ export default function TeamSection() {
         </div>
 
         <div className="mt-12 border-t border-line pt-10 sm:mt-14 sm:pt-12">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-accent">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
               The team
             </p>
-            <h3 className="mt-3 text-[clamp(1.5rem,3vw,2rem)] font-bold tracking-tight text-foreground">
+            <h2 className="mt-3 text-display-sm font-bold tracking-tight text-foreground">
               Builders behind Causey
-            </h3>
-            <p className="mt-2.5 text-[15px] leading-relaxed text-muted">
+            </h2>
+            <p className="mt-2.5 text-base text-muted">
               Students and engineers working to make opportunity easier to find.
             </p>
-          </Reveal>
+          </div>
 
           <ul className="mx-auto mt-9 grid max-w-[56rem] grid-cols-3 gap-x-6 gap-y-9 sm:gap-x-12 lg:gap-x-16">
-            {TEAM.map((person, index) => {
+            {TEAM.map((person) => {
               const image = (
                 <Image
                   src={person.image}
@@ -156,11 +152,8 @@ export default function TeamSection() {
               );
 
               return (
-                <Reveal
-                  as="li"
+                <li
                   key={person.name}
-                  variant="scale"
-                  delay={index * 90}
                   className="group flex flex-col items-center text-center"
                 >
                   {"linkedin" in person && person.linkedin ? (
@@ -179,17 +172,17 @@ export default function TeamSection() {
                     </div>
                   )}
                   <div className="mt-3 max-w-[220px]">
-                    <h4 className="text-[15px] font-bold tracking-tight text-foreground">
+                    <h3 className="text-base font-bold tracking-tight text-foreground">
                       {person.name}
-                    </h4>
-                    <p className="mt-0.5 text-[12px] font-semibold text-brand-red">
+                    </h3>
+                    <p className="mt-0.5 text-2xs font-semibold text-brand-red">
                       {person.role}
                     </p>
-                    <p className="mt-2 hidden text-[13px] leading-relaxed text-muted sm:block">
+                    <p className="mt-2 hidden text-xs text-muted sm:block">
                       {person.statement}
                     </p>
                   </div>
-                </Reveal>
+                </li>
               );
             })}
           </ul>

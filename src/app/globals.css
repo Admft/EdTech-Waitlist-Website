@@ -42,6 +42,36 @@
   --color-field-border: var(--field-border);
   --font-sans: var(--font-source);
   --font-display: var(--font-serif);
+
+  /* Type scale — defined once, used everywhere. No inline text-[..] px. */
+  --text-2xs: 0.75rem; /* 12 */
+  --text-2xs--line-height: 1.4;
+  --text-xs: 0.8125rem; /* 13 */
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem; /* 14 */
+  --text-sm--line-height: 1.5;
+  --text-base: 0.9375rem; /* 15 */
+  --text-base--line-height: 1.6;
+  --text-md: 1rem; /* 16 */
+  --text-md--line-height: 1.6;
+  --text-lg: 1.0625rem; /* 17 */
+  --text-lg--line-height: 1.6;
+  --text-lead: 1.125rem; /* 18 */
+  --text-lead--line-height: 1.35;
+  --text-xl: 1.25rem; /* 20 */
+  --text-xl--line-height: 1.25;
+  --text-2xl: 1.5rem; /* 24 */
+  --text-2xl--line-height: 1.2;
+
+  /* Display steps (responsive headings). */
+  --text-display-sm: clamp(1.5rem, 3vw, 2rem);
+  --text-display-sm--line-height: 1.1;
+  --text-display: clamp(1.75rem, 3.6vw, 2.5rem);
+  --text-display--line-height: 1.1;
+  --text-display-lg: clamp(1.9rem, 3.8vw, 2.75rem);
+  --text-display-lg--line-height: 1.1;
+  --text-display-xl: clamp(2.1rem, 5vw, 3.25rem);
+  --text-display-xl--line-height: 1.12;
 }
 
 @utility font-display {
@@ -70,7 +100,6 @@ html {
     transform: none !important;
   }
 
-  .anim-float,
   .animate-bob {
     animation: none !important;
   }
@@ -134,12 +163,27 @@ body {
   color: var(--foreground);
 }
 
+/*
+ * Faint coordinate grid instead of decorative blur blobs. Nods to the core
+ * idea: opportunity shouldn't depend on the map square you were born in.
+ * Fades out toward the edges so it reads as texture, not a table.
+ */
 .hero-canvas {
-  background-color: #f5f9fc;
+  background-color: var(--background);
   background-image:
-    radial-gradient(ellipse 85% 60% at 100% -5%, rgba(74, 142, 184, 0.32), transparent 58%),
-    radial-gradient(ellipse 55% 45% at -5% 95%, rgba(194, 59, 50, 0.1), transparent 52%),
-    radial-gradient(ellipse 40% 30% at 60% 70%, rgba(74, 142, 184, 0.12), transparent 60%);
+    linear-gradient(to right, rgba(20, 24, 28, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 24, 28, 0.045) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 75% at 50% 32%,
+    #000 45%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 75% at 50% 32%,
+    #000 45%,
+    transparent 100%
+  );
 }
 
 .noise-overlay {
@@ -158,17 +202,6 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes float-in {
-  from {
-    opacity: 0;
-    transform: translateY(16px) rotate(var(--card-rot, 0deg));
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(var(--card-rot, 0deg));
   }
 }
 
@@ -202,24 +235,21 @@ body {
   animation: bob 1.8s ease-in-out infinite;
 }
 
+/* Card fan is static; rotation only, no staggered entrance. */
 .animate-card-1 {
   --card-rot: -3deg;
-  animation: float-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
 
 .animate-card-2 {
   --card-rot: 2deg;
-  animation: float-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
 }
 
 .animate-card-3 {
   --card-rot: -1.5deg;
-  animation: float-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.44s both;
 }
 
 .animate-card-4 {
   --card-rot: 1.25deg;
-  animation: float-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.52s both;
 }
 
 /* Consistent card hover lift used across sections. */
@@ -243,20 +273,6 @@ body {
 
 .nudge-x {
   transition: transform 0.2s ease;
-}
-
-@keyframes gentle-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-}
-
-.anim-float {
-  animation: gentle-float 5s ease-in-out infinite;
 }
 
 .cta-enabled {

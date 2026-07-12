@@ -16,11 +16,11 @@ const sourceSerif = Source_Serif_4({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://causey-waitlist.vercel.app"),
-  title: "Causey — Connecting talent to opportunity",
+  title: "Causey: Connecting talent to opportunity",
   description:
-    "A central platform for competitions so any student with passion can build a clear path to the next level — no matter their zip code or school.",
+    "A central platform for competitions so any student with passion can build a clear path to the next level, no matter their zip code or school.",
   openGraph: {
-    title: "Causey — Connecting talent to opportunity",
+    title: "Causey: Connecting talent to opportunity",
     description:
       "A central platform for competitions so any student with passion can build a clear path to the next level.",
     type: "website",
@@ -29,10 +29,38 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Causey — Connecting talent to opportunity",
+    title: "Causey: Connecting talent to opportunity",
     description:
       "A central platform for competitions so any student with passion can build a clear path to the next level.",
   },
+};
+
+const SITE_URL = "https://causey-waitlist.vercel.app";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Causey",
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon.png`,
+      description:
+        "A central platform for competitions so any student with passion can build a clear path to the next level, no matter their zip code or school.",
+      founder: {
+        "@type": "Person",
+        name: "Myshay Causey",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: "Causey",
+      url: SITE_URL,
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -45,7 +73,13 @@ export default function RootLayout({
       lang="en"
       className={`${sourceSans.variable} ${sourceSerif.variable} h-full`}
     >
-      <body className="min-h-full antialiased">{children}</body>
+      <body className="min-h-full antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

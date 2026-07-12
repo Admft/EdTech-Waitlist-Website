@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createHash, randomBytes } from "crypto";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { ALLOWED_ROLES } from "@/lib/waitlistOptions";
@@ -16,6 +17,10 @@ import {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ROLE_SET = new Set<string>(ALLOWED_ROLES);
 
+// Only surface a numeric position once the list is large enough that a
+// number means something. Below this, we show membership, not a rank.
+const RANK_VISIBLE_AT = 100;
+
 function referralCodeFor(email: string) {
   const hash = createHash("sha256").update(email).digest("hex").slice(0, 8);
   const salt = randomBytes(2).toString("hex");
@@ -26,11 +31,37 @@ function jsonError(message: string, status: number, extraHeaders?: HeadersInit) 
   return NextResponse.json({ error: message }, { status, headers: extraHeaders });
 }
 
+/**
+ * Real place in line: number of signups created on or before this row.
+ * Returns null until the list passes RANK_VISIBLE_AT so we never show a
+ * meaningless "#3 of 3" style number.
+ */
+async function positionInLine(
+  supabase: SupabaseClient,
+  createdAt: string | null | undefined,
+): Promise<number | null> {
+  if (!createdAt) return null;
+
+  const { count: total } = await supabase
+    .from("waitlist")
+    .select("*", { count: "exact", head: true });
+
+  if (!total || total < RANK_VISIBLE_AT) return null;
+
+  const { count: ahead } = await supabase
+    .from("waitlist")
+    .select("*", { count: "exact", head: true })
+    .lte("created_at", createdAt);
+
+  return ahead ?? null;
+}
+
 function fakeSuccess() {
+  // Bot/honeypot bait: acknowledge without writing or inventing a rank.
   return NextResponse.json({
     ok: true,
     referralCode: "pending",
-    position: Math.floor(Math.random() * 40) + 10,
+    position: null,
   });
 }
 
@@ -112,14 +143,14 @@ export async function POST(request: Request) {
     const { data, error } = await supabase
       .from("waitlist")
       .insert(row)
-      .select("id")
+      .select("id, created_at")
       .single();
 
     if (error) {
       if (error.code === "23505") {
         const { data: existing } = await supabase
           .from("waitlist")
-          .select("id, referral_code")
+          .select("id, referral_code, created_at")
           .eq("email", email)
           .single();
 
@@ -127,7 +158,7 @@ export async function POST(request: Request) {
           return NextResponse.json({
             ok: true,
             referralCode: existing.referral_code,
-            position: existing.id,
+            position: await positionInLine(supabase, existing.created_at),
           });
         }
       }
@@ -155,14 +186,14 @@ export async function POST(request: Request) {
         const retry = await supabase
           .from("waitlist")
           .insert(retryPayload)
-          .select("id")
+          .select("id, created_at")
           .single();
 
         if (!retry.error && retry.data) {
           return NextResponse.json({
             ok: true,
             referralCode,
-            position: retry.data.id,
+            position: await positionInLine(supabase, retry.data.created_at),
           });
         }
       }
@@ -174,7 +205,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       referralCode,
-      position: data.id,
+      position: await positionInLine(supabase, data.created_at),
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "";

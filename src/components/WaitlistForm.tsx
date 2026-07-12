@@ -117,7 +117,7 @@ export default function WaitlistForm({
   }
 
   const field =
-    "h-11 w-full rounded-lg border border-field-border bg-field px-3.5 text-[15px] text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
+    "h-11 w-full rounded-lg border border-field-border bg-field px-3.5 text-base text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
   if (status === "success") {
     return (
@@ -137,21 +137,26 @@ export default function WaitlistForm({
           </svg>
         </div>
         <p className="mt-3 text-xl font-semibold tracking-tight text-foreground">
-          You&apos;re #{position ?? "—"} on the list.
+          You&apos;re on the list.
         </p>
-        <p className="mt-2 text-[14px] leading-relaxed text-muted-strong">
-          Refer 3 friends to move up and unlock priority access.
+        {position !== null ? (
+          <p className="mt-1 text-sm font-semibold text-accent">
+            You&apos;re #{position} in line.
+          </p>
+        ) : null}
+        <p className="mt-2 text-sm text-muted-strong">
+          Share Causey with someone who&apos;d want in.
         </p>
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <input
             readOnly
             value={shareUrl}
-            className={`${field} flex-1 bg-white text-[12px] sm:text-[13px]`}
+            className={`${field} flex-1 bg-white text-2xs sm:text-xs`}
           />
           <button
             type="button"
             onClick={copyLink}
-            className="cta-enabled h-11 shrink-0 rounded-lg px-4 text-[14px] font-semibold"
+            className="cta-enabled h-11 shrink-0 rounded-lg px-4 text-sm font-semibold"
           >
             {copied ? "Copied" : "Copy link"}
           </button>
@@ -218,7 +223,7 @@ export default function WaitlistForm({
             </svg>
           </div>
           {roleError ? (
-            <p className="mt-1 text-[12px] text-red-600" role="alert">
+            <p className="mt-1 text-2xs text-red-600" role="alert">
               {roleError}
             </p>
           ) : null}
@@ -241,7 +246,7 @@ export default function WaitlistForm({
             className={`${field} ${emailError ? "border-red-500/70" : ""}`}
           />
           {emailError ? (
-            <p className="mt-1 text-[12px] text-red-600" role="alert">
+            <p className="mt-1 text-2xs text-red-600" role="alert">
               {emailError}
             </p>
           ) : null}
@@ -283,7 +288,7 @@ export default function WaitlistForm({
       <button
         type="submit"
         disabled={!canSubmit}
-        className={`mx-auto h-11 w-full rounded-lg text-[15px] font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 ${
+        className={`mx-auto h-11 w-full rounded-lg text-base font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 ${
           canSubmit ? "cta-enabled" : "cta-disabled"
         }`}
       >
@@ -291,17 +296,17 @@ export default function WaitlistForm({
       </button>
 
       {!formReady ? (
-        <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
+        <p className="text-center text-xs text-muted lg:text-left">
           Students, parents, coaches, and organizers welcome.
         </p>
       ) : (
-        <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
+        <p className="text-center text-xs text-muted lg:text-left">
           Free to join. We&apos;ll only email you about Causey.
         </p>
       )}
 
       {status === "error" && (
-        <p className="text-center text-[13px] text-red-600 lg:text-left" role="alert">
+        <p className="text-center text-xs text-red-600 lg:text-left" role="alert">
           {message}
         </p>
       )}

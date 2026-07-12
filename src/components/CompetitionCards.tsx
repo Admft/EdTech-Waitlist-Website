@@ -47,15 +47,15 @@ function CardBody({
   return (
     <>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-[12px] font-semibold uppercase tracking-[0.06em] text-brand-red">
+        <span className="text-2xs font-semibold uppercase tracking-[0.06em] text-brand-red">
           {category}
         </span>
-        <span className="shrink-0 text-[12px] text-muted">Due {deadline}</span>
+        <span className="shrink-0 text-2xs text-muted">Due {deadline}</span>
       </div>
-      <h3 className="mt-2.5 text-[18px] font-semibold leading-snug tracking-tight text-foreground sm:text-[19px]">
+      <div className="mt-2.5 text-lead font-semibold tracking-tight text-foreground">
         {name}
-      </h3>
-      <p className="mt-3.5 border-t border-line pt-3.5 text-[13px] text-muted">
+      </div>
+      <p className="mt-3.5 border-t border-line pt-3.5 text-xs text-muted">
         {eligibility}
       </p>
     </>
@@ -78,9 +78,6 @@ export default function CompetitionCards() {
   return (
     <div aria-hidden>
       <div className="lg:hidden">
-        <p className="mb-3 text-center text-[12px] font-semibold uppercase tracking-[0.1em] text-muted">
-          Coming to Causey
-        </p>
         <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {CARDS.map((card) => (
             <article

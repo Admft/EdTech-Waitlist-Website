@@ -1,0 +1,29 @@
+---
+description: Standards for pills, badges, tags, chips, and eyebrows across the project
+alwaysApply: true
+---
+
+# Pill / Badge / Tag Ruleset
+
+Any small rounded label — status badges, category tags, eyebrows, chips — must follow these rules. The default filled, fully-rounded, soft-colored pill is banned unless explicitly justified below.
+
+## 1. Radius matches the system, not the default
+Do not use `rounded-full` / `9999px` by default. Pick one project radius (matching the cards and buttons, e.g. `rounded` / `rounded-md`) and use it for pills too. A pill's corners should look like they belong to the same design system as the surrounding buttons and cards.
+
+## 2. No decorative-only badges
+Every pill must be functional (a real filter, status, or category someone can act on) or be removed. A badge that restates nearby context ("Pre-launch" on an obviously pre-launch page) is decoration. If it doesn't change what the user does next, cut it.
+
+## 3. One accent color per pill type, tied to meaning
+Don't tint every badge with a pastel of the primary brand color. If pills encode categories/states (STEM vs Chess vs Arts), each gets a meaningful color that stays consistent everywhere it appears. A pill with no categorical meaning gets no color accent — plain text or a neutral outline only.
+
+## 4. No pill above the primary headline unless load-bearing
+Status badges ("Beta," "Coming soon," "Pre-launch") do not go in the hero above the H1 by default. If a status must be visible immediately, integrate it into the headline or subhead as a sentence, not a floating badge. Otherwise it belongs in the nav, footer, or metadata.
+
+## 5. Text must be specific, not generic SaaS language
+Banned in pills unless paired with a real, specific detail (a date, number, or named thing): "New," "Beta," "Coming soon," "AI-powered," "✨," "Live," "Now available." "Fall 2026" is fine; "Pre-launch" alone is filler.
+
+## 6. Consistency check before shipping any new pill
+Before adding a pill, check whether an existing pill style already exists in the codebase. If yes, reuse its exact classes — same radius, padding, font-size, weight. Never invent a one-off pill style for a single instance.
+
+## 7. Padding and sizing come from the scale, not eyeballed
+No arbitrary values like `px-3.5 py-1.5` or `text-[13px]`. Use the defined spacing scale, and match pill text to a small-text size already used elsewhere (caption/label).
