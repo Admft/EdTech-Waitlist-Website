@@ -292,7 +292,7 @@ export default function WaitlistForm({
 
       {!formReady ? (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
-          Select a role and enter your email to join.
+          Students, parents, coaches, and organizers welcome.
         </p>
       ) : (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">

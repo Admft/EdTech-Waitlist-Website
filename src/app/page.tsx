@@ -51,7 +51,7 @@ export default function Home() {
                 Pre-launch · Fall 2026
               </p>
               <h1 className="animate-rise-delay-1 text-[clamp(2.1rem,5vw,3.25rem)] font-bold leading-[1.12] tracking-tight text-foreground">
-                Your talent shouldn&apos;t depend on your zip code.
+                Every student <br></br>deserves a fair shot at opportunity.
               </h1>
               <p className="animate-rise-delay-1 mx-auto mt-5 max-w-md text-[16px] leading-relaxed text-muted sm:text-[17px] lg:mx-0">
                 Causey helps students discover competitions that match their
@@ -108,8 +108,9 @@ export default function Home() {
               Be first in line when Causey opens.
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-[17px] leading-relaxed text-muted">
-              Join the waitlist to help shape what we build — or book a short
-              call with the founding team.
+              Students, parents, coaches, and organizers — join the waitlist to
+              help shape what we build, or book a short call with the founding
+              team.
             </p>
           </Reveal>
 
