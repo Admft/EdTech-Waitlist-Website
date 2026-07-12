@@ -3,9 +3,9 @@ import Image from "next/image";
 const TEAM = [
   {
     name: "Adam Moffat",
-    role: "Head of Engineering",
+    role: "Head of Software Engineering",
     statement:
-      "I lead the coding and architecture behind Causey — building the systems that make discovery fair, from the ground up.",
+      "Cornell masters of engineering student. I lead Causey's software architecture and core product engineering — building systems that make discovery fair.",
     image: "/adam-headshot.jpg",
     imageAlt: "Headshot of Adam Moffat",
     imageScale: 1.35,
@@ -15,7 +15,7 @@ const TEAM = [
     name: "Divine Bamgboye",
     role: "Founding Software Engineer",
     statement:
-      "I'm a CS student building software that opens doors — especially for students who don't already have them.",
+      "I'm building the product alongside the team — shipping features that open doors for students who don't already have them.",
     image: "/divine-headshot.jpg",
     imageAlt: "Headshot of Divine Bamgboye",
     linkedin: "https://www.linkedin.com/in/divine-bamgboye-859149317/",
