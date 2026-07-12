@@ -89,7 +89,7 @@ export default function TeamSection() {
                   <h3 className="text-lg font-bold tracking-tight text-foreground">
                     {person.name}
                   </h3>
-                  <p className="mt-0.5 text-[13px] font-semibold text-accent">{person.role}</p>
+                  <p className="mt-0.5 text-[13px] font-semibold text-brand-red">{person.role}</p>
                   <p className="mt-3 text-[14px] leading-relaxed text-muted">{person.statement}</p>
                 </div>
               </li>

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { COMPETITION_INTERESTS } from "@/lib/waitlistOptions";
 
 const ROLES = [
   { value: "", label: "I am a…" },
@@ -9,6 +10,11 @@ const ROLES = [
   { value: "coach", label: "Coach or Educator" },
   { value: "organizer", label: "Competition Organizer" },
   { value: "other", label: "Other" },
+] as const;
+
+const INTEREST_OPTIONS = [
+  { value: "", label: "Competitions I want to see…" },
+  ...COMPETITION_INTERESTS,
 ] as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,13 +32,21 @@ export default function WaitlistForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const [competitionInterest, setCompetitionInterest] = useState("");
+  const [location, setLocation] = useState("");
   const [referredBy, setReferredBy] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
   const [shareUrl, setShareUrl] = useState("");
   const [position, setPosition] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
-  const [touched, setTouched] = useState({ email: false, role: false });
+  const [touched, setTouched] = useState({
+    email: false,
+    role: false,
+    interest: false,
+  });
+  const [company, setCompany] = useState("");
+  const [startedAt] = useState(() => Date.now());
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -42,7 +56,8 @@ export default function WaitlistForm({
 
   const emailValid = EMAIL_RE.test(email.trim());
   const roleValid = role.length > 0;
-  const formReady = emailValid && roleValid;
+  const interestValid = competitionInterest.length > 0;
+  const formReady = emailValid && roleValid && interestValid;
   const canSubmit = formReady && status !== "loading";
 
   const emailError = useMemo(() => {
@@ -58,9 +73,15 @@ export default function WaitlistForm({
     return "";
   }, [touched.role, roleValid]);
 
+  const interestError = useMemo(() => {
+    if (!touched.interest) return "";
+    if (!interestValid) return "Select a competition type.";
+    return "";
+  }, [touched.interest, interestValid]);
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setTouched({ email: true, role: true });
+    setTouched({ email: true, role: true, interest: true });
     if (!formReady || status === "loading") return;
 
     setStatus("loading");
@@ -75,8 +96,12 @@ export default function WaitlistForm({
           name: name.trim(),
           email: email.trim(),
           role,
+          competitionInterest,
+          location: location.trim(),
           referredBy,
           source,
+          company,
+          startedAt,
         }),
       });
       const data = await res.json();
@@ -93,7 +118,9 @@ export default function WaitlistForm({
       setName("");
       setEmail("");
       setRole("");
-      setTouched({ email: false, role: false });
+      setCompetitionInterest("");
+      setLocation("");
+      setTouched({ email: false, role: false, interest: false });
     } catch {
       setStatus("error");
       setMessage("Something went wrong. Please try again.");
@@ -111,6 +138,25 @@ export default function WaitlistForm({
 
   const field =
     "h-11 w-full rounded-lg border border-field-border bg-field px-3.5 text-[15px] text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
+
+  function SelectChevron() {
+    return (
+      <svg
+        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden
+      >
+        <path
+          d="M4 6l4 4 4-4"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
 
   if (status === "success") {
     return (
@@ -154,7 +200,20 @@ export default function WaitlistForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full flex-col gap-2.5" noValidate>
+    <form onSubmit={onSubmit} className="relative flex w-full flex-col gap-2.5" noValidate>
+      <div className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden" aria-hidden>
+        <label htmlFor={`${idPrefix}-company`}>Company</label>
+        <input
+          id={`${idPrefix}-company`}
+          type="text"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
+      </div>
+
       <div className="grid gap-2.5 sm:grid-cols-2">
         <div>
           <label className="sr-only" htmlFor={`${idPrefix}-role`}>
@@ -173,25 +232,16 @@ export default function WaitlistForm({
               } ${roleError ? "border-red-500/70" : ""}`}
             >
               {ROLES.map((option) => (
-                <option key={option.value || "empty"} value={option.value} className="bg-white text-foreground">
+                <option
+                  key={option.value || "empty"}
+                  value={option.value}
+                  className="bg-white text-foreground"
+                >
                   {option.label}
                 </option>
               ))}
             </select>
-            <svg
-              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden
-            >
-              <path
-                d="M4 6l4 4 4-4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <SelectChevron />
           </div>
           {roleError ? (
             <p className="mt-1 text-[12px] text-red-600" role="alert">
@@ -217,26 +267,78 @@ export default function WaitlistForm({
       </div>
 
       <div>
-        <label className="sr-only" htmlFor={`${idPrefix}-email`}>
-          Email
+        <label className="sr-only" htmlFor={`${idPrefix}-interest`}>
+          Competitions I want to see
         </label>
-        <input
-          id={`${idPrefix}-email`}
-          type="email"
-          name="email"
-          required
-          autoComplete="email"
-          placeholder="Email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onBlur={() => setTouched((t) => ({ ...t, email: true }))}
-          className={`${field} ${emailError ? "border-red-500/70" : ""}`}
-        />
-        {emailError ? (
+        <div className="relative">
+          <select
+            id={`${idPrefix}-interest`}
+            name="competitionInterest"
+            required
+            value={competitionInterest}
+            onChange={(e) => setCompetitionInterest(e.target.value)}
+            onBlur={() => setTouched((t) => ({ ...t, interest: true }))}
+            className={`${field} appearance-none pr-10 ${
+              !competitionInterest ? "text-muted" : ""
+            } ${interestError ? "border-red-500/70" : ""}`}
+          >
+            {INTEREST_OPTIONS.map((option) => (
+              <option
+                key={option.value || "empty"}
+                value={option.value}
+                className="bg-white text-foreground"
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <SelectChevron />
+        </div>
+        {interestError ? (
           <p className="mt-1 text-[12px] text-red-600" role="alert">
-            {emailError}
+            {interestError}
           </p>
         ) : null}
+      </div>
+
+      <div className="grid gap-2.5 sm:grid-cols-2">
+        <div>
+          <label className="sr-only" htmlFor={`${idPrefix}-email`}>
+            Email
+          </label>
+          <input
+            id={`${idPrefix}-email`}
+            type="email"
+            name="email"
+            required
+            autoComplete="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+            className={`${field} ${emailError ? "border-red-500/70" : ""}`}
+          />
+          {emailError ? (
+            <p className="mt-1 text-[12px] text-red-600" role="alert">
+              {emailError}
+            </p>
+          ) : null}
+        </div>
+        <div>
+          <label className="sr-only" htmlFor={`${idPrefix}-location`}>
+            Location
+          </label>
+          <input
+            id={`${idPrefix}-location`}
+            type="text"
+            name="location"
+            autoComplete="address-level2"
+            placeholder="City or zip (optional)"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className={field}
+          />
+        </div>
       </div>
 
       <button
@@ -251,7 +353,7 @@ export default function WaitlistForm({
 
       {!formReady ? (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">
-          Select a role and enter your email to join.
+          Select a role, competition interest, and email to join.
         </p>
       ) : (
         <p className="text-center text-[13px] leading-relaxed text-muted lg:text-left">

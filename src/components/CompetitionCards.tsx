@@ -39,7 +39,7 @@ function CardBody({
   return (
     <>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-[12px] font-semibold uppercase tracking-[0.06em] text-accent">
+        <span className="text-[12px] font-semibold uppercase tracking-[0.06em] text-brand-red">
           {category}
         </span>
         <span className="shrink-0 text-[12px] text-muted">Due {deadline}</span>
@@ -61,8 +61,8 @@ const DEPTH_OPACITY = {
 } as const;
 
 const DEPTH_FILTER: Record<"back" | "mid" | "front", string | undefined> = {
-  back: "blur(2px)",
-  mid: "blur(1px)",
+  back: "blur(1px)",
+  mid: "blur(0.7px)",
   front: undefined,
 };
 

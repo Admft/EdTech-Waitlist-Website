@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Source_Sans_3 } from "next/font/google";
+import { Source_Sans_3, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
 const sourceSans = Source_Sans_3({
@@ -8,14 +8,20 @@ const sourceSans = Source_Sans_3({
   weight: ["400", "500", "600", "700"],
 });
 
+const sourceSerif = Source_Serif_4({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Causey — Opportunity shouldn't depend on who you know",
+  title: "Causey — Connecting talent to opportunity",
   description:
-    "Causey helps every student discover competitions that match their talent — no matter where they live or who they know.",
+    "A central platform for competitions so any student with passion can build a clear path to the next level — no matter their zip code or school.",
   openGraph: {
-    title: "Causey — Opportunity shouldn't depend on who you know",
+    title: "Causey — Connecting talent to opportunity",
     description:
-      "Causey helps every student discover competitions that match their talent — no matter where they live or who they know.",
+      "A central platform for competitions so any student with passion can build a clear path to the next level.",
     type: "website",
   },
 };
@@ -26,7 +32,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${sourceSans.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${sourceSans.variable} ${sourceSerif.variable} h-full`}
+    >
       <body className="min-h-full antialiased">{children}</body>
     </html>
   );

@@ -1,20 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  /* Khan Academy–inspired: light, educational, mission-forward */
-  --background: #f7fbf9;
-  --foreground: #1b2120;
-  --muted: #5c6b66;
-  --muted-strong: #3d4a46;
+  /* Causey brand — red primary, blue secondary, light educational surface */
+  --background: #f5f9fc;
+  --foreground: #14181c;
+  --muted: #5a6570;
+  --muted-strong: #3a4450;
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --surface-soft: #eef6f2;
-  --line: rgba(27, 33, 32, 0.1);
-  --accent: #186d5a;
-  --accent-hover: #145a4a;
-  --accent-soft: #d8f0e8;
+  --surface-soft: #f2f5f8;
+  --line: rgba(20, 24, 28, 0.1);
+  --brand-red: #c23b32;
+  --brand-red-hover: #a8322a;
+  --brand-blue: #4a8eb8;
+  --brand-blue-soft: #d4e8f4;
+  --brand-blue-strong: #3a7aa3;
+  --accent: #c23b32;
+  --accent-hover: #a8322a;
+  --accent-soft: #f8e8e6;
   --field: #ffffff;
-  --field-border: rgba(27, 33, 32, 0.14);
+  --field-border: rgba(20, 24, 28, 0.14);
 }
 
 @theme inline {
@@ -26,17 +31,21 @@
   --color-surface-raised: var(--surface-raised);
   --color-surface-soft: var(--surface-soft);
   --color-line: var(--line);
+  --color-brand-red: var(--brand-red);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-soft: var(--brand-blue-soft);
+  --color-brand-blue-strong: var(--brand-blue-strong);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
   --color-field: var(--field);
   --color-field-border: var(--field-border);
   --font-sans: var(--font-source);
-  --font-display: var(--font-source);
+  --font-display: var(--font-serif);
 }
 
 @utility font-display {
-  font-family: var(--font-source), system-ui, sans-serif;
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
 }
 
 * {
@@ -88,15 +97,16 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 28%, white);
+  background: color-mix(in srgb, var(--brand-blue) 35%, white);
   color: var(--foreground);
 }
 
 .hero-canvas {
-  background-color: #f7fbf9;
+  background-color: #f5f9fc;
   background-image:
-    radial-gradient(ellipse 80% 55% at 90% 10%, rgba(24, 109, 90, 0.1), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 5% 80%, rgba(24, 109, 90, 0.06), transparent 50%);
+    radial-gradient(ellipse 85% 60% at 100% -5%, rgba(74, 142, 184, 0.32), transparent 58%),
+    radial-gradient(ellipse 55% 45% at -5% 95%, rgba(194, 59, 50, 0.1), transparent 52%),
+    radial-gradient(ellipse 40% 30% at 60% 70%, rgba(74, 142, 184, 0.12), transparent 60%);
 }
 
 .noise-overlay {
@@ -175,7 +185,7 @@ body {
 }
 
 .cta-enabled {
-  background: var(--accent);
+  background: var(--brand-red);
   color: #fff;
   transition:
     background 0.15s ease,
@@ -184,13 +194,13 @@ body {
 }
 
 .cta-enabled:hover {
-  background: var(--accent-hover);
-  box-shadow: 0 6px 20px rgba(24, 109, 90, 0.28);
+  background: var(--brand-red-hover);
+  box-shadow: 0 6px 20px rgba(194, 59, 50, 0.28);
   transform: translateY(-1px);
 }
 
 .cta-disabled {
-  background: #d7e0dc;
-  color: rgba(27, 33, 32, 0.45);
+  background: #e2e6ea;
+  color: rgba(20, 24, 28, 0.4);
   cursor: not-allowed;
 }

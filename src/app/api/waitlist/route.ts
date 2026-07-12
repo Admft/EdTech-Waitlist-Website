@@ -1,14 +1,25 @@
 import { NextResponse } from "next/server";
 import { createHash, randomBytes } from "crypto";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { checkRateLimit } from "@/lib/rateLimit";
+import {
+  ALLOWED_COMPETITION_INTERESTS,
+  ALLOWED_ROLES,
+} from "@/lib/waitlistOptions";
+import {
+  getClientIp,
+  hashIp,
+  isAllowedOrigin,
+  isHoneypotTriggered,
+  isSuspiciousTiming,
+  readJsonBody,
+  sanitizeText,
+} from "@/lib/security";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ALLOWED_ROLES = new Set([
-  "student",
-  "parent",
-  "coach",
-  "organizer",
-  "other",
+const ROLE_SET = new Set<string>(ALLOWED_ROLES);
+const INTEREST_SET = new Set<string>([
+  ...ALLOWED_COMPETITION_INTERESTS,
 ]);
 
 function referralCodeFor(email: string) {
@@ -17,38 +28,104 @@ function referralCodeFor(email: string) {
   return `${hash}${salt}`.slice(0, 10);
 }
 
+function jsonError(message: string, status: number, extraHeaders?: HeadersInit) {
+  return NextResponse.json({ error: message }, { status, headers: extraHeaders });
+}
+
+/** Quiet success used for honeypot / bot bait — don't tip them off. */
+function fakeSuccess() {
+  return NextResponse.json({
+    ok: true,
+    referralCode: "pending",
+    position: Math.floor(Math.random() * 40) + 10,
+  });
+}
+
+type WaitlistRow = {
+  email: string;
+  name: string | null;
+  role: string;
+  competition_interest: string | null;
+  location: string | null;
+  source: string;
+  referral_code: string;
+  referred_by: string | null;
+  ip_hash?: string;
+};
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
-    const name = typeof body.name === "string" ? body.name.trim().slice(0, 80) : "";
-    const role = typeof body.role === "string" ? body.role.trim() : "";
-    const referredBy =
-      typeof body.referredBy === "string" ? body.referredBy.trim().slice(0, 32) : "";
+    if (!isAllowedOrigin(request)) {
+      return jsonError("Invalid request.", 403);
+    }
+
+    const ip = getClientIp(request);
+    const ipHash = hashIp(ip);
+    const rate = await checkRateLimit(`waitlist:${ipHash}`);
+    if (!rate.allowed) {
+      return jsonError("Too many attempts. Please try again later.", 429, {
+        "Retry-After": String(rate.retryAfterSec ?? 600),
+      });
+    }
+
+    const parsed = await readJsonBody<Record<string, unknown>>(request);
+    if (!parsed.ok) {
+      return jsonError(parsed.error, 400);
+    }
+
+    const body = parsed.body;
+
+    if (isHoneypotTriggered(body.company) || isHoneypotTriggered(body.website)) {
+      return fakeSuccess();
+    }
+
+    if (isSuspiciousTiming(body.startedAt)) {
+      return fakeSuccess();
+    }
+
+    const email = sanitizeText(body.email, 254).toLowerCase();
+    const name = sanitizeText(body.name, 80);
+    const role = sanitizeText(body.role, 32);
+    const competitionInterest = sanitizeText(body.competitionInterest, 40);
+    const location = sanitizeText(body.location, 80);
+    const referredBy = sanitizeText(body.referredBy, 32);
     const source =
       body.source === "footer" || body.source === "hero" ? body.source : "hero";
 
     if (!email || !EMAIL_RE.test(email)) {
-      return NextResponse.json({ error: "Enter a valid email." }, { status: 400 });
+      return jsonError("Enter a valid email.", 400);
     }
 
-    if (!role || !ALLOWED_ROLES.has(role)) {
-      return NextResponse.json({ error: "Select who you are." }, { status: 400 });
+    if (!role || !ROLE_SET.has(role)) {
+      return jsonError("Select who you are.", 400);
+    }
+
+    if (!competitionInterest || !INTEREST_SET.has(competitionInterest)) {
+      return jsonError("Select a competition interest.", 400);
+    }
+
+    if (/(.)\1{6,}/.test(email) || email.split("@")[0].length > 64) {
+      return jsonError("Enter a valid email.", 400);
     }
 
     const supabase = getSupabaseAdmin();
     const referralCode = referralCodeFor(email);
 
+    const row: WaitlistRow = {
+      email,
+      name: name || null,
+      role,
+      competition_interest: competitionInterest,
+      location: location || null,
+      source,
+      referral_code: referralCode,
+      referred_by: referredBy || null,
+      ip_hash: ipHash,
+    };
+
     const { data, error } = await supabase
       .from("waitlist")
-      .insert({
-        email,
-        name: name || null,
-        role,
-        source,
-        referral_code: referralCode,
-        referred_by: referredBy || null,
-      })
+      .insert(row)
       .select("id")
       .single();
 
@@ -65,16 +142,50 @@ export async function POST(request: Request) {
             ok: true,
             referralCode: existing.referral_code,
             position: existing.id,
-            alreadyJoined: true,
+          });
+        }
+      }
+
+      // Older schema may be missing newer columns — retry without them once
+      if (
+        error.message?.includes("ip_hash") ||
+        error.message?.includes("competition_interest") ||
+        error.message?.includes("location")
+      ) {
+        const { ip_hash: _ip, competition_interest: _ci, location: _loc, ...legacy } =
+          row;
+        void _ip;
+        void _ci;
+        void _loc;
+
+        const retryPayload: Record<string, unknown> = { ...legacy };
+        if (!error.message?.includes("competition_interest")) {
+          retryPayload.competition_interest = competitionInterest;
+        }
+        if (!error.message?.includes("location")) {
+          retryPayload.location = location || null;
+        }
+        if (!error.message?.includes("ip_hash")) {
+          retryPayload.ip_hash = ipHash;
+        }
+
+        const retry = await supabase
+          .from("waitlist")
+          .insert(retryPayload)
+          .select("id")
+          .single();
+
+        if (!retry.error && retry.data) {
+          return NextResponse.json({
+            ok: true,
+            referralCode,
+            position: retry.data.id,
           });
         }
       }
 
       console.error("Supabase waitlist insert failed:", error.message);
-      return NextResponse.json(
-        { error: "Something went wrong. Please try again." },
-        { status: 500 },
-      );
+      return jsonError("Something went wrong. Please try again.", 500);
     }
 
     return NextResponse.json({
@@ -85,16 +196,14 @@ export async function POST(request: Request) {
   } catch (err) {
     const message = err instanceof Error ? err.message : "";
     if (message.includes("Missing Supabase env")) {
-      return NextResponse.json(
-        { error: "Waitlist isn’t configured yet. Add your Supabase keys to .env.local." },
-        { status: 503 },
-      );
+      return jsonError("Waitlist isn’t configured yet.", 503);
     }
 
     console.error("Waitlist error:", err);
-    return NextResponse.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    );
+    return jsonError("Something went wrong. Please try again.", 500);
   }
+}
+
+export function GET() {
+  return jsonError("Method not allowed.", 405);
 }
