@@ -34,41 +34,41 @@ export default function TeamSection() {
   return (
     <section id="team" className="section-rule bg-surface-soft px-5 py-12 sm:px-8 sm:py-14">
       <div className="mx-auto max-w-6xl">
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
-          <div className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
+        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,220px)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(0,240px)_minmax(0,1fr)]">
+          <div className="mx-auto w-full max-w-[220px] lg:mx-0 lg:max-w-none">
             <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_16px_48px_rgba(20,24,28,0.08)]">
               <Image
                 src="/myshay-headshot.jpeg"
                 alt="Myshay Causey, Founder & CEO of Causey"
                 fill
-                sizes="280px"
+                sizes="240px"
                 className="object-cover object-top"
               />
             </div>
           </div>
 
           <div className="min-w-0">
-            <h2 className="font-display text-[clamp(1.85rem,3.8vw,2.75rem)] font-semibold tracking-tight text-foreground">
+            <h2 className="font-display text-[clamp(1.65rem,3.4vw,2.35rem)] font-semibold tracking-tight text-foreground">
               Meet Our Founder
             </h2>
-            <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <p className="text-[16px] font-bold tracking-tight text-foreground">
+            <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <p className="text-[15px] font-bold tracking-tight text-foreground">
                 Myshay Causey
               </p>
-              <p className="text-[14px] font-semibold text-brand-red">
+              <p className="text-[13px] font-semibold text-brand-red">
                 Founder & CEO
               </p>
               <a
                 href="https://www.linkedin.com/in/myshay-causey-a29684285/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[14px] font-medium text-muted-strong transition hover:text-brand-red"
+                className="text-[13px] font-medium text-muted-strong transition hover:text-brand-red"
               >
                 LinkedIn →
               </a>
             </div>
 
-            <div className="mt-6 space-y-4 text-[16px] leading-[1.7] text-muted sm:text-[17px]">
+            <div className="mt-4 space-y-3 text-[15px] leading-[1.6] text-muted sm:text-[16px]">
               <p>
                 Causey was first envisioned while its founder was still in high
                 school and officially launched at age 19 while attending Cornell
