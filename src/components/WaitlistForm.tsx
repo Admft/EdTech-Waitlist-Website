@@ -140,7 +140,7 @@ export default function WaitlistForm({
           You&apos;re #{position ?? "—"} on the list.
         </p>
         <p className="mt-2 text-[14px] leading-relaxed text-muted-strong">
-          Refer 3 classmates to move up and unlock priority access.
+          Refer 3 friends to move up and unlock priority access.
         </p>
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <input
