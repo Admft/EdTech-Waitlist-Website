@@ -3,6 +3,16 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 const WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 const MAX_REQUESTS = 8;
 
+function isMissingTableError(message: string | undefined): boolean {
+  if (!message) return false;
+  const lower = message.toLowerCase();
+  return (
+    lower.includes("could not find the table") ||
+    lower.includes("does not exist") ||
+    lower.includes("schema cache")
+  );
+}
+
 /**
  * Sliding-window rate limit backed by Supabase.
  * Returns true if the request is allowed.
@@ -27,9 +37,11 @@ export async function checkRateLimit(bucketKey: string): Promise<{
     .gte("created_at", since);
 
   if (countError) {
-    // If the table isn't created yet, fail open so local/setup isn't blocked —
-    // but log it. Prefer fail-closed in production once table exists.
     console.error("Rate limit count failed:", countError.message);
+    // Missing table / misconfig: don't block real signups
+    if (isMissingTableError(countError.message)) {
+      return { allowed: true };
+    }
     if (process.env.NODE_ENV === "production") {
       return { allowed: false, retryAfterSec: 60 };
     }
@@ -46,6 +58,9 @@ export async function checkRateLimit(bucketKey: string): Promise<{
 
   if (insertError) {
     console.error("Rate limit insert failed:", insertError.message);
+    if (isMissingTableError(insertError.message)) {
+      return { allowed: true };
+    }
     if (process.env.NODE_ENV === "production") {
       return { allowed: false, retryAfterSec: 60 };
     }
