@@ -45,7 +45,6 @@ export default function HowItWorks() {
   const containerRef = useRef<HTMLDivElement>(null);
   const fillRef = useRef<HTMLDivElement>(null);
   const stepRefs = useRef<Array<HTMLLIElement | null>>([]);
-  const endRef = useRef<HTMLDivElement>(null);
 
   const fractionsRef = useRef<number[]>([1, 1, 1]);
   const [reached, setReached] = useState<boolean[]>([false, false, false]);
@@ -212,29 +211,13 @@ export default function HowItWorks() {
             })}
           </ol>
 
-          {/* Terminus */}
-          <div
-            ref={endRef}
-            className="relative pl-10 pt-5 lg:grid lg:grid-cols-2 lg:pl-0"
-          >
+          {/* Terminus: arrow only — no fourth checkpoint dot. */}
+          <div className="relative pl-10 pt-5 lg:grid lg:grid-cols-2 lg:pl-0">
             <span
               aria-hidden
-              className={`absolute top-0 z-10 flex -translate-x-1/2 flex-col items-center gap-0.5 ${LINE_X}`}
+              className={`absolute top-0 z-10 -translate-x-1/2 text-accent ${LINE_X}`}
             >
-              <span
-                className={`block h-3 w-3 rounded-full ${
-                  reached[3] ? "bg-accent" : "bg-line"
-                }`}
-                style={{ transition: `background-color 300ms ${EASE}` }}
-              />
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 16 16"
-                fill="none"
-                className={reached[3] ? "text-accent" : "text-line"}
-                style={{ transition: `color 300ms ${EASE}` }}
-              >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                 <path
                   d="M8 3v9M4 8l4 4 4-4"
                   stroke="currentColor"

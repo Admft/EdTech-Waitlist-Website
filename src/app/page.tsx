@@ -1,3 +1,4 @@
+import BookMeetingLink from "@/components/BookMeetingLink";
 import CauseyLogo from "@/components/CauseyLogo";
 import CompetitionCards from "@/components/CompetitionCards";
 import HeroScrollStage from "@/components/HeroScrollStage";
@@ -5,8 +6,6 @@ import HowItWorks from "@/components/HowItWorks";
 import SmoothScrollLink from "@/components/SmoothScrollLink";
 import TeamSection from "@/components/TeamSection";
 import WaitlistForm from "@/components/WaitlistForm";
-
-const CALENDAR_URL = "https://calendar.app.google/AX1fCWGdukco55z47";
 
 export default function Home() {
   return (
@@ -30,14 +29,7 @@ export default function Home() {
               >
                 Team
               </SmoothScrollLink>
-              <a
-                href={CALENDAR_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-lg border border-line bg-white px-3.5 py-2 text-sm font-semibold text-foreground transition hover:border-brand-red/40 hover:text-brand-red"
-              >
-                Book a meeting
-              </a>
+              <BookMeetingLink variant="nav" />
             </div>
           </div>
         </header>
@@ -126,15 +118,7 @@ export default function Home() {
                 Book a short conversation with the founding team about what
                 we&apos;re building.
               </p>
-              <a
-                href={CALENDAR_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-6 inline-flex w-fit items-center gap-2 rounded-lg border border-brand-blue/45 bg-transparent px-5 py-2.5 text-base font-semibold text-brand-blue-strong transition hover:border-brand-blue hover:bg-brand-blue-soft/40"
-              >
-                Book a meeting
-                <span className="nudge-x" aria-hidden>→</span>
-              </a>
+              <BookMeetingLink variant="cta" />
             </div>
           </div>
         </div>
@@ -161,14 +145,7 @@ export default function Home() {
             >
               Team
             </SmoothScrollLink>
-            <a
-              href={CALENDAR_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-muted-strong transition hover:text-brand-red"
-            >
-              Book a meeting
-            </a>
+            <BookMeetingLink variant="footer" />
             <SmoothScrollLink
               href="#waitlist"
               className="font-medium text-muted-strong transition hover:text-brand-red"

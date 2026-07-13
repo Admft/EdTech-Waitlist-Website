@@ -36,8 +36,8 @@ const TEAM = [
 
 const FOUNDER_REST = [
   "Growing up in Los Angeles, she won local chess competitions but found it nearly impossible to access state and national tournaments, despite actively seeking opportunities and having the ability to compete. It wasn't until she moved across the country that she was finally able to compete—and win—on a larger stage.",
-  "That experience revealed a problem extending far beyond chess: countless talented students overlooked simply because they lack access to the right opportunities.",
-  "Causey was founded to change that. By making competitive opportunities more accessible, the company is working to ensure that talent—not chance or financial circumstances—determines how far students can go, giving every young person the chance to develop their skills, compete at the highest levels, and reach their full potential.",
+  "That experience revealed a problem extending far beyond chess: countless talented students are overlooked simply because they lack access to the right opportunities.",
+  "Causey was founded to change that. By making competitive opportunities more accessible, we are working to ensure that talent—not chance or financial circumstances—determines how far students can go, giving every young person the chance to develop their skills, compete at the highest levels, and reach their full potential.",
 ];
 
 export default function TeamSection() {
