@@ -3,6 +3,7 @@ import CauseyLogo from "@/components/CauseyLogo";
 import CompetitionCards from "@/components/CompetitionCards";
 import HeroScrollStage from "@/components/HeroScrollStage";
 import HowItWorks from "@/components/HowItWorks";
+import SeeHowItWorksCue from "@/components/SeeHowItWorksCue";
 import SmoothScrollLink from "@/components/SmoothScrollLink";
 import TeamSection from "@/components/TeamSection";
 import WaitlistForm from "@/components/WaitlistForm";
@@ -62,23 +63,18 @@ export default function Home() {
           </main>
         </div>
 
-        <div className="relative z-20 flex justify-center pb-8 pt-1">
-          <SmoothScrollLink
-            href="#how-it-works"
-            className="animate-bob inline-flex flex-col items-center gap-1 text-sm font-bold uppercase tracking-[0.1em] text-brand-red transition hover:text-brand-red-hover"
-          >
-            See how it works
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-              <path
-                d="M4 6l4 4 4-4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </SmoothScrollLink>
-        </div>
+        <SeeHowItWorksCue className="animate-bob inline-flex flex-col items-center gap-1 text-sm font-bold uppercase tracking-[0.1em] text-brand-red transition hover:text-brand-red-hover">
+          See how it works
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <path
+              d="M4 6l4 4 4-4"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </SeeHowItWorksCue>
       </HeroScrollStage>
 
       <HowItWorks />
