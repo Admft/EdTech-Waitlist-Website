@@ -74,38 +74,24 @@ const DEPTH_FILTER: Record<"back" | "mid" | "front", string | undefined> = {
   front: undefined,
 };
 
+/** Desktop-only competition stack for the hero. Hidden below `lg`. */
 export default function CompetitionCards() {
   return (
-    <div aria-hidden>
-      <div className="lg:hidden">
-        <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {CARDS.map((card) => (
-            <article
-              key={card.name}
-              className="w-[82%] max-w-[300px] shrink-0 snap-center rounded-2xl border border-line bg-white p-5 shadow-[0_10px_30px_rgba(27,33,32,0.08)]"
-            >
-              <CardBody {...card} />
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div className="relative ml-auto hidden h-[36rem] w-full max-w-lg pt-2 lg:block">
-        {CARDS.map((card) => (
-          <article
-            key={card.name}
-            className={`absolute w-[88%] max-w-[320px] rounded-2xl border border-line bg-white p-5 shadow-[0_14px_40px_rgba(27,33,32,0.1)] ${card.stackClass} ${DEPTH_OPACITY[card.depth]}`}
-            style={{
-              transform: `rotate(var(--card-rot))`,
-              ...(DEPTH_FILTER[card.depth]
-                ? { filter: DEPTH_FILTER[card.depth] }
-                : {}),
-            }}
-          >
-            <CardBody {...card} />
-          </article>
-        ))}
-      </div>
+    <div aria-hidden className="relative ml-auto h-[36rem] w-full max-w-lg pt-2">
+      {CARDS.map((card) => (
+        <article
+          key={card.name}
+          className={`absolute w-[88%] max-w-[320px] rounded-2xl border border-line bg-white p-5 shadow-[0_14px_40px_rgba(27,33,32,0.1)] ${card.stackClass} ${DEPTH_OPACITY[card.depth]}`}
+          style={{
+            transform: `rotate(var(--card-rot))`,
+            ...(DEPTH_FILTER[card.depth]
+              ? { filter: DEPTH_FILTER[card.depth] }
+              : {}),
+          }}
+        >
+          <CardBody {...card} />
+        </article>
+      ))}
     </div>
   );
 }

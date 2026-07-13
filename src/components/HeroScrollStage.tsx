@@ -13,20 +13,31 @@ export default function HeroScrollStage({ children }: { children: ReactNode }) {
     function onScroll() {
       const el = ref.current;
       if (!el) return;
+
+      // No fade on mobile — keep the hero fully solid.
+      if (window.matchMedia("(max-width: 1023px)").matches) {
+        setProgress(0);
+        return;
+      }
+
       const rect = el.getBoundingClientRect();
-      const total = Math.max(rect.height * 0.55, 1);
+      const total = Math.max(rect.height * 2.4, 1);
       const raw = Math.min(Math.max(-rect.top / total, 0), 1);
       setProgress(raw);
     }
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
-  const opacity = 1 - progress * 0.55;
-  const translate = progress * 48;
-  const scale = 1 - progress * 0.04;
+  const opacity = 1 - progress * 0.35;
+  const translate = progress * 28;
+  const scale = 1 - progress * 0.02;
 
   return (
     <div

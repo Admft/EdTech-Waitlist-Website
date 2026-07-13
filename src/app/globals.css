@@ -167,10 +167,19 @@ body {
 /*
  * Faint coordinate grid instead of decorative blur blobs. Nods to the core
  * idea: opportunity shouldn't depend on the map square you were born in.
- * Fades out toward the edges so it reads as texture, not a table.
+ * Grid + fade live on a ::before layer so the mask never washes out the text.
  */
 .hero-canvas {
+  position: relative;
   background-color: var(--background);
+}
+
+.hero-canvas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background-image:
     linear-gradient(to right, rgba(20, 24, 28, 0.045) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(20, 24, 28, 0.045) 1px, transparent 1px);
@@ -296,5 +305,4 @@ body {
   color: var(--brand-red);
   border: 1px solid color-mix(in srgb, var(--brand-red) 28%, transparent);
   cursor: not-allowed;
-  opacity: 0.72;
 }

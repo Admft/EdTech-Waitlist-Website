@@ -64,7 +64,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="animate-rise-delay-3 min-w-0 self-center">
+            <div className="animate-rise-delay-3 hidden min-w-0 self-center lg:block">
               <CompetitionCards />
             </div>
           </main>
