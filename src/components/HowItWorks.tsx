@@ -47,8 +47,8 @@ export default function HowItWorks() {
   const stepRefs = useRef<Array<HTMLLIElement | null>>([]);
   const endRef = useRef<HTMLDivElement>(null);
 
-  const fractionsRef = useRef<number[]>([1, 1, 1, 1]);
-  const [reached, setReached] = useState<boolean[]>([false, false, false, false]);
+  const fractionsRef = useRef<number[]>([1, 1, 1]);
+  const [reached, setReached] = useState<boolean[]>([false, false, false]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -57,14 +57,9 @@ export default function HowItWorks() {
 
     const measure = () => {
       const h = container.offsetHeight || 1;
-      const stepFractions = stepRefs.current.map((el) =>
+      fractionsRef.current = stepRefs.current.map((el) =>
         el ? (el.offsetTop + el.offsetHeight / 2) / h : 1,
       );
-      const end = endRef.current;
-      fractionsRef.current = [
-        ...stepFractions,
-        end ? (end.offsetTop + 8) / h : 1,
-      ];
     };
 
     const apply = (p: number) => {
