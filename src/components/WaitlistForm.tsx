@@ -26,6 +26,7 @@ export default function WaitlistForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
+  const [roleDetail, setRoleDetail] = useState("");
   const [competitionInterest, setCompetitionInterest] = useState("");
   const [referredBy, setReferredBy] = useState("");
   const [status, setStatus] = useState<Status>("idle");
@@ -36,6 +37,8 @@ export default function WaitlistForm({
   const [touched, setTouched] = useState({ email: false, role: false });
   const [company, setCompany] = useState("");
   const [startedAt] = useState(() => Date.now());
+
+  const showRoleDetail = role === "other";
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -61,6 +64,11 @@ export default function WaitlistForm({
     return "";
   }, [touched.role, roleValid]);
 
+  function onRoleChange(value: string) {
+    setRole(value);
+    if (value !== "other") setRoleDetail("");
+  }
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setTouched({ email: true, role: true });
@@ -78,6 +86,7 @@ export default function WaitlistForm({
           name: name.trim(),
           email: email.trim(),
           role,
+          roleDetail: showRoleDetail ? roleDetail.trim() : "",
           competitionInterest: competitionInterest.trim(),
           referredBy,
           source,
@@ -99,6 +108,7 @@ export default function WaitlistForm({
       setName("");
       setEmail("");
       setRole("");
+      setRoleDetail("");
       setCompetitionInterest("");
       setTouched({ email: false, role: false });
     } catch {
@@ -191,7 +201,7 @@ export default function WaitlistForm({
               name="role"
               required
               value={role}
-              onChange={(e) => setRole(e.target.value)}
+              onChange={(e) => onRoleChange(e.target.value)}
               onBlur={() => setTouched((t) => ({ ...t, role: true }))}
               className={`${field} appearance-none pr-10 ${
                 !role ? "text-muted" : ""
@@ -251,6 +261,25 @@ export default function WaitlistForm({
             </p>
           ) : null}
         </div>
+
+        {showRoleDetail ? (
+          <div className="sm:col-span-2">
+            <label className="sr-only" htmlFor={`${idPrefix}-role-detail`}>
+              Describe your role
+            </label>
+            <input
+              id={`${idPrefix}-role-detail`}
+              type="text"
+              name="roleDetail"
+              maxLength={80}
+              autoComplete="organization-title"
+              placeholder="What best describes your role?"
+              value={roleDetail}
+              onChange={(e) => setRoleDetail(e.target.value)}
+              className={field}
+            />
+          </div>
+        ) : null}
 
         <div>
           <label className="sr-only" htmlFor={`${idPrefix}-interest`}>

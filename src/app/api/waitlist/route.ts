@@ -109,7 +109,17 @@ export async function POST(request: Request) {
     const email = sanitizeText(body.email, 254).toLowerCase();
     const name = sanitizeText(body.name, 80);
     const role = sanitizeText(body.role, 32);
-    const competitionInterest = sanitizeText(body.competitionInterest, 200);
+    const roleDetail = sanitizeText(body.roleDetail, 80);
+    const competitionInterestRaw = sanitizeText(body.competitionInterest, 200);
+    // Capture "Other" role detail in competition_interest until we have a
+    // dedicated column — keeps data without a schema change.
+    const competitionInterest =
+      role === "other" && roleDetail
+        ? [competitionInterestRaw, `Role: ${roleDetail}`]
+            .filter(Boolean)
+            .join(" · ")
+            .slice(0, 200)
+        : competitionInterestRaw;
     const referredBy = sanitizeText(body.referredBy, 32);
     const source =
       body.source === "footer" || body.source === "hero" ? body.source : "hero";

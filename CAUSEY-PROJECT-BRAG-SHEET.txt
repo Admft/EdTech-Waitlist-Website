@@ -1,0 +1,366 @@
+================================================================================
+CAUSEY WAITLIST — PROJECT BRAG SHEET
+================================================================================
+Product:        Causey (EdTech competition-discovery waitlist)
+Live site:      https://causey-waitlist.vercel.app
+Repo:           https://github.com/Admft/EdTech-Waitlist-Website
+Owner / builder: Adam Moffat (Head of Software Engineering)
+Built with:     Founder Myshay Causey + founding team
+Document date:  July 12, 2026
+
+================================================================================
+0. INDEX
+================================================================================
+  1.  One-line pitch
+  2.  Time & volume stats (commits, hours estimate)
+  3.  What I owned end-to-end
+  4.  Tech stack
+  5.  Architecture overview
+  6.  Feature inventory (full)
+  7.  Backend / database / Supabase work
+  8.  Security & abuse protections
+  9.  Design / UX work (including de-vibecode pass)
+ 10.  Deployment, domain, hosting
+ 11.  Git commit timeline (all 42)
+ 12.  Problems I diagnosed & fixed in production
+ 13.  Metrics for a resume / application bullet
+ 14.  Honest notes (AI-assisted build, what that means)
+
+================================================================================
+1. ONE-LINE PITCH
+================================================================================
+Designed, built, secured, and shipped Causey's production waitlist website —
+Next.js + Supabase + Vercel — from blank repo to live domain in ~2 days,
+including auth-less signup API, rate limiting, team/founder pages, and a full
+UI de-vibecode polish pass.
+
+================================================================================
+2. TIME & VOLUME STATS
+================================================================================
+Git commits:              42 (all authored as Adam)
+Active calendar days:     2 (Sat Jul 11 – Sun Jul 12, 2026)
+First commit:             2026-07-11 13:53 CT
+Latest commit (tracked):  2026-07-12 20:29 CT
+Wall-clock span:          ~30.5 hours first→last commit
+
+Code volume (approx):
+  ~2,600 net lines added across the project history
+  ~2,400 lines of application source under src/
+  ~25 TypeScript/TSX/CSS/SQL source files
+  ~38 files under src/ + public/ + supabase/
+
+Estimated hours of focused work:  **12–16 hours**
+
+How that estimate was made:
+  - Mapped commit timestamps into active coding windows
+      Day 1: ~1h afternoon + ~3.25h evening  ≈ 4.25h git-visible
+      Day 2: ~2.25h midday  + ~0.5h evening  ≈ 2.75h git-visible
+      Subtotal from git activity alone: ~7 hours
+  - Added non-git work that this project required:
+      • Domain purchase + DNS / Vercel project wiring
+      • Supabase project setup, SQL schema, RLS, env keys
+      • Production debugging (403 origin, missing rate-limit table, OG image)
+      • Design/copy iteration, image processing, deploy cycles
+      • Uncommitted polish after last tagged commit
+  - Conservative total: 12 hours | Realistic: 14–16 hours | Upper bound ~18
+
+For a brag sheet / interview: say **"~15 hours over a focused 2-day sprint"**
+or **"42 commits in 2 days, zero to production."**
+
+================================================================================
+3. WHAT I OWNED END-TO-END
+================================================================================
+  [x] Bought / configured the domain and pointed it at hosting
+  [x] Hosted the site on Vercel (production + preview deployments)
+  [x] Created and configured the Supabase project
+  [x] Wrote and ran the SQL schema (waitlist + rate limits + RLS)
+  [x] Wired environment variables (local + Vercel Production/Preview)
+  [x] Built the entire frontend (landing, team, forms, motion, SEO)
+  [x] Built the entire waitlist API (validation, security, referrals)
+  [x] Designed / iterated the UI (including a structured de-vibecode pass)
+  [x] Integrated Google Calendar booking for founder meetings
+  [x] Prepared team headshots and brand assets for web
+  [x] Shipped Open Graph / Twitter cards with Causey branding (not founder face)
+  [x] Debugged live production failures from Vercel logs
+
+================================================================================
+4. TECH STACK
+================================================================================
+Framework:        Next.js 16 (App Router) + React 19 + TypeScript 5
+Styling:          Tailwind CSS v4 + custom design tokens / type scale
+Backend:          Next.js Route Handlers (server-only)
+Database:         Supabase (Postgres) — service-role server client
+Auth model:       No end-user auth (waitlist only); admin via Supabase dashboard
+Hosting:          Vercel
+Fonts:            Source Sans 3 + Source Serif 4 (Google Fonts)
+Images:           next/image + local optimized headshots (JPEG)
+Calendar:         Google Calendar appointment link
+SEO:              metadata API + dynamic OG/Twitter ImageResponse + JSON-LD
+Tooling:          ESLint (eslint-config-next), Git + GitHub
+
+Dependencies (runtime):
+  next, react, react-dom, @supabase/supabase-js
+
+================================================================================
+5. ARCHITECTURE OVERVIEW
+================================================================================
+Browser
+  └─ Landing page (Server Component shell + Client islands)
+       ├─ WaitlistForm (hero + bottom CTA) ──POST──▶ /api/waitlist
+       ├─ BookMeetingLink ──▶ Google Calendar (new tab)
+       ├─ HowItWorks path animation (scroll-driven)
+       ├─ TeamSection (founder story + team)
+       └─ SmoothScroll / SeeHowItWorksCue
+
+/api/waitlist (server)
+  ├─ Origin allowlist
+  ├─ IP hash + rate limit (Supabase api_rate_limits)
+  ├─ Honeypot + timing anti-bot
+  ├─ Sanitize + validate payload
+  ├─ Insert waitlist row (or return existing on unique email)
+  └─ Return referral code + optional position (≥100 signups)
+
+Supabase Postgres
+  ├─ public.waitlist
+  └─ public.api_rate_limits
+  (RLS enabled; browser never talks to DB with secret key)
+
+================================================================================
+6. FEATURE INVENTORY
+================================================================================
+
+--- 6.1 Marketing / landing ---
+  • Full-bleed hero with brand-first composition
+  • Coordinate-grid background (access / zip-code metaphor — not blob gradients)
+  • Competition card stack (desktop-only visual)
+  • Sticky header with nav + Book a meeting
+  • "See how it works" scroll cue (fades on scroll + on click)
+  • How it works: literal vertical path (01 Discover → 02 Match → 03 Compete)
+      – Scroll-drawn path fill, node fill-in, terminus → waitlist
+      – Alternating left/right steps on desktop; stacked on mobile
+  • Founder story (Myshay Causey) + collapsible "Read more" on mobile
+  • Team section (Adam, Divine, Sasha) with LinkedIn links where available
+  • Dual CTA: Join waitlist + Want to talk / Book a meeting
+  • Custom 404 + error pages (branded, not default Next.js)
+  • Footer with nav + credit
+
+--- 6.2 Waitlist product ---
+  • Dual forms (hero + bottom) sharing one WaitlistForm component
+  • Role select: student / parent / coach / organizer / other
+  • Conditional "Other" role detail field (full-width, grid-safe on iPad/desktop)
+  • Email + optional name + competition interest
+  • Client validation (email format, required role) with accessible alerts
+  • Loading / disabled / success / error states
+  • Success state: confirmation, optional real position (≥100), share link + copy
+  • Referral codes (?ref=) captured into referred_by
+  • Source tracking (hero vs footer)
+
+--- 6.3 Booking ---
+  • Shared BookMeetingLink component (nav / CTA / footer variants)
+  • External-link affordance (↗ always visible for mobile; hover nudge on desktop)
+  • Opens Google Calendar in a new tab with aria-label / title
+
+--- 6.4 SEO / social ---
+  • metadataBase, Open Graph, Twitter card metadata
+  • Dynamic opengraph-image.tsx + twitter-image.tsx (logo lockup, not founder photo)
+  • Favicon / apple icon (Causey C mark)
+  • JSON-LD Organization + WebSite structured data
+  • Proper heading hierarchy (single h1, logical h2/h3)
+
+--- 6.5 Motion (intentional, not decoration spam) ---
+  • Hero scroll-stage fade/parallax (desktop only; disabled on mobile)
+  • Path draw on How it works (respects prefers-reduced-motion)
+  • See-how-it-works cue fade
+  • Limited entrance animations with real easing curves
+  • Reduced-motion CSS overrides
+
+--- 6.6 Responsive design ---
+  • Mobile: no competition cards; no hero fade; compact CTA card
+  • Tablet: constrained waitlist/CTA width so panels don’t stretch empty
+  • Desktop / xl: two-column join section; competition stack; path asymmetry
+  • Founder bio collapsed by default on mobile
+
+================================================================================
+7. BACKEND / DATABASE / SUPABASE WORK
+================================================================================
+Schema (supabase/schema.sql):
+  waitlist
+    id, email (unique), name, role, competition_interest, source,
+    referral_code, referred_by, ip_hash, created_at
+  api_rate_limits
+    id, bucket_key, created_at
+  Indexes on created_at, ip_hash, (bucket_key, created_at)
+  Row Level Security enabled on both tables
+
+API behaviors I implemented:
+  • Server-only Supabase admin client (SUPABASE_SECRET_KEY never in browser)
+  • Referral code generation (hash + salt)
+  • Honest waitlist position: only shown when total signups ≥ 100
+      (never uses row id as fake rank; never returns random fabricated ranks)
+  • Duplicate email → idempotent success with existing referral code
+  • Graceful retry if optional columns missing
+  • "Other" role detail folded into competition_interest (no schema migration needed)
+
+Ops I did outside the repo:
+  • Created Supabase project
+  • Ran SQL in Supabase SQL Editor
+  • Added Vercel env vars (URL, publishable key, secret key, SITE_URL)
+  • Verified live inserts in the waitlist table
+
+================================================================================
+8. SECURITY & ABUSE PROTECTIONS
+================================================================================
+Already shipping:
+  • Origin / Referer allowlist (production blocks off-site POSTs)
+  • IP-hashed rate limiting (8 requests / 10 minutes)
+  • Honeypot fields (company / website) → silent fake success
+  • Form timing check (too fast <1.2s or too stale >6h → fake success)
+  • JSON-only + 4KB body size cap
+  • Email regex + abuse heuristics
+  • Role allowlist
+  • Input sanitization + max lengths
+  • Unique email constraint
+  • Method guard (GET → 405)
+  • Security headers: CSP, X-Frame-Options DENY, nosniff,
+    Referrer-Policy, Permissions-Policy
+  • RLS on tables; secret key server-only
+
+Known non-blockers for a waitlist (documented, not required day one):
+  • CAPTCHA only if spam appears
+  • Confirm api_rate_limits exists in every environment (code fails open if missing)
+
+================================================================================
+9. DESIGN / UX WORK (INCLUDING DE-VIBECODE)
+================================================================================
+Brand system:
+  • Causey red primary (#c23b32) + blue secondary
+  • Light educational surface (#f5f9fc)
+  • Source Sans + Source Serif pairing
+  • Defined type scale (no arbitrary text-[13px] sprawl)
+  • Red C mark + wordmark component
+
+De-vibecode / honesty pass (batched):
+  • Removed fake waitlist ranks and fabricated bot positions
+  • Fixed referral copy to match real behavior (no “move up the list” lie)
+  • Removed placeholder team bio / restored Sasha with real role
+  • Merged duplicate “What Causey is” into How it works; killed icon bento
+  • Broke repeated section recipe (eyebrow → headline → cards × N)
+  • Replaced decorative blur blobs with meaningful coordinate grid
+  • Cut motion to intentional moments
+  • Fixed CTA hierarchy (waitlist primary; meeting ghost/outline)
+  • Cut marketing em-dashes (kept founder story as written)
+  • Deduped tagline + audience copy
+  • Custom error pages + JSON-LD + heading hierarchy
+
+UX details:
+  • External-link signaling on Book a meeting
+  • Tablet CTA width fix (Want to talk no longer stretched empty)
+  • Conditional Other-role field without breaking 2-col form grid
+  • Mobile hero without competition cards / without aggressive fade
+
+================================================================================
+10. DEPLOYMENT, DOMAIN, HOSTING
+================================================================================
+  • GitHub repo: Admft/EdTech-Waitlist-Website
+  • Vercel project with production + preview deployments
+  • Custom / project domain wired (causey-waitlist.vercel.app production URL
+    in metadata; site URL used for origin checks)
+  • Environment variables configured for Production and Preview
+  • Automatic Vercel URL inclusion in allowed origins for previews
+  • Production debugging from Vercel request logs
+
+================================================================================
+11. GIT COMMIT TIMELINE (ALL 42)
+================================================================================
+--- Sat Jul 11, 2026 ---
+13:53  added a basic waitlist
+14:01  changed project root
+14:18  added changes to the web design
+14:29  reworked website
+14:44  added ui changes (×2)
+14:48  final changes
+16:59  headshots
+17:22  upgraded size and position of the 3 cards
+17:55  began supabase integration
+18:12  added profile section and headshots
+18:17  added profiles
+18:18  added book a meeting section
+18:19  made each profile clickable to a linkedin profile
+18:32  added logo to tab
+18:44  fixed how it works
+18:55  changed theme
+19:34  full UI switch
+19:35  changed form dropdown to text
+19:53  added a lot of new changes to ui and stuff
+19:56  added a lot of new changes to ui and stuff
+19:58  shortened book a meeting part
+20:06  ui changes
+20:09  final team section touches
+20:11  adjusted founder section
+20:14  changed title
+
+--- Sun Jul 12, 2026 ---
+12:33  ui changes / ui overhaul
+13:02  changed wording
+13:04  changed styling
+13:12  added ui changes
+13:31  final check before de-vibecoding
+14:10  unvibecoded it
+14:20  new ui
+14:29  new changes
+14:42  final non ui fixes
+14:46  final non ui fixes
+19:57  ui fixes
+20:02  fixed site / everything done
+20:11  finalized changes
+20:29  updated fades and stuff
+
+(+ subsequent local work: Other-role field, security audit, brag sheet)
+
+================================================================================
+12. PROBLEMS I DIAGNOSED & FIXED IN PRODUCTION
+================================================================================
+  • Missing Supabase env on Vercel → configured Production/Preview vars
+  • 403 Invalid request → origin allowlist didn’t include Vercel production URL
+      → extended getAllowedOrigins + NEXT_PUBLIC_SITE_URL
+  • 429 / rate limit insert failures → api_rate_limits table missing
+      → SQL + fail-open when table absent so signups aren’t blocked
+  • Social link previews showing founder face → custom OG/Twitter images
+      with Causey logo lockup
+  • Waitlist rank showing DB id as “#2” → honesty gate + real count logic
+  • Hero “See how it works” looking washed out → mask was on parent element
+      (fixed by moving grid mask to ::before background layer)
+  • Disabled CTA looking transparent → removed opacity: 0.72 on disabled state
+
+================================================================================
+13. RESUME / APPLICATION BULLETS (READY TO PASTE)
+================================================================================
+• Built and shipped Causey’s production waitlist (Next.js 16, React 19,
+  TypeScript, Tailwind v4, Supabase, Vercel) from zero to live domain in a
+  2-day sprint — 42 commits, ~15 hours of focused work.
+
+• Implemented a secured waitlist API with origin checks, honeypot + timing
+  anti-bot, IP-hashed rate limiting, input sanitization, referral codes, and
+  Postgres-backed storage with RLS.
+
+• Designed a brand-led marketing site (founder story, team, path-based product
+  explainer, calendar booking) and ran a structured de-vibecode pass to remove
+  fake metrics, decorative UI patterns, and dishonest copy.
+
+• Owned full-stack delivery: domain/DNS, Vercel hosting, Supabase schema + env
+  configuration, production incident debugging, and SEO/social preview assets.
+
+================================================================================
+14. HONEST NOTES (FOR YOU)
+================================================================================
+This project was AI-assisted (Cursor). That does not erase ownership:
+you directed product decisions, bought/hosted infrastructure, ran Supabase,
+debugged live failures, chose what stayed vs got cut, and shipped the result.
+
+For interviews: lead with ownership + outcomes (shipped, secured, hosted),
+then be ready to walk through the API security chain and the de-vibecode
+decisions — those prove engineering judgment, not just prompting.
+
+================================================================================
+END OF BRAG SHEET
+================================================================================
