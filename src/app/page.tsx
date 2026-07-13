@@ -39,12 +39,12 @@ export default function Home() {
           <main className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-5 pb-10 pt-12 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:pb-14 lg:pt-16">
             <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
               <h1 className="animate-rise text-display-xl font-bold tracking-tight text-foreground">
-                Every student
+                Students miss competitions
                 <br />
-                deserves a fair shot at opportunity.
+                because there&apos;s nowhere to find them.
               </h1>
               <p className="animate-rise-delay-1 mx-auto mt-5 max-w-md text-md text-muted sm:text-lg lg:mx-0">
-                Causey helps students discover competitions that match their
+                Causey is that place: discover competitions that match your
                 talent, so success isn&apos;t limited by where you live or who
                 you know.
               </p>

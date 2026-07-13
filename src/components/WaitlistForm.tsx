@@ -283,7 +283,7 @@ export default function WaitlistForm({
 
         <div>
           <label className="sr-only" htmlFor={`${idPrefix}-interest`}>
-            Competitions you want to see
+            Competitions you want to see (optiomal)
           </label>
           <input
             id={`${idPrefix}-interest`}
