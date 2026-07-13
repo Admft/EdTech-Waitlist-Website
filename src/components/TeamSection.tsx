@@ -29,7 +29,7 @@ const TEAM = [
     role: "Task Hand",
     statement:
       "I keep the founding work moving day to day, so the team can stay focused on building Causey for students who need it.",
-    image: "/sasha-headshot.avif",
+    image: "/sasha-headshot.jpg",
     imageAlt: "Headshot of Sasha Hobbs",
   },
 ] as const;

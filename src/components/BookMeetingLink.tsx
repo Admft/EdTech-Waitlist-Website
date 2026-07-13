@@ -27,7 +27,7 @@ type Variant = "nav" | "cta" | "footer";
 
 const VARIANT: Record<Variant, string> = {
   nav: "inline-flex items-center gap-1.5 rounded-lg border border-line bg-white px-3.5 py-2 text-sm font-semibold text-foreground transition hover:border-brand-red/40 hover:text-brand-red",
-  cta: "group mt-6 inline-flex w-fit items-center gap-2 rounded-lg border border-brand-blue/45 bg-transparent px-5 py-2.5 text-base font-semibold text-brand-blue-strong transition hover:border-brand-blue hover:bg-brand-blue-soft/40",
+  cta: "group mt-5 inline-flex w-fit items-center gap-2 rounded-lg border border-brand-blue/45 bg-transparent px-5 py-2.5 text-base font-semibold text-brand-blue-strong transition hover:border-brand-blue hover:bg-brand-blue-soft/40 xl:mt-6",
   footer:
     "group inline-flex items-center gap-1.5 font-medium text-muted-strong transition hover:text-brand-red",
 };

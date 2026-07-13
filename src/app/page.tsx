@@ -97,8 +97,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-10 grid overflow-hidden rounded-2xl border border-line bg-surface-soft shadow-[0_20px_60px_rgba(20,24,28,0.08)] lg:grid-cols-2">
-            <div className="border-b border-line bg-white p-6 sm:p-8 lg:border-b-0 lg:border-r">
+          <div className="mt-10 mx-auto max-w-md overflow-hidden rounded-2xl border border-line bg-surface-soft shadow-[0_20px_60px_rgba(20,24,28,0.08)] sm:max-w-lg xl:mx-0 xl:grid xl:max-w-none xl:grid-cols-2">
+            <div className="border-b border-line bg-white p-6 sm:p-8 xl:border-b-0 xl:border-r">
               <h3 className="text-xl font-bold tracking-tight text-foreground">
                 Join the waitlist
               </h3>
@@ -110,7 +110,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex flex-col justify-center bg-brand-blue-soft/50 p-6 sm:p-8">
+            <div className="flex flex-col justify-center bg-brand-blue-soft/50 px-6 py-6 sm:px-8 sm:py-7 xl:p-8">
               <h3 className="text-xl font-bold tracking-tight text-foreground">
                 Want to talk?
               </h3>
