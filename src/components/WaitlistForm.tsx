@@ -49,7 +49,6 @@ export default function WaitlistForm({
   const emailValid = EMAIL_RE.test(email.trim());
   const roleValid = role.length > 0;
   const formReady = emailValid && roleValid;
-  const canSubmit = formReady && status !== "loading";
 
   const emailError = useMemo(() => {
     if (!touched.email) return "";
@@ -316,9 +315,10 @@ export default function WaitlistForm({
 
       <button
         type="submit"
-        disabled={!canSubmit}
-        className={`mx-auto h-11 w-full rounded-lg text-base font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 ${
-          canSubmit ? "cta-enabled" : "cta-disabled"
+        disabled={status === "loading"}
+        aria-disabled={!formReady}
+        className={`mx-auto h-11 w-full rounded-lg text-base font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 cta-enabled ${
+          status === "loading" ? "opacity-80" : ""
         }`}
       >
         {status === "loading" ? "Joining…" : "Join the waitlist"}

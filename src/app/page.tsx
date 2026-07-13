@@ -36,17 +36,29 @@ export default function Home() {
         </header>
 
         <div className="hero-scroll-content relative z-10 flex flex-1 flex-col">
-          <main className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-5 pb-10 pt-12 sm:px-8 lg:grid-cols-2 lg:gap-12 lg:pb-14 lg:pt-16">
-            <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
-              <h1 className="animate-rise text-display-xl font-bold tracking-tight text-foreground">
-                Students miss thousands of competitions
-                <br />
-                because there isn&apos;t one place to discover them.
+          <main className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-5 pb-10 pt-12 sm:px-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)] lg:gap-10 lg:pb-14 lg:pt-16">
+            <div className="mx-auto w-full max-w-2xl text-center lg:mx-0 lg:text-left">
+              <h1 className="animate-rise text-display-lg font-bold tracking-tight text-foreground lg:text-display-xl">
+                <span className="block lg:whitespace-nowrap">
+                  Find the competitions
+                </span>
+                <span className="block lg:whitespace-nowrap">
+                  you were never told about.
+                </span>
               </h1>
-              <p className="animate-rise-delay-1 mx-auto mt-5 max-w-md text-md text-muted sm:text-lg lg:mx-0">
-                Causey is that place: discover competitions that match your
-                talent, so success isn&apos;t limited by where you live or who
-                you know.
+              <p className="animate-rise-delay-1 mx-auto mt-5 text-md text-muted sm:text-lg lg:mx-0">
+                <span className="block lg:whitespace-nowrap">
+                  Students miss thousands of competitions because there&apos;s no
+                  single place to find them.
+                </span>
+                <span className="block lg:whitespace-nowrap">
+                  Causey helps students discover competitions that match their
+                  talent,
+                </span>
+                <span className="block lg:whitespace-nowrap">
+                  so success isn&apos;t limited by where you live or who you
+                  know.
+                </span>
               </p>
 
               <div
