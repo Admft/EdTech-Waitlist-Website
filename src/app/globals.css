@@ -80,8 +80,8 @@
   --text-display--line-height: 1.1;
   --text-display-lg: clamp(1.9rem, 3.8vw, 2.75rem);
   --text-display-lg--line-height: 1.1;
-  --text-display-xl: clamp(2.1rem, 5vw, 3.25rem);
-  --text-display-xl--line-height: 1.12;
+  --text-display-xl: clamp(2.25rem, 5.5vw, 3.5rem);
+  --text-display-xl--line-height: 1.1;
 }
 
 @utility font-display {

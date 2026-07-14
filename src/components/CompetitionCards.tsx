@@ -4,7 +4,7 @@ const CARDS = [
     category: "STEM",
     deadline: "Oct 12",
     eligibility: "Grades 9–12",
-    stackClass: "animate-card-1 left-[8%] top-2 z-10",
+    stackClass: "animate-card-1 left-[6%] top-1 z-10",
     depth: "back" as const,
   },
   {
@@ -12,7 +12,7 @@ const CARDS = [
     category: "Speech & Debate",
     deadline: "Sep 28",
     eligibility: "All high school",
-    stackClass: "animate-card-2 left-[36%] top-[7.75rem] z-[15]",
+    stackClass: "animate-card-2 left-[33%] top-[7.5rem] z-[15]",
     depth: "back" as const,
   },
   {
@@ -20,7 +20,7 @@ const CARDS = [
     category: "Arts & Writing",
     deadline: "Nov 3",
     eligibility: "Ages 14–18",
-    stackClass: "animate-card-3 left-[14%] top-[15.5rem] z-20",
+    stackClass: "animate-card-3 left-[12%] top-[15rem] z-20",
     depth: "mid" as const,
   },
   {
@@ -28,7 +28,7 @@ const CARDS = [
     category: "Chess",
     deadline: "Sep 20",
     eligibility: "All high school",
-    stackClass: "animate-card-4 left-[30%] top-[23.25rem] z-30",
+    stackClass: "animate-card-4 left-[28%] top-[22.5rem] z-30",
     depth: "front" as const,
   },
 ] as const;
@@ -77,7 +77,7 @@ const DEPTH_FILTER: Record<"back" | "mid" | "front", string | undefined> = {
 /** Desktop-only competition stack for the hero. Hidden below `lg`. */
 export default function CompetitionCards() {
   return (
-    <div aria-hidden className="relative ml-auto h-[36rem] w-full max-w-lg pt-2">
+    <div aria-hidden className="relative ml-auto h-[35rem] w-full max-w-lg pt-2">
       {CARDS.map((card) => (
         <article
           key={card.name}
