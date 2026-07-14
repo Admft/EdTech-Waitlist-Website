@@ -19,9 +19,13 @@ type Source = "hero" | "footer";
 export default function WaitlistForm({
   idPrefix = "hero",
   source = "hero",
+  showNote = true,
+  compact = false,
 }: {
   idPrefix?: string;
   source?: Source;
+  showNote?: boolean;
+  compact?: boolean;
 }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -125,8 +129,9 @@ export default function WaitlistForm({
     }
   }
 
-  const field =
-    "h-11 w-full rounded-lg border border-field-border bg-field px-3.5 text-base text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
+  const field = compact
+    ? "h-10 w-full rounded-md border border-field-border bg-field px-3 text-sm text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20"
+    : "h-11 w-full rounded-lg border border-field-border bg-field px-3.5 text-base text-foreground outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20";
 
   if (status === "success") {
     return (
@@ -175,7 +180,11 @@ export default function WaitlistForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="relative flex w-full flex-col gap-2.5" noValidate>
+    <form
+      onSubmit={onSubmit}
+      className={`relative flex w-full flex-col ${compact ? "gap-2" : "gap-2.5"}`}
+      noValidate
+    >
       <div className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden" aria-hidden>
         <label htmlFor={`${idPrefix}-company`}>Company</label>
         <input
@@ -189,7 +198,7 @@ export default function WaitlistForm({
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+      <div className={`grid grid-cols-1 sm:grid-cols-2 ${compact ? "gap-2" : "gap-2.5"}`}>
         <div>
           <label className="sr-only" htmlFor={`${idPrefix}-role`}>
             I am a
@@ -202,9 +211,8 @@ export default function WaitlistForm({
               value={role}
               onChange={(e) => onRoleChange(e.target.value)}
               onBlur={() => setTouched((t) => ({ ...t, role: true }))}
-              className={`${field} appearance-none pr-10 ${
-                !role ? "text-muted" : ""
-              } ${roleError ? "border-red-500/70" : ""}`}
+              className={`${field} appearance-none pr-10 ${!role ? "text-muted" : ""
+                } ${roleError ? "border-red-500/70" : ""}`}
             >
               {ROLES.map((option) => (
                 <option
@@ -289,7 +297,7 @@ export default function WaitlistForm({
             type="text"
             name="competitionInterest"
             maxLength={200}
-            placeholder="Competitions you want to see"
+            placeholder="Competitions you want to see (optional)"
             value={competitionInterest}
             onChange={(e) => setCompetitionInterest(e.target.value)}
             className={field}
@@ -317,20 +325,20 @@ export default function WaitlistForm({
         type="submit"
         disabled={status === "loading"}
         aria-disabled={!formReady}
-        className={`mx-auto h-11 w-full rounded-lg text-base font-semibold lg:mx-0 lg:w-auto lg:self-start lg:px-7 cta-enabled ${
-          status === "loading" ? "opacity-80" : ""
-        }`}
+        className={`mx-auto w-full font-semibold lg:mx-0 lg:w-auto lg:self-start cta-enabled ${
+          compact
+            ? "h-10 rounded-md px-5 text-sm"
+            : "h-11 rounded-lg px-7 text-base"
+        } ${status === "loading" ? "opacity-80" : ""}`}
       >
         {status === "loading" ? "Joining…" : "Join the waitlist"}
       </button>
 
-      {!formReady ? (
-        <p className="text-center text-xs text-muted lg:text-left">
-          Students, parents, coaches, and organizers welcome.
-        </p>
-      ) : (
-        <p className="text-center text-xs text-muted lg:text-left">
-          Free to join. We&apos;ll only email you about Causey.
+      {showNote && (
+        <p className="text-center text-2xs text-muted lg:text-left">
+          {!formReady
+            ? "Students, parents, coaches, and organizers welcome."
+            : "Free to join. We'll only email you about Causey."}
         </p>
       )}
 

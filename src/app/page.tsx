@@ -36,36 +36,23 @@ export default function Home() {
         </header>
 
         <div className="hero-scroll-content relative z-10 flex flex-1 flex-col">
-          <main className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-5 pb-10 pt-12 sm:px-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.85fr)] lg:gap-10 lg:pb-14 lg:pt-16">
-            <div className="mx-auto w-full max-w-2xl text-center lg:mx-0 lg:text-left">
-              <h1 className="animate-rise text-display-lg font-bold tracking-tight text-foreground lg:text-display-xl">
-                <span className="block lg:whitespace-nowrap">
-                  Find the competitions
-                </span>
-                <span className="block lg:whitespace-nowrap">
-                  you were never told about.
-                </span>
+          <main className="relative z-10 mx-auto grid w-full max-w-6xl flex-1 items-center gap-10 px-5 pb-10 pt-12 sm:px-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.9fr)] lg:gap-10 lg:pb-14 lg:pt-16">
+            <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:max-w-none lg:text-left">
+              <h1 className="animate-rise text-balance text-display-xl font-bold tracking-tight text-foreground">
+                Find the competitions you were never told about.
               </h1>
-              <p className="animate-rise-delay-1 mx-auto mt-5 text-md text-muted sm:text-lg lg:mx-0">
-                <span className="block lg:whitespace-nowrap">
-                  Students miss thousands of competitions because there&apos;s no
-                  single place to find them.
-                </span>
-                <span className="block lg:whitespace-nowrap">
-                  Causey helps students discover competitions that match their
-                  talent,
-                </span>
-                <span className="block lg:whitespace-nowrap">
-                  so success isn&apos;t limited by where you live or who you
-                  know.
-                </span>
+              <p className="animate-rise-delay-1 mx-auto mt-4 max-w-xl text-pretty text-lg text-muted sm:text-lead lg:mx-0">
+                Students miss thousands of competitions because there&apos;s no
+                single place to find them. Causey helps students discover
+                competitions that match their talent, so success isn&apos;t
+                limited by where you live or who you know.
               </p>
 
               <div
                 id="waitlist"
-                className="animate-rise-delay-2 mx-auto mt-8 max-w-lg scroll-mt-24 rounded-2xl border border-line bg-white p-5 shadow-[0_12px_40px_rgba(20,24,28,0.06)] sm:p-6 lg:mx-0"
+                className="animate-rise-delay-2 mx-auto mt-6 max-w-md scroll-mt-24 rounded-xl border border-line bg-white p-4 shadow-[0_8px_28px_rgba(20,24,28,0.05)] sm:p-5 lg:mx-0"
               >
-                <WaitlistForm idPrefix="hero" source="hero" />
+                <WaitlistForm idPrefix="hero" source="hero" compact />
               </div>
             </div>
 
@@ -114,7 +101,7 @@ export default function Home() {
                 Free to join. We&apos;ll only email you about Causey.
               </p>
               <div className="mt-5">
-                <WaitlistForm idPrefix="bottom" source="footer" />
+                <WaitlistForm idPrefix="bottom" source="footer" showNote={false} />
               </div>
             </div>
 
