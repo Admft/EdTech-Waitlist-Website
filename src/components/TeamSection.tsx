@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 const TEAM = [
   {
     name: "Adam Moffat",
-    role: "Head of Software Engineering",
+    role: "Founding Software Engineer",
     statement:
       "Cornell M.Eng. student. I lead Causey's software architecture and core product engineering, building systems that make discovery fair.",
     image: "/adam-headshot.jpg",
@@ -23,14 +23,6 @@ const TEAM = [
     image: "/divine-headshot.jpg",
     imageAlt: "Headshot of Divine Bamgboye",
     linkedin: "https://www.linkedin.com/in/divine-bamgboye-859149317/",
-  },
-  {
-    name: "Sasha Hobbs",
-    role: "Task Hand",
-    statement:
-      "I keep the founding work moving day to day, so the team can stay focused on building Causey for students who need it.",
-    image: "/sasha-headshot.jpg",
-    imageAlt: "Headshot of Sasha Hobbs",
   },
 ] as const;
 
@@ -139,14 +131,14 @@ export default function TeamSection() {
             </p>
           </div>
 
-          <ul className="mx-auto mt-9 grid max-w-[56rem] grid-cols-3 gap-x-6 gap-y-9 sm:gap-x-12 lg:gap-x-16">
+          <ul className="mx-auto mt-9 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-9 sm:gap-x-10 lg:gap-x-14">
             {TEAM.map((person) => {
               const image = (
                 <Image
                   src={person.image}
                   alt={person.imageAlt}
                   fill
-                  sizes="168px"
+                  sizes="(min-width: 1024px) 220px, (min-width: 640px) 200px, 42vw"
                   className={
                     "imageScale" in person && person.imageScale
                       ? "object-cover object-top scale-[1.35] transition duration-500 group-hover:scale-[1.42]"
@@ -166,23 +158,23 @@ export default function TeamSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${person.name} on LinkedIn`}
-                      className="card-lift relative aspect-square w-full max-w-[168px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.07)]"
+                      className="card-lift relative aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.07)]"
                     >
                       {image}
                     </a>
                   ) : (
-                    <div className="relative aspect-square w-full max-w-[168px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.07)]">
+                    <div className="relative aspect-square w-full max-w-[220px] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_8px_24px_rgba(27,33,32,0.07)]">
                       {image}
                     </div>
                   )}
-                  <div className="mt-3 max-w-[220px]">
-                    <h3 className="text-base font-bold tracking-tight text-foreground">
+                  <div className="mt-4 max-w-[260px]">
+                    <h3 className="text-lg font-bold tracking-tight text-foreground">
                       {person.name}
                     </h3>
-                    <p className="mt-0.5 text-2xs font-semibold text-brand-red">
+                    <p className="mt-1 text-xs font-semibold text-brand-red">
                       {person.role}
                     </p>
-                    <p className="mt-2 hidden text-xs text-muted sm:block">
+                    <p className="mt-2.5 hidden text-sm leading-6 text-muted sm:block">
                       {person.statement}
                     </p>
                   </div>
