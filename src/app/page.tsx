@@ -6,6 +6,8 @@ import HowItWorks from "@/components/HowItWorks";
 import SeeHowItWorksCue from "@/components/SeeHowItWorksCue";
 import SmoothScrollLink from "@/components/SmoothScrollLink";
 import TeamSection from "@/components/TeamSection";
+import TryAppLink from "@/components/TryAppLink";
+import TryItOut from "@/components/TryItOut";
 import WaitlistForm from "@/components/WaitlistForm";
 
 export default function Home() {
@@ -30,7 +32,10 @@ export default function Home() {
               >
                 Team
               </SmoothScrollLink>
-              <BookMeetingLink variant="nav" />
+              <TryAppLink variant="nav" />
+              <span className="hidden sm:contents">
+                <BookMeetingLink variant="nav" />
+              </span>
             </div>
           </div>
         </header>
@@ -82,6 +87,8 @@ export default function Home() {
       </HeroScrollStage>
 
       <HowItWorks />
+
+      <TryItOut />
 
       <TeamSection />
 
@@ -145,6 +152,7 @@ export default function Home() {
             >
               Team
             </SmoothScrollLink>
+            <TryAppLink variant="footer" />
             <BookMeetingLink variant="footer" />
             <SmoothScrollLink
               href="#waitlist"

@@ -290,7 +290,7 @@ export default function WaitlistForm({
 
         <div>
           <label className="sr-only" htmlFor={`${idPrefix}-interest`}>
-            Competitions you want to see (optiomal)
+            Competitions you want to see
           </label>
           <input
             id={`${idPrefix}-interest`}
@@ -325,11 +325,10 @@ export default function WaitlistForm({
         type="submit"
         disabled={status === "loading"}
         aria-disabled={!formReady}
-        className={`mx-auto w-full font-semibold lg:mx-0 lg:w-auto lg:self-start cta-enabled ${
-          compact
+        className={`mx-auto w-full font-semibold lg:mx-0 lg:w-auto lg:self-start cta-enabled ${compact
             ? "h-10 rounded-md px-5 text-sm"
             : "h-11 rounded-lg px-7 text-base"
-        } ${status === "loading" ? "opacity-80" : ""}`}
+          } ${status === "loading" ? "opacity-80" : ""}`}
       >
         {status === "loading" ? "Joining…" : "Join the waitlist"}
       </button>
