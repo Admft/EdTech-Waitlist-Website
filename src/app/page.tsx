@@ -7,7 +7,7 @@ import SeeHowItWorksCue from "@/components/SeeHowItWorksCue";
 import SmoothScrollLink from "@/components/SmoothScrollLink";
 import TeamSection from "@/components/TeamSection";
 import TryAppLink from "@/components/TryAppLink";
-import TryItOut from "@/components/TryItOut";
+// import TryItOut from "@/components/TryItOut";
 import WaitlistForm from "@/components/WaitlistForm";
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
               >
                 Team
               </SmoothScrollLink>
-              <TryAppLink variant="nav" />
+              {/* <TryAppLink variant="nav" /> */}
               <span className="hidden sm:contents">
                 <BookMeetingLink variant="nav" />
               </span>
@@ -88,7 +88,7 @@ export default function Home() {
 
       <HowItWorks />
 
-      <TryItOut />
+      {/* <TryItOut /> */}
 
       <TeamSection />
 
